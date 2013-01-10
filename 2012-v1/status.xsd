@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:status="http://schemas.geneabase.com/2012-v1/status"
+    targetNamespace="http://schemas.geneabase.com/2012-v1/status" elementFormDefault="qualified">
+    <xs:element name="status">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="status:client" minOccurs="0"/>
+                <xs:element maxOccurs="unbounded" ref="status:service" minOccurs="0"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="status:server"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="status:process"/>
+                <xs:element ref="status:message" maxOccurs="unbounded" minOccurs="0"/>
+            </xs:sequence>
+            <xs:attribute name="time" type="xs:dateTime" use="optional"/>
+            <xs:attribute name="expires" type="xs:time" use="required"/>
+            <xs:attribute name="server" type="status:uuid" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:simpleType name="serviceEnumType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Terminal"/>
+            <xs:enumeration value="Web"/>
+            <xs:enumeration value="Files"/>
+            <xs:enumeration value="Install"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="serverRoleEnumType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Fileserver"/>
+            <xs:enumeration value="Webserver"/>
+            <xs:enumeration value="Database"/>
+            <xs:enumeration value="Mailserver"/>
+            <xs:enumeration value="STS"/>
+            <xs:enumeration value="Statusserver"/>
+            <xs:enumeration value="ImageProcessor"/>
+            <xs:enumeration value="VideoProcessor"/>
+            <xs:enumeration value="Messageserver"/>
+            <xs:enumeration value="Buildserver"/>
+            <xs:enumeration value="Nameserver"/>
+            <xs:enumeration value="Workstation"/>
+            <xs:enumeration value="Gateway"/>
+            <xs:enumeration value="PBX"/>
+            <xs:enumeration value="Legacy"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="clientEnumType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Terminal"/>
+            <xs:enumeration value="Updater"/>
+            <xs:enumeration value="Web"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="serviceStatusEnumType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Normal"/>
+            <xs:enumeration value="Limited"/>
+            <xs:enumeration value="Testing"/>
+            <xs:enumeration value="Offline"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="reasonEnumType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Upgrade"/>
+            <xs:enumeration value="Maintenance"/>
+            <xs:enumeration value="Backup"/>
+            <xs:enumeration value="Failure"/>
+            <xs:enumeration value="Other"/>
+            <xs:enumeration value="Unknown"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="processStatusEnumType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Starting"/>
+            <xs:enumeration value="Stopping"/>
+            <xs:enumeration value="Started"/>
+            <xs:enumeration value="Stopped"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="serverStatusEnumType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Reboot"/>
+            <xs:enumeration value="Shutdown"/>
+            <xs:enumeration value="Booting"/>
+            <xs:enumeration value="Normal"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:element name="service">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="status:event" minOccurs="0"/>
+            </xs:sequence>
+            <xs:attribute name="type" type="status:serviceEnumType" use="required"/>
+            <xs:attribute name="version" type="status:versionType"/>
+            <xs:attribute name="status" type="status:serviceStatusEnumType" use="required"/>
+            <xs:attribute name="reason" type="status:reasonEnumType" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="process">
+        <xs:complexType>
+            <xs:sequence maxOccurs="unbounded" minOccurs="0">
+                <xs:element ref="status:message"/>
+            </xs:sequence>
+            <xs:attribute name="name" type="status:processNameType" use="required"/>
+            <xs:attribute name="status" type="status:processStatusEnumType" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="error">
+        <xs:complexType mixed="true">
+            <xs:attribute name="id" type="status:uuid"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="server">
+        <xs:complexType>
+            <xs:choice>
+                <xs:sequence maxOccurs="1" minOccurs="0">
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="role">
+                        <xs:complexType>
+                            <xs:attribute name="type" type="status:serverRoleEnumType"
+                                use="required"/>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element ref="status:process" maxOccurs="unbounded" minOccurs="0"/>
+                    <xs:element name="resources" minOccurs="0">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element maxOccurs="1" minOccurs="1" name="cpu">
+                                    <xs:complexType>
+                                        <xs:attribute name="uuid" type="status:uuid"/>
+                                        <xs:attribute name="count" type="xs:nonNegativeInteger"/>
+                                        <xs:attribute name="load" type="xs:nonNegativeInteger"/>
+                                    </xs:complexType>
+                                </xs:element>
+                                <xs:element maxOccurs="unbounded" minOccurs="0" name="disk">
+                                    <xs:complexType>
+                                        <xs:attribute name="uuid" type="status:uuid" use="required"/>
+                                        <xs:attribute name="name" type="status:nameType"/>
+                                        <xs:attribute name="brand" type="status:nameType"/>
+                                        <xs:attribute name="capacityBytes" type="xs:unsignedLong"
+                                            use="required"/>
+                                        <xs:attribute name="usedBytes" type="xs:unsignedLong"
+                                            use="required"/>
+                                        <xs:attribute name="readBytesPS"
+                                            type="xs:nonNegativeInteger"/>
+                                        <xs:attribute name="writeBytesPS"
+                                            type="xs:nonNegativeInteger"/>
+                                    </xs:complexType>
+                                </xs:element>
+                                <xs:element minOccurs="0" name="memory">
+                                    <xs:complexType>
+                                        <xs:attribute name="totalBytes" type="xs:unsignedLong"
+                                            use="required"/>
+                                        <xs:attribute name="usedBytes" type="xs:unsignedLong"
+                                            use="required"/>
+                                    </xs:complexType>
+                                </xs:element>
+                                <xs:element name="nic" maxOccurs="unbounded" minOccurs="0">
+                                    <xs:complexType>
+                                        <xs:attribute name="address" type="status:nicAddress"
+                                            use="required"/>
+                                        <xs:attribute name="name" type="status:nameType"/>
+                                        <xs:attribute name="capacityBitsPS" type="xs:unsignedLong"/>
+                                        <xs:attribute name="inBitsPS" type="xs:unsignedLong"/>
+                                        <xs:attribute name="outBitsPS" type="xs:unsignedLong"/>
+                                    </xs:complexType>
+                                </xs:element>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+                <xs:element ref="status:error"/>
+            </xs:choice>
+            <xs:attribute name="id" type="status:uuid" use="optional"/>
+            <xs:attribute name="name" type="status:serverNameType" use="optional"/>
+            <xs:attribute name="os" type="status:osNameType" use="optional"/>
+            <xs:attribute name="status" type="status:serverStatusEnumType" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="client">
+        <xs:complexType>
+            <xs:sequence minOccurs="0">
+                <xs:element maxOccurs="1" ref="status:error"/>
+            </xs:sequence>
+            <xs:attribute name="type" type="status:clientEnumType" use="required"/>
+            <xs:attribute name="agent"/>
+            <xs:attribute name="version" type="status:versionType" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="event">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="status:message" maxOccurs="unbounded" minOccurs="0"/>
+            </xs:sequence>
+            <xs:attribute name="id" type="status:uuid" use="optional"/>
+            <xs:attribute name="version" type="xs:dateTime"/>
+            <xs:attribute name="start" type="xs:dateTime"/>
+            <xs:attribute name="end" type="xs:dateTime"/>
+            <xs:attribute name="status" type="status:serviceStatusEnumType" use="required"/>
+            <xs:attribute name="reason" type="status:reasonEnumType" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:simpleType name="versionType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\d+.\d+.\d+"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:element name="message">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string">
+                    <xs:attribute name="lang" type="xs:language" default="en"/>
+                    <xs:attribute name="url" type="xs:anyURI"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:simpleType name="uuid">
+        <xs:restriction base="xs:string">
+            <xs:length value="36"/>
+            <xs:pattern
+                value="[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}"
+            />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="processNameType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="50"/>
+            <xs:minLength value="1"/>
+            <xs:whiteSpace value="collapse"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="serverNameType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="50"/>
+            <xs:minLength value="1"/>
+            <xs:whiteSpace value="collapse"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="osNameType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="100"/>
+            <xs:minLength value="1"/>
+            <xs:whiteSpace value="collapse"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="nicAddress">
+        <xs:restriction base="xs:string">
+            <xs:length value="17"/>
+            <xs:pattern
+                value="[a-fA-F0-9]{2}-[a-fA-F0-9]{2}-[a-fA-F0-9]{2}-[a-fA-F0-9]{2}-[a-fA-F0-9]{2}-[a-fA-F0-9]{2}"
+            />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="userAgentType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="500"/>
+            <xs:minLength value="1"/>
+            <xs:whiteSpace value="collapse"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="nameType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="50"/>
+            <xs:minLength value="1"/>
+            <xs:whiteSpace value="collapse"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

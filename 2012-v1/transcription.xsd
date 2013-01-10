@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://docs.geneabase.com/schemas.xml"
+    xmlns:xml="http://www.w3.org/XML/1998/namespace" elementFormDefault="qualified">
+    <xs:attributeGroup name="coreattrs">
+        <xs:annotation>
+            <xs:documentation>
+                core attributes common to most elements
+                id       document-wide unique id
+                class    space separated list of classes
+                style    associated style info
+                title    advisory title/amplification
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="id" type="xs:ID"/>
+        <xs:attribute name="class" type="xs:NMTOKENS"/>
+    </xs:attributeGroup>
+    <xs:attributeGroup name="i18n">
+        <xs:annotation>
+            <xs:documentation>
+                internationalization attributes
+                lang        language code (backwards compatible)
+                xml:lang    language code (as per XML 1.0 spec)
+                dir         direction for weak/neutral text
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="lang" type="LanguageCode"/>
+        <xs:attribute ref="xml:lang"/>
+        <xs:attribute name="dir">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="ltr"/>
+                    <xs:enumeration value="rtl"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:attributeGroup>
+    <xs:group name="fontstyle">
+        <xs:choice>
+            <xs:element ref="i"/>
+            <xs:element ref="b"/>
+            <xs:element ref="big"/>
+            <xs:element ref="small"/>
+        </xs:choice>
+    </xs:group>
+    <xs:group name="phrase">
+        <xs:choice>
+            <xs:element ref="q"/>
+            <xs:element ref="cite"/>
+            <xs:element ref="abbr"/>
+            <xs:element ref="sub"/>
+            <xs:element ref="sup"/>
+        </xs:choice>
+    </xs:group>
+
+    <xs:element name="transcription">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="div"/>
+            </xs:sequence>
+            <xs:attribute name="documentID"/>
+            <xs:attribute name="pageBefore"/>
+            <xs:attribute name="page"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:group name="markup">
+        <xs:sequence>
+            <xs:element name="bold"/>
+            <xs:element name="italic"/>
+        </xs:sequence>
+    </xs:group>
+    
+    
+    
+</xs:schema>

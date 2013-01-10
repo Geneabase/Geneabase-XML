@@ -1,0 +1,2665 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright © 2011-2012 Geneabase BV, version 2.0.1 -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:reg="http://schemas.geneabase.com/2012-v1/register"
+	targetNamespace="http://schemas.geneabase.com/2012-v1/register" elementFormDefault="qualified">
+	<!-- strings -->
+	<?gb sect=1 en="Types" nl="Types" id="Types"?>
+	<?gb sect=2 en="String Types" nl="String types" id="String-types"?>
+	<xs:annotation>
+		<xs:documentation xml:lang="en">
+			The following types are a generic set of string and
+			number types, used by various elements.
+		</xs:documentation>
+		<xs:documentation xml:lang="nl">
+			De volgende types zijn een generieke set van string
+			en nummer types, en worden gebruikt door verschillende elementen.			
+			Het is de bedoeling dat dit <strong>test</strong>balblab
+		</xs:documentation>
+	</xs:annotation>
+	<xs:simpleType name="string16">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">A string between 0 and 16 characters length.</xs:documentation>
+			<xs:documentation xml:lang="nl">Een tekenreeks van tussen de 0 en 16 karakters lengte.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="16"/>
+			<xs:minLength value="0"/>
+			<xs:whiteSpace value="collapse"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string36">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">A string between 0 and 36 characters length.</xs:documentation>
+			<xs:documentation xml:lang="nl">Een tekenreeks van tussen de 0 en 36 karakters lengte.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="36"/>
+			<xs:minLength value="0"/>
+			<xs:whiteSpace value="collapse"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string50">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">A string between 0 and 50 characters length.</xs:documentation>
+			<xs:documentation xml:lang="nl">Een tekenreeks van tussen de 0 en 50 karakters lengte.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="50"/>
+			<xs:minLength value="0"/>
+			<xs:whiteSpace value="collapse"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string100">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">A string between 0 and 100 characters length.</xs:documentation>
+			<xs:documentation xml:lang="nl">Een tekenreeks van tussen de 0 en 100 karakters lengte.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="100"/>
+			<xs:minLength value="0"/>
+			<xs:whiteSpace value="collapse"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="nonEmptyString100">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">A string between 1 and 100 characters length.</xs:documentation>
+			<xs:documentation xml:lang="nl">Een tekenreeks van tussen de 1 en 100 karakters lengte.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="100"/>
+			<xs:minLength value="1"/>
+			<xs:whiteSpace value="collapse"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="string200">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">A string between 0 and 200 characters length.</xs:documentation>
+			<xs:documentation xml:lang="nl">Een tekenreeks van tussen de 0 en 200 karakters lengte.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="200"/>
+			<xs:minLength value="0"/>
+			<xs:whiteSpace value="collapse"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="uuidType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				UUID or GUID (Microsoft's Implementation of UUID), according to [RFC 4122 http://tools.ietf.org/rfc/rfc4122.txt]
+			</xs:documentation>
+			<xs:documentation xml:lang="nl">
+				UUID of GUID (Microsoft's Implementatie van UUID), volgens [RFC 4122 http://tools.ietf.org/rfc/rfc4122.txt]
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="36"/>
+			<xs:pattern
+				value="[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}"
+			/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="polygonType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">A single or multiple polygons in [WKT
+				http://en.wikipedia.org/wiki/Well-known_text] format. A single polygon consists of
+				at least three points, each point defined with two integers X and Y separated with a
+				space, and XY points separated by comma's. These points are then enclosed between
+				parentheses, and are joined to form a closed polygonal chain. Multiple polygons can
+				be defined by specifying multiple sets of XY coordinates, each set enclosed in
+				brackets, and separated by a comma from the previous set.</xs:documentation>
+			<xs:documentation xml:lang="nl">Eén of meerdere polygonen in [WKT
+				http://en.wikipedia.org/wiki/Well-known_text] formaat. Een polygoon bestaat uit ten
+				minste drie punten, waarbij elk punt omschreven is met twee integers X en Y, middels
+				een spatie van elkaar gescheiden, en de XY punten gescheiden door komma's. Deze
+				punten worden dan ingesloten tussen haakjes, die samen een gesloten veelhoekige
+				keten vormen. Meerdere polygonen kunnen worden gedefinieerd door meerdere sets XY
+				coördinaten aan te geven, waarbij elke set tussen haakjes geplaatst wordt, en
+				gescheiden door een komma van de voorgaande set.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern
+				value="POLYGON\s?\(\(\d+ \d+(,\s?\d+ \d+){2,}\)(,\s?\(\d+ \d+(,\d+ ){2,}\))*\)"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<?gb sect=2 en="Numeric Types" nl="Numerieke types" id="Numeric-types"?>
+	<xs:simpleType name="positiveshort">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">A number between 1 and 32767.</xs:documentation>
+			<xs:documentation xml:lang="nl">Een getal tussen 1 en 32767.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:short">
+			<xs:minInclusive value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="housenumber">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Housenumber on a street, specified as a single number, or '*" to indicate all numbers. </xs:documentation>
+			<xs:documentation xml:lang="nl">Huisnummer van een straat, aangeduid met een enkelvoudig getal, of '*' om alle nummers aan te duiden.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\*|[0-9]+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<?gb sect=2 en="Date and Time Types" nl="Datum en tijd types" id="Datetime-types"?>
+	<xs:simpleType name="year">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Year specified as a number between -32768 and 2199 </xs:documentation>
+			<xs:documentation xml:lang="nl">Jaar aangeduid als getal tussen -32768 en 2199.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:short">
+			<xs:maxInclusive value="2199"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="month">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Month, expressed as a number between 1 and 12 (not zero-padded).</xs:documentation>
+			<xs:documentation xml:lang="nl">Maand, uitgedrukt als getal tussen 1 en 12 (zonder 0 er voor).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:unsignedByte">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="12"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="day">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Day of the month, expressed as a number between 1 and 31 (not zero-padded).</xs:documentation>
+			<xs:documentation xml:lang="nl">Dag van de maand, uitgedrukt als getal tussen 1 en 31 (zonder 0 er voor).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:unsignedByte">
+			<xs:minInclusive value="1"/>
+			<xs:maxInclusive value="31"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="hour">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Hour, expressed as a number between 0 and 23 (not zero-padded).</xs:documentation>
+			<xs:documentation xml:lang="nl">Uur, uitgeduikt als een nummer tussen 0 en 23 (zonder 0 er voor).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:unsignedByte">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="23"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="minute">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Minute, defined as a number between 0 and 59 (not zero-padded).</xs:documentation>
+			<xs:documentation xml:lang="nl">Minuut, uitgedruikt als getal tussen 0 en 59 (zonder 0 er voor).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:unsignedByte">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="59"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="second">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Second, defined as a number between 0 and 59 (not zero-padded).</xs:documentation>
+			<xs:documentation xml:lang="nl">Seconde, uitgedruikt als getal tussen 0 en 59 (zonder 0 er voor).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:unsignedByte">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="59"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:attributeGroup name="dateAttributes">
+		<xs:attribute name="year" type="reg:year"/>
+		<xs:attribute name="month" type="reg:month"/>
+		<xs:attribute name="day" type="reg:day"/>
+		<xs:attribute name="date" type="xs:date">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">
+					Date in the form of YYYY:MM::DD, YYYY:MM, of YYYY
+				</xs:documentation>
+				<xs:documentation xml:lang="nl">
+					Datum in de vorm van YYYY:MM::DD, YYYY::MM of YYYY
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+	<?gb sect=2 en="Link Types" nl="Link types" id="Link-types"?>
+	<xs:complexType name="link">
+		<xs:attribute name="href" type="reg:anyUrl" use="required"/>
+		<xs:attribute name="label" type="reg:nonEmptyString100" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="image">
+		<xs:attribute name="href" type="reg:imageUrl" use="required"/>
+		<xs:attribute name="width" type="xs:short" use="required"/>
+		<xs:attribute name="height" type="xs:short" use="required"/>
+		<xs:attribute name="label" type="reg:nonEmptyString100" use="required"/>
+	</xs:complexType>
+	<xs:simpleType name="imageUrl">
+		<xs:restriction base="xs:anyURI">
+			<xs:pattern value="https?://.*\.(jpe?g|gif|png)"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="anyUrl">
+		<xs:restriction base="xs:anyURI">
+			<xs:pattern value="https?://.+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<?gb sect=2 en="Identifier Types" nl="Identificatie types" id="Id-types"?>
+	<xs:simpleType name="fileId">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="file\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="fileIdRef">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="files?\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="personId">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="person\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="personsId">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="persons\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="personIdRef">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="persons?\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="placeId">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="place\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="placesId">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="places\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="placeIdRef">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="places?\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="eventId">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="event\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="eventsId">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="events\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="eventIdRef">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="events?\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="groupId">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="group\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="groupsId">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="groups\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="groupIdRef">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="groups?\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="personFeatureId">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="personf\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="personFeaturesId">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="personfs\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="personFeatureIdRef">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="personfs?\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="placeFeatureId">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="placef\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="placeFeaturesId">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="placefs\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="placeFeatureIdRef">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="placefs?\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="eventFeatureId">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="eventf\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="eventFeaturesId">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="eventfs\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="eventFeatureIdRef">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="eventfs?\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="groupFeatureId">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="groupf\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="groupFeaturesId">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="groupfs\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="groupFeatureIdRef">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="groupfs?\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="unitFeatureId">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="unitf\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="unitFeaturesId">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="unitfs\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="unitFeatureIdRef">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="unitfs?\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+
+	<?gb sect=2 en="Enumeration Types" nl="Enumeratie types" id="Enumerations"?>
+	<?gb sect=3 en="Relation Role Enumeration Types" nl="Relatie rol enumeratie types" id="Role-enumerations"?>
+	<?gb sect=4 en="Person Role Enumeration Types" nl="Persoon rol enumeratie types" id="Person-role-enumerations"?>
+	<xs:simpleType name="personToEventEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="born"/>
+			<xs:enumeration value="baptized"/>
+			<xs:enumeration value="deceased"/>
+			<xs:enumeration value="father"/>
+			<xs:enumeration value="husband"/>
+			<xs:enumeration value="married"/>
+			<xs:enumeration value="mother"/>
+			<xs:enumeration value="relocated"/>
+			<xs:enumeration value="wife"/>
+			<xs:enumeration value="witness"/>
+			<xs:enumeration value="coroner"/>
+			<xs:enumeration value="buyer"/>
+			<xs:enumeration value="seller"/>
+			<xs:enumeration value="other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="personToGroupEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="owner"/>
+			<xs:enumeration value="member"/>
+			<xs:enumeration value="employee"/>
+			<xs:enumeration value="seller"/>
+			<xs:enumeration value="buyer"/>
+			<xs:enumeration value="other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="personToPersonEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="partner"/>
+			<xs:enumeration value="spouse"/>
+			<xs:enumeration value="husband"/>
+			<xs:enumeration value="wife"/>
+			<xs:enumeration value="brother"/>
+			<xs:enumeration value="sister"/>
+			<xs:enumeration value="parent"/>
+			<xs:enumeration value="father"/>
+			<xs:enumeration value="mother"/>
+			<xs:enumeration value="child"/>
+			<xs:enumeration value="son"/>
+			<xs:enumeration value="daughter"/>
+			<xs:enumeration value="uncle"/>
+			<xs:enumeration value="aunt"/>
+			<xs:enumeration value="grandfather"/>
+			<xs:enumeration value="grandmother"/>
+			<xs:enumeration value="relative"/>
+			<xs:enumeration value="friend"/>
+			<xs:enumeration value="seller"/>
+			<xs:enumeration value="buyer"/>
+			<xs:enumeration value="other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="personToPersonMutualEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="alias"/>
+			<xs:enumeration value="partner"/>
+			<xs:enumeration value="spouse"/>
+			<xs:enumeration value="relative"/>
+			<xs:enumeration value="friend"/>
+			<xs:enumeration value="other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="personToPlaceEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="owner"/>
+			<xs:enumeration value="habitant"/>
+			<xs:enumeration value="employee"/>
+			<xs:enumeration value="guest"/>
+			<xs:enumeration value="seller"/>
+			<xs:enumeration value="buyer"/>
+			<xs:enumeration value="other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="personToUnitEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="registrant"/>
+			<xs:enumeration value="official"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<?gb sect=4 en="Place Role Enumeration Types" nl="Plaats rol enumeratie types" id="Place-role-enumerations"?>
+	<xs:simpleType name="placeToEventEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="placeOfRegistration"/>
+			<xs:enumeration value="placeOfBirth"/>
+			<xs:enumeration value="placeOfBaptizing"/>
+			<xs:enumeration value="placeOfMarriage"/>
+			<xs:enumeration value="placeOfDivorce"/>
+			<xs:enumeration value="placeOfDeath"/>
+			<xs:enumeration value="placeOfBurial"/>
+			<xs:enumeration value="placeOfCremation"/>
+			<xs:enumeration value="placeOfReburial"/>
+			<xs:enumeration value="placeOfRelocation"/>
+			<xs:enumeration value="placeOfSettlement"/>
+			<xs:enumeration value="placeOfArrival"/>
+			<xs:enumeration value="placeOfDeparture"/>
+			<xs:enumeration value="placeOfTransaction"/>
+			<xs:enumeration value="realEstate"/>
+			<xs:enumeration value="destination"/>
+			<xs:enumeration value="other"/>
+			<!-- this is an exact copy of the EventEnumeratins, with 'Place of ' prepended to it -->
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="placeToGroupEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="placeOfRegistration"/>
+			<xs:enumeration value="establishment"/>
+			<xs:enumeration value="headQuarters"/>
+			<xs:enumeration value="other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="placeToPersonEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="placeOfRegistration"/>
+			<xs:enumeration value="placeOfBirth"/>
+			<xs:enumeration value="placeOfBaptizing"/>
+			<xs:enumeration value="placeOfMarriage"/>
+			<xs:enumeration value="placeOfDivorce"/>
+			<xs:enumeration value="placeOfDeath"/>
+			<xs:enumeration value="placeOfBurial"/>
+			<xs:enumeration value="placeOfCremation"/>
+			<xs:enumeration value="placeOfReburial"/>
+			<xs:enumeration value="placeOfRelocation"/>
+			<xs:enumeration value="placeOfSettlement"/>
+			<xs:enumeration value="placeOfArrival"/>
+			<xs:enumeration value="placeOfDeparture"/>
+			<xs:enumeration value="domicile"/>
+			<xs:enumeration value="workLocation"/>
+			<xs:enumeration value="destination"/>
+			<xs:enumeration value="other"/>
+			<!-- this is an copied from the EventEnumeratins, with 'Place of ' prepended to it -->
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="placeToPlaceEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="placeToUnitEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<?gb sect=4 en="Group Role Enumeration Types" nl="Groep rol enumeratie types" id="Group-role-enumerations"?>
+	<xs:simpleType name="groupToEventEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="buyer"/>
+			<xs:enumeration value="seller"/>
+			<xs:enumeration value="other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="groupToPersonEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="employer"/>
+			<xs:enumeration value="other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="groupToPlaceEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="owner"/>
+			<xs:enumeration value="other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<?gb sect=4 en="Event Role Enumeration Types" nl="Event rol enumeratie types" id="Event-role-enumerations"?>
+	<xs:simpleType name="eventToUnitEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="registration"/>
+			<xs:enumeration value="addition"/>
+			<xs:enumeration value="annotation"/>
+			<xs:enumeration value="other"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<?gb sect=3 en="Feature Enumeration Types" nl="Feature enumeratie types" id="Feature-enumerations"?>
+	<xs:simpleType name="eventFeaturesEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="certificateID"/>
+			<xs:enumeration value="remarks"/>
+			<xs:enumeration value="other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="groupFeaturesEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="remarks"/>
+			<xs:enumeration value="description"/>
+			<xs:enumeration value="other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="personFeaturesEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="remarks"/>
+			<xs:enumeration value="description"/>
+			<xs:enumeration value="length"/>
+			<xs:enumeration value="eyesColor"/>
+			<xs:enumeration value="age"/>
+			<xs:enumeration value="maritalStatus"/>
+			<xs:enumeration value="profession"/>
+			<xs:enumeration value="other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="placeFeaturesEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="remarks"/>
+			<xs:enumeration value="description"/>
+			<xs:enumeration value="other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="unitFeaturesEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="remarks"/>
+			<xs:enumeration value="description"/>
+			<xs:enumeration value="other"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<?gb sect=3 en="Other Enumeration Types" nl="Overige enumeratie types" id="Other-enumerations"?>
+
+	<xs:simpleType name="eventTypesEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="adoption">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		This type is for events related to childhood adoption. Typically the event is added to the individual being adopted, with this person playing the primary role. Administrators, civil servants and parents can be added to the event with different event roles.
+                		
+                		The adoption event can be added for the process of adoption (which can take several months), but also as a placeholder for an adoption certificate that you have as a source.
+                		
+                		On adding the person to the family he is adopted into, one should also set his relationship with his adoptive parents to adopted. This doubles the event information somewhat, but is used in some reports. 
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        adoptie
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="adultChristening">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		The religious event of baptizing (not LDS) and/or naming an adult person 
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        doping als volwassene
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="alternateMarriage">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		An other marriage for the individual, out of active family. 
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        alternatief huwelijk
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="annulment">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		Declaring a marriage void from the beginning (never existed).
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        nietigverklaring
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="arrival">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		The event of baptism (not LDS), performed in infancy or later.
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        aankomst
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="baptism">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		The event of baptism (not LDS), performed in infancy or later.
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        doop
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="barMitzvah">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		The ceremonial event held when a Jewish boy reaches age 13.
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        bar mitswa
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="basMitzvah">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		The ceremonial event held when a Jewish girl reaches age 13, also known as "Bat Mitzvah".
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        bas mitswa
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="birth">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		The event of entering into life.
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        geboorte
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="blessing">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		A religious event of bestowing divine care or intercession. Sometimes given in connection with a naming ceremony.
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        zegening
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="burial">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		The event of the proper disposing of the mortal remains of a deceased person.
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        begrafenis
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="causeOfDeath">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		A description of the cause of death.
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        (verklaring van) doodsoorzaak
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="census">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		The event of the periodic count of the population for a designated locality, such as a national or state Census.
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        volkstelling
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="christening">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		The act of baptizing and/or naming a child.
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        naamgeving van (een baby) na de doop
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="confirmation">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		The religious event (not LDS) of conferring the gift of the Holy Ghost and, among protestants, full church membership.
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        bevestiging
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="cremation">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		Disposal of the remains of a person's body by fire.
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        crematie
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="death">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		The event when mortal life terminates.
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        overlijden
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="degree">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        (behalen van) universitaire graad
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="departure">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        vertrek
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="divorce">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		An event of dissolving a marriage through civil action.
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        echtscheiding
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="divorceFiling">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		An event of filing for a divorce by a spouse.
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        deponering van echtscheidingspapieren
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="education">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		Indicator of a level of education attained.
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        opleiding
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="election">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        verkiezing, verkozen zijn
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="emigration">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		An event of leaving one's homeland with the intent of residing elsewhere.
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        emigratie
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="engagement">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		An event of recording or announcing an agreement between two people to become married.
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        verloving
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="firstCommunion">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		A religious rite, the first act of sharing in the Lord's supper as part of church worship.
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        eerste communie
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="graduation">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		An event of awarding educational diplomas or degrees to individuals.
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        behalen vann diploma, bul, afstuderen, getuigschrift behalen
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="immigration">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+        				An event of entering into a new locality with the intent of residing there.
+        			</xs:documentation>
+					<xs:documentation xml:lang="nl">
+        				immigratie
+        			</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="inventory">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		drawing up of inventory list, usually after someone's death
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        Samenstelling van lijst met schulden en bezittingen, bijvoorbeeld na overlijden.
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="journey">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        reis
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="marriage">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		The marriage event is a bounding ceremony between two people before an official body. In other words, it is the state of being united to another person in a consensual and contractual relationship recognized (normally) by law.
+                		
+                		This means the marriage event is wider than what is used in day-to-day language. It indicates civil marriage, church marriage, and all other types of union between adults that is official.
+                		
+                		To indicate an offical end of a marriage event, on should use the Divorce event.
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                    	Het huwelijk event is een bindende ceremonie tussen twee mensen voor een officiële instantie. Het is een door de wet erkende staat van het verenigd zijn met een andere persoon in een consensuele en contractuele relatie.
+                    	
+                    	Dit betekent dat het huwelijk event breder is dan wat wordt gebruikt in dagelijkse taal. Het omvat het burgerlijk huwelijk, kerkelijk huwelijk, en alle andere soorten van officiële eenheid tussen volwassenen.
+                    	
+                    	Om een officieel einde van een huwelijk aan te geven, moet gebruik gemaakt worden van het “divorce” event.
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="marriageBanns">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		An event of an official public notice given that two people intend to marry.
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        (kerkelijke) huwelijksaankondiging
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="marriageContract">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		An event of recording a formal agreement of marriage, including the prenuptial agreement in which marriage partners reach agreement about the property rights of one or both, securing property to their children.
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        huwelijkscontract
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="marriageLicense">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		An event of obtaining a legal license to marry.
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        huwelijksvergunning
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="marriageSettlement">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		An event of creating an agreement between two people contemplating marriage, at which time they agree to release or modify property rights that would otherwise arise from the marriage.
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        huwelijk schikking
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="medicalInformation">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        medische informatie
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="militaryService">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        militaire dienst
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="naturalization">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		The event of obtaining citizenship.
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        naturalisatie
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="nobilityTitle">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        adelijke titel
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="occupation">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		The type of work or profession of an individual.
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        (uitoefenen van een) beroep
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ordination">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		Pertaining to a religious ordinance in general.
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        ordinantie
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="probation">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        (voorwaardelijke) proeftijd
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="property">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		Pertaining to possessions such as real estate or other property of interest.
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        bezit
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="reburial">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        herbegrafenis
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="registration">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        inschrijving
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="religiousConversion">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		A religious denomination to which a person is affiliated or for which a record applies.
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        bekering
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="relocation">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        verhuizing
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="residence">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		The act of dwelling at an address for a period of time.
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        vestiging
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="retirement">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		An event of exiting an occupational relationship with an employer after a qualifying time period.
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        pensionering
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="settlement">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        schikking
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="transaction">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        transactie
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="will">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+                		
+                	</xs:documentation>
+					<xs:documentation xml:lang="nl">
+                        testament
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="familyTypesEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="inherited"/>
+			<xs:enumeration value="patronymic"/>
+			<xs:enumeration value="matronymic"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="streetsideEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="odd"/>
+			<xs:enumeration value="even"/>
+			<xs:enumeration value="all"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="updateEnumType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Replace"/>
+			<xs:enumeration value="Append"/>
+			<xs:enumeration value="None"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="compositionEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="smart">
+				<xs:annotation>
+					<xs:documentation> The parsing application is instructed to automatically
+						connect entities to each other, and/or assign roles between them, if this
+						can be logically deducted from the structure of the provided data.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="explicit">
+				<xs:annotation>
+					<xs:documentation> No automatic connections are added, or roles defined, except
+						those that are explictly defined. </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="locationEnum">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="200"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="categoryEnum">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="200"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="genderEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="male"/>
+			<xs:enumeration value="female"/>
+			<xs:enumeration value="neither"/>
+			<xs:enumeration value="both"/>
+			<xs:enumeration value="undefined"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!-- entity types -->
+
+	<?gb sect=2 en="Feature Types" nl="Feature types" id="Features"?>
+	<xs:complexType name="featureType" abstract="true">
+		<xs:annotation>
+			<xs:documentation>The verbatim represenation of a certain feature as literally recorded
+				from the document.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="reg:string200">
+				<xs:attribute name="normalized" type="reg:string200">
+					<xs:annotation>
+						<xs:documentation>Optional string describing the preferred normalized value
+							of the Feature field.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="other" type="reg:string50">
+					<xs:annotation>
+						<xs:documentation>If the Name field of this feature is set to 'Other', this
+							field must specify the Other name.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="personFeatureType">
+		<xs:complexContent>
+			<xs:extension base="reg:featureType">
+				<xs:attribute name="id" type="reg:personFeatureId"/>
+				<xs:attribute name="copy" type="reg:personFeatureIdRef">
+					<xs:annotation>
+						<xs:documentation> refererence to earlier defined PersonFeature.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="name" type="reg:personFeaturesEnum" use="required">
+					<xs:annotation>
+						<xs:documentation>The name of the feature, belonging to the parent element,
+							being described.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="person" type="reg:personIdRef"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="placeFeatureType">
+		<xs:complexContent>
+			<xs:extension base="reg:featureType">
+				<xs:attribute name="id" type="reg:placeFeatureId"/>
+				<xs:attribute name="copy" type="reg:placeFeatureIdRef">
+					<xs:annotation>
+						<xs:documentation> refererence to earlier defined PlaceFeature.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="name" type="reg:placeFeaturesEnum" use="required">
+					<xs:annotation>
+						<xs:documentation>The name of the feature, belonging to the Place being
+							described.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="place" type="reg:placeIdRef"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="unitFeatureType">
+		<xs:complexContent>
+			<xs:extension base="reg:featureType">
+				<xs:attribute name="id" type="reg:unitFeatureId"/>
+				<xs:attribute name="copy" type="reg:unitFeatureIdRef">
+					<xs:annotation>
+						<xs:documentation> refererence to earlier defined UnitFeature.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="name" type="reg:unitFeaturesEnum" use="required">
+					<xs:annotation>
+						<xs:documentation>The name of the feature, belonging to the Unit element,
+							being described.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="groupFeatureType">
+		<xs:complexContent>
+			<xs:extension base="reg:featureType">
+				<xs:attribute name="id" type="reg:groupFeatureId"/>
+				<xs:attribute name="copy" type="reg:groupFeatureIdRef">
+					<xs:annotation>
+						<xs:documentation> refererence to earlier defined GroupFeature.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="name" type="reg:groupFeaturesEnum" use="required">
+					<xs:annotation>
+						<xs:documentation>The name of the feature, belonging to the Unit element,
+							being described.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="group" type="reg:groupIdRef"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="eventFeatureType">
+		<xs:complexContent>
+			<xs:extension base="reg:featureType">
+				<xs:attribute name="id" type="reg:eventFeatureId"/>
+				<xs:attribute name="copy" type="reg:eventFeatureIdRef">
+					<xs:annotation>
+						<xs:documentation> refererence to earlier defined EventFeature.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="name" type="reg:eventFeaturesEnum" use="required">
+					<xs:annotation>
+						<xs:documentation>The name of the feature, belonging to the Unit element,
+							being described.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="event" type="reg:eventIdRef"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<?gb sect=2 en="Entity Types" nl="Entity types" id="Entity-types"?>
+	<?gb sect=3 en="Event Type and Subtypes" nl="Event type en subtypes" id="Event-types"?>
+	<xs:complexType name="eventType">
+		<xs:sequence>
+			<xs:element name="person" type="reg:personType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="place" type="reg:placeType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="group" type="reg:groupType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="literalType" type="reg:string100" minOccurs="0"/>
+			<xs:element name="literalDate" type="reg:string100" minOccurs="0"/>
+			<xs:element name="feature" type="reg:eventFeatureType" minOccurs="0"
+				maxOccurs="unbounded"/>
+			<xs:element ref="reg:comment" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="reg:eventId"/>
+		<xs:attribute name="copy" type="reg:eventIdRef"/>
+		<xs:attributeGroup ref="reg:dateAttributes"/>
+		<xs:attribute name="place" type="reg:placeIdRef"/>
+		<xs:attribute name="person" type="reg:personIdRef"/>
+		<xs:attribute name="group" type="reg:groupIdRef"/>
+		<xs:attribute name="file" type="reg:fileIdRef"/>
+		<xs:attribute name="roleFromPerson" type="reg:personToEventEnum"/>
+		<xs:attribute name="roleFromGroup" type="reg:groupToEventEnum"/>
+		<xs:attribute name="roleFromPlace" type="reg:placeToEventEnum"/>
+
+		<xs:attribute name="feature" type="reg:eventFeatureIdRef"/>
+		<xs:attributeGroup ref="reg:filePosAttributes"/>
+	</xs:complexType>
+	<?gb sect=4 en="Event Subtypes" nl="Event subtypes"?>
+	<xs:annotation>
+		<xs:documentation xml:lang="en">
+			The following subtypes of Event exists:
+		</xs:documentation>
+		<xs:documentation xml:lang="nl">
+			De volgende subtypen van Event bestaan:
+		</xs:documentation>
+	</xs:annotation>
+	<?gb itemlist="start"?>
+	<xs:complexType name="adoption">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="adultChristening">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="alternateMarriage">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="annulment">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="arrival">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="baptism">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="barMitzvah">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="basMitzvah">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="birth">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="blessing">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="burial">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="causeOfDeath">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="census">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="christening">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="confirmation">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="cremation">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="death">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="degree">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="departure">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="divorce">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="divorceFiling">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="education">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="election">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="emigration">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="engagement">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="firstCommunion">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="graduation">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="immigration">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="inventory">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="journey">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="marriage">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="marriageBanns">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="marriageContract">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="marriageLicense">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="marriageSettlement">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="medicalInformation">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="militaryService">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="naturalization">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="nobilityTitle">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="occupation">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ordination">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="probation">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="property">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="reburial">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="registration">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="religiousConversion">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="relocation">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="residence">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="retirement">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="settlement">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="transaction">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="will">
+		<xs:complexContent>
+			<xs:extension base="reg:eventType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<?gb itemlist="end"?>
+	<!-- end of event types -->
+
+	<?gb sect=3 en="Person Types" nl="Persoon types" id="Person-types"?>
+	<xs:complexType name="personNameType">
+		<xs:simpleContent>
+			<xs:extension base="reg:string200">
+				<xs:attribute name="normalized" type="reg:string200"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:group name="surnameGroup">
+		<xs:annotation>
+			<xs:documentation xml:lang="nl">
+				De achternaam van een persoon, indien bekend. De volgorde van de naamdelen moet de volgorde waarin de persoon, door gewoonte van zijn of haar cultuur, deze zou hebben gebruikt bij het geven van zijn of haar naam aan een recorder.
+				
+				Als een deel van de naam onleesbaar is wordt dat deel aangegeven door een weglatingsteken (...).
+				
+				Hoofdlettergebruik van de naam van een persoon dient plaats te vinden op gebruikelijke wijze. De eerste letter van elk onderdeel en kleine letters de andere letters, tenzij conventioneel gebruik anders is. Bijvoorbeeld: McMurray.
+			</xs:documentation>
+			<xs:documentation xml:lang="en">
+				The surname of an individual, if known. The order of the name parts should be the order that the person would, by custom of their culture, have used when giving it to a recorder.
+				
+				If part of name is illegible, that part is indicated by an ellipsis (...).
+				
+				Capitalize the name of a person or place in the conventional manner. Capitalize the first letter of each part and lowercase the other letters, unless conventional usage is otherwise. For example: McMurray.
+				(source: gedcom)
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="prefix" type="reg:personNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> Prefix for the Familyname </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="surname" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation> Family name or Surname </xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="reg:personNameType">
+							<xs:attribute name="derivation" type="reg:familyTypesEnum"/>
+							<xs:attribute name="primary" type="xs:boolean"/>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="connector" type="reg:personNameType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="personNameGroup">
+		<xs:sequence>
+			<xs:element name="title" type="reg:personNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> Appellation belonging to a person by right of rank, office,
+						attainment </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="initials" type="reg:personNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> Only the first letters of the forenames </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="common" type="reg:personNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> Informal name, first forename, given name for daily use
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="given" type="reg:personNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> Given name, forename(s), first name, christian name
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:group ref="reg:surnameGroup" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>
+						Family name
+					</xs:documentation>
+				</xs:annotation>
+			</xs:group>
+			<xs:element name="mononym" type="reg:personNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> single name </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="nickname" type="reg:personNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> alternative name either symbolizing a form of acceptance or
+						ridicule </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="pseudonym" type="reg:personNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> false name that differs from original "true name"
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="anonymous" type="reg:personNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> a name unknown or deliberately withheld </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="name" type="reg:personNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> a name of which its type is undefined or unknown
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element minOccurs="0" name="suffix" type="reg:personNameType"/>
+		</xs:sequence>
+	</xs:group>
+
+	<xs:complexType name="personType">
+		<xs:sequence>
+			<xs:group ref="reg:personNameGroup"/>
+			<xs:element name="feature" type="reg:personFeatureType" minOccurs="0"
+				maxOccurs="unbounded"/>
+			<xs:element name="event" type="reg:eventType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="reg:personId"/>
+		<xs:attribute name="copy" type="reg:personIdRef"/>
+		<xs:attribute name="gender" type="reg:genderEnum" default="undefined"/>
+		<xs:attribute name="feature" type="reg:personFeatureIdRef"/>
+		<xs:attribute name="group" type="reg:groupIdRef"/>
+		<xs:attribute name="place" type="reg:placeIdRef"/>
+		<xs:attribute name="file" type="reg:fileIdRef"/>
+		<xs:attribute name="roleToGroup" type="reg:personToGroupEnum"/>
+		<xs:attribute name="roleFromGroup" type="reg:groupToPersonEnum"/>
+		<xs:attribute name="roleToPlace" type="reg:personToPlaceEnum"/>
+		<xs:attribute name="roleFromPlace" type="reg:placeToPersonEnum"/>
+		<xs:attribute name="roleToPerson" type="reg:personToPersonEnum"/>
+		<xs:attribute name="roleFromPerson" type="reg:personToPersonEnum"/>
+		<xs:attribute name="roleToUnit" type="reg:personToUnitEnum"/>
+		<xs:attributeGroup ref="reg:filePosAttributes"/>
+		<xs:attribute name="event" type="reg:eventIdRef"/>
+		<xs:attribute name="roleToEvent" type="reg:personToEventEnum"/>
+	</xs:complexType>
+
+	<?gb sect=3 en="Place Types and Groups" nl="Place types and groups" id="Place-types"?>
+	<xs:complexType name="placeType">
+		<xs:sequence>
+			<xs:group ref="reg:placeNameGroup" minOccurs="0"/>
+			<xs:element ref="reg:addressRange" minOccurs="0"/>
+			<xs:element name="feature" type="reg:placeFeatureType" minOccurs="0"
+				maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="reg:placeId"/>
+		<xs:attribute name="copy" type="reg:placeIdRef"/>
+		<xs:attribute name="person" type="reg:personIdRef"/>
+		<xs:attribute name="group" type="reg:groupIdRef"/>
+		<xs:attribute name="event" type="reg:eventIdRef"/>
+		<xs:attribute name="file" type="reg:fileIdRef"/>
+		<xs:attribute name="roleFromPerson" type="reg:personToPlaceEnum"/>
+		<xs:attribute name="roleToPerson" type="reg:placeToPersonEnum"/>
+		<xs:attribute name="roleFromGroup" type="reg:groupToPlaceEnum"/>
+		<xs:attribute name="roleToGroup" type="reg:placeToGroupEnum"/>
+		<xs:attribute name="roleToEvent" type="reg:placeToEventEnum"/>
+		<xs:attribute name="map" type="reg:locationEnum"/>
+		<xs:attribute name="feature" type="reg:placeFeatureIdRef"/>
+		<xs:attributeGroup ref="reg:filePosAttributes"/>
+	</xs:complexType>
+	<xs:complexType name="placeNameType">
+		<xs:simpleContent>
+			<xs:extension base="reg:string200">
+				<xs:attribute name="prefix" type="reg:string50"/>
+				<xs:attribute name="normalized" type="reg:string200"/>
+				<xs:attribute name="map" type="reg:locationEnum"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="addressRangeType">
+		<xs:simpleContent>
+			<xs:extension base="reg:string200">
+				<xs:attribute name="from" type="reg:housenumber" default="*">
+					<xs:annotation>
+						<xs:documentation xml:lang="en"> Start house number of the address range. </xs:documentation>
+						<xs:documentation xml:lang="nl"> Start huisnummber van de addressenreeks. </xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="to" type="reg:housenumber">
+					<xs:annotation>
+						<xs:documentation xml:lang="en"> End house number of the address range. </xs:documentation>
+						<xs:documentation xml:lang="nl"> Eind huisnummber van de adressenreeks. </xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="streetside" type="reg:streetsideEnum" default="all"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:group name="placeNameGroup">
+		<xs:sequence>
+			<xs:element name="planet" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="continent" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="worldRegion" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="countryGroup" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="kingdom" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="bundesrepublik" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="federation" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="republic" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="country" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="land" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="islandGroup" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="island" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="state" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="province" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="region" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="county" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="prefecture" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="kreis" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="stadtkreis" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="departement" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="arrondissement" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="municipality" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="deelgemeente" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="canton" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="district" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="metropolitan" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="independentCity" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="city" type="reg:placeNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">May also be used for a place when the exact type of place (city, town, village) is not known.</xs:documentation>
+					<xs:documentation xml:lang="nl">Mag ook gebruikt worden voor algemene aanduiding van een woonplaats, waarbij het type plaats niet bekend is.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="stadsdeel" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="town" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="village" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="township" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="borough" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="quarter" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="street" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="sea" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="lake" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="canal" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="river" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="forest" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="area" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="park" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="parking" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="market" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="square" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="courtyard" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="airport" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="harbor" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="bridge" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="trailerPark" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="industrialArea" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="landingStage" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="factory" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="school" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="church" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="cemetary" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="grave" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="number" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="numberAddition" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="block" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="building" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="floor" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="apartment" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="room" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="postalCode" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="name" type="reg:placeNameType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:group>
+
+	<?gb sect=3 en="Group Type and Subtypes" nl="Group type en subtypes" id="Group-types"?>
+	<xs:complexType name="groupType">
+		<xs:sequence>
+			<xs:element name="name" type="reg:groupNameType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>name of organization or group</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="reg:person" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="reg:groupFeature" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="reg:groupId"/>
+		<xs:attribute name="copy" type="reg:groupIdRef"/>
+		<xs:attribute name="person" type="reg:personIdRef"/>
+		<xs:attribute name="place" type="reg:placeIdRef"/>
+		<xs:attribute name="feature" type="reg:groupFeatureIdRef"/>
+		<xs:attribute name="file" type="reg:fileIdRef"/>
+		<xs:attribute name="roleFromPerson" type="reg:personToGroupEnum"/>
+		<xs:attribute name="roleToPerson" type="reg:groupToPersonEnum"/>
+		<xs:attribute name="roleFromPlace" type="reg:placeToGroupEnum"/>
+		<xs:attribute name="roleToPlace" type="reg:groupToPlaceEnum"/>
+		<xs:attribute name="normalized" type="reg:string200"/>
+		<xs:attributeGroup ref="reg:filePosAttributes"/>
+		<xs:attribute name="roleToEvent" type="reg:groupToEventEnum"/>
+		<xs:attribute name="event" type="reg:eventIdRef"/>
+	</xs:complexType>
+	<xs:complexType name="groupNameType">
+		<xs:simpleContent>
+			<xs:extension base="reg:string200">
+				<xs:attribute name="normalized" type="reg:string200"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<?gb sect=4 en="Group Subtypes" nl="Group subtypes"?>
+	<xs:annotation>
+		<xs:documentation xml:lang="en">
+			The following subtypes of Group exists:
+		</xs:documentation>
+		<xs:documentation xml:lang="nl">
+			De volgende subtypen van Group bestaan:
+		</xs:documentation>
+	</xs:annotation>
+	<?gb itemlist="start"?>
+	<xs:complexType name="npo">
+		<xs:annotation>
+			<xs:documentation> Nonprofit organization (also known as a not-for-profit organization),
+				includes NGO (Non governmental organizations) </xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="reg:groupType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="alliance">
+		<xs:annotation>
+			<xs:documentation> agreement or friendship between two or more parties, made in order to
+				advance common goals and to secure common interests </xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="reg:groupType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="club">
+		<xs:complexContent>
+			<xs:extension base="reg:groupType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="family">
+		<xs:complexContent>
+			<xs:extension base="reg:groupType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="household">
+		<xs:complexContent>
+			<xs:extension base="reg:groupType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="school">
+		<xs:complexContent>
+			<xs:extension base="reg:groupType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="university">
+		<xs:complexContent>
+			<xs:extension base="reg:groupType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="government">
+		<xs:complexContent>
+			<xs:extension base="reg:groupType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="politics">
+		<xs:complexContent>
+			<xs:extension base="reg:groupType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="community">
+		<xs:annotation>
+			<xs:documentation> a group of interacting people, possibly living in close proximity,
+				and often refers to a group that shares some common values, and is attributed with
+				social cohesion within a shared geographical location, generally in social units
+				larger than a household </xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="reg:groupType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="company">
+		<xs:complexContent>
+			<xs:extension base="reg:groupType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="religion">
+		<xs:complexContent>
+			<xs:extension base="reg:groupType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ethnicity">
+		<xs:complexContent>
+			<xs:extension base="reg:groupType">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<?gb itemlist="end"?>
+
+	<?gb sect=2 en="Relation Types" nl="Relatie types" id="reg-relation-types"?>
+	<?gb sect=3 en="Event Relation Types" nl="Event relatie types" id="Event-relation-types"?>
+	<xs:complexType name="eventToFeatureType">
+		<xs:complexContent>
+			<xs:extension base="reg:relationType">
+				<xs:attribute name="event" type="reg:eventIdRef"/>
+				<xs:attribute name="feature" type="reg:eventFeatureIdRef"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<?gb sect=3 en="Group Relation Types" nl="Groep relatie types" id="Group-relation-types"?>
+	<xs:complexType name="groupToEventType">
+		<xs:complexContent>
+			<xs:extension base="reg:relationType">
+				<xs:attribute name="event" type="reg:placeIdRef"/>
+				<xs:attribute name="group" type="reg:groupIdRef"/>
+				<xs:attribute name="groupRole" type="reg:groupToEventEnum"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="groupToFeatureType">
+		<xs:complexContent>
+			<xs:extension base="reg:relationType">
+				<xs:attribute name="group" type="reg:groupIdRef"/>
+				<xs:attribute name="feature" type="reg:groupFeatureIdRef"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="groupToPlaceType">
+		<xs:complexContent>
+			<xs:extension base="reg:relationType">
+				<xs:attribute name="place" type="reg:placeIdRef"/>
+				<xs:attribute name="group" type="reg:groupIdRef"/>
+				<xs:attribute name="placeRole" type="reg:placeToGroupEnum"/>
+				<xs:attribute name="groupRole" type="reg:groupToPlaceEnum"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<?gb sect=3 en="Person Relation Types" nl="Persoon relatie types" id="Person-relation-types"?>
+	<xs:complexType name="personToFeatureType">
+		<xs:complexContent>
+			<xs:extension base="reg:relationType">
+				<xs:attribute name="person" type="reg:personIdRef"/>
+				<xs:attribute name="feature" type="reg:personFeatureIdRef"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="personToEventType">
+		<xs:complexContent>
+			<xs:extension base="reg:relationType">
+				<xs:attribute name="person" type="reg:personIdRef"/>
+				<xs:attribute name="event" type="reg:eventIdRef"/>
+				<xs:attribute name="personRole" type="reg:personToEventEnum"/>
+			</xs:extension>
+			<!-- we do not allow a role to bed defined from Event to Person. this is defined by the name of the event, combined by the role of the person -->
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="personToGroupType">
+		<xs:complexContent>
+			<xs:extension base="reg:relationType">
+				<xs:attribute name="person" type="reg:personIdRef"/>
+				<xs:attribute name="group" type="reg:groupIdRef"/>
+				<xs:attribute name="personRole" type="reg:personToGroupEnum"/>
+				<xs:attribute name="groupRole" type="reg:groupToPersonEnum"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="personToPersonType">
+		<xs:complexContent>
+			<xs:extension base="reg:relationType">
+				<xs:attribute name="person1" type="reg:personIdRef"/>
+				<xs:attribute name="person2" type="reg:personIdRef"/>
+				<xs:attribute name="role1" type="reg:personToPersonEnum"/>
+				<xs:attribute name="role2" type="reg:personToPersonEnum"/>
+				<xs:attribute name="roleMutual" type="reg:personToPersonMutualEnum"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<?gb sect=3 en="Place Relation Types" nl="Plaats relatie types" id="Place-relation-types"?>
+	<xs:complexType name="placeToFeatureType">
+		<xs:complexContent>
+			<xs:extension base="reg:relationType">
+				<xs:attribute name="place" type="reg:placeIdRef"/>
+				<xs:attribute name="feature" type="reg:personFeatureIdRef"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="placeToEventType">
+		<xs:complexContent>
+			<xs:extension base="reg:relationType">
+				<xs:attribute name="place" type="reg:placeIdRef"/>
+				<xs:attribute name="event" type="reg:eventIdRef"/>
+				<xs:attribute name="placeRole" type="reg:placeToEventEnum"/>
+			</xs:extension>
+			<!-- we do not allow a role to be defined from place to event. it's just the place, and the role is automatically: place of [name event] -->
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="placeToPersonType">
+		<xs:complexContent>
+			<xs:extension base="reg:relationType">
+				<xs:attribute name="place" type="reg:placeIdRef"/>
+				<xs:attribute name="person" type="reg:personIdRef"/>
+				<xs:attribute name="placeRole" type="reg:placeToPersonEnum"/>
+				<xs:attribute name="personRole" type="reg:personToPlaceEnum"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<?gb sect=2 en="Entity Collection Types" nl="Entiteit-collectie types" id="Grouping"?>
+	<xs:complexType name="eventsType">
+		<xs:sequence>
+			<xs:element ref="reg:event" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="reg:eventsId"/>
+		<xs:attribute name="place" type="reg:placeIdRef"/>
+		<xs:attribute name="person" type="reg:personIdRef"/>
+		<xs:attribute name="roleFromPerson" type="reg:personToEventEnum"/>
+	</xs:complexType>
+	<xs:complexType name="personsType">
+		<xs:sequence>
+			<xs:element ref="reg:person" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="reg:personsId"/>
+		<xs:attribute name="roleToEvent" type="reg:personToEventEnum"/>
+		<xs:attribute name="roleToGroup" type="reg:personToGroupEnum"/>
+		<xs:attribute name="roleToPerson" type="reg:personToPersonEnum"/>
+		<xs:attribute name="roleFromPerson" type="reg:personToPersonEnum"/>
+	</xs:complexType>
+	<xs:complexType name="groupsType">
+		<xs:sequence>
+			<xs:element ref="reg:group" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="reg:groupsId"/>
+		<xs:attribute name="roleFromPerson" type="reg:personToGroupEnum"/>
+		<xs:attribute name="roleToPerson" type="reg:groupToPersonEnum"/>
+		<xs:attribute name="roleToEvent" type="reg:groupToEventEnum"/>
+		<xs:attribute name="roleToPlace" type="reg:groupToPlaceEnum"/>
+	</xs:complexType>
+	<xs:complexType name="placesType">
+		<xs:sequence>
+			<xs:element ref="reg:place" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="reg:placesId"/>
+		<xs:attribute name="roleFromPerson" type="reg:personToPlaceEnum"/>
+		<xs:attribute name="roleToPerson" type="reg:placeToPersonEnum"/>
+	</xs:complexType>
+	<xs:complexType name="personFeaturesType">
+		<xs:sequence>
+			<xs:element ref="reg:personFeature" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="reg:personFeaturesId"/>
+	</xs:complexType>
+	<xs:complexType name="eventFeaturesType">
+		<xs:sequence>
+			<xs:element ref="reg:eventFeature" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="reg:eventFeaturesId"/>
+	</xs:complexType>
+	<xs:complexType name="placeFeaturesType">
+		<xs:sequence>
+			<xs:element ref="reg:placeFeature" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="reg:placeFeaturesId"/>
+	</xs:complexType>
+	<xs:complexType name="groupFeaturesType">
+		<xs:sequence>
+			<xs:element ref="reg:groupFeature" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="reg:groupFeaturesId"/>
+	</xs:complexType>
+	<xs:complexType name="unitFeaturesType">
+		<xs:sequence>
+			<xs:element ref="reg:unitFeature" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="reg:unitFeaturesId"/>
+	</xs:complexType>
+
+	<?gb sect=2 en="Other Types" nl="Overige types" id="Other-types"?>
+	<xs:complexType name="relationType" abstract="true">
+		<xs:attribute name="other" type="reg:string36">
+			<xs:annotation>
+				<xs:documentation> If the enumeration of Role is set to other, the actual name of
+					the role MUST be specified in a normalized way. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+
+	<xs:complexType name="commentType">
+		<xs:simpleContent>
+			<xs:extension base="reg:string200">
+				<xs:attribute name="author" type="reg:string200"/>
+				<xs:attribute name="date" type="xs:date"/>
+				<xs:attribute name="lang" type="xs:language"/>
+				<xs:attribute name="group" type="reg:groupIdRef"/>
+				<xs:attribute name="person" type="reg:personIdRef"/>
+				<xs:attribute name="place" type="reg:placeIdRef"/>
+				<xs:attribute name="event" type="reg:eventIdRef"/>
+				<xs:attribute name="file" type="reg:fileIdRef"/>
+				<xs:attributeGroup ref="reg:filePosAttributes"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<?gb sect=1 en="Attribute groups" nl="Attribuut groepen" id="Attribute-groups"?>
+	<xs:attributeGroup name="registerAttributes">
+		<xs:attribute name="uuid" type="reg:uuidType" use="required">
+			<xs:annotation>
+				<xs:documentation>The UUID of the Register that this Unit is to be applied
+					to.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="version" type="xs:dateTime" use="optional"/>
+		<xs:attribute name="update" type="reg:updateEnumType" default="Append"/>
+		<xs:attribute name="name" type="reg:string100" use="required">
+			<xs:annotation>
+				<xs:documentation>The name of the Register that this Unit is to be applied to. The
+					preferred method of specifying the Register is with registerID instead of name.
+					If registerID is specified, the registerName is ignored.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="unitsAttributes">
+		<xs:attribute name="repository" type="reg:uuidType" use="required">
+			<xs:annotation>
+				<xs:documentation>The UUID of the repository that must be queried for fileNames.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="unitAttributes">
+		<xs:attribute name="composition" type="reg:compositionEnum" default="smart">
+			<xs:annotation>
+				<xs:documentation> Instructs the parsing application on how to deal with implicit
+					relations and roles. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="fileAttributes">
+		<xs:attribute name="id" type="reg:fileId"/>
+		<xs:attribute name="uuid" type="reg:uuidType">
+			<xs:annotation>
+				<xs:documentation>The UUID that was assigned to a FolderFile after it was uploaded
+					to Geneabase, using the fileUpload tool. If the UUID is not known, fileName and repositoryID
+					must be specified.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="name" type="reg:string36">
+			<xs:annotation>
+				<xs:documentation>The filename that has already been uploaded to to Geneabase, using
+					the fileUpload tool. This is an alternative method of specifying a filename,
+					when the UUID is not (yet) known. The filename may be either with our without
+					extension, but must be without a path. The minimum that is
+					required to uniquely identify the file should be specified. This may include the folderName or folderID.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="folderID" type="reg:uuidType">
+			<xs:annotation>
+				<xs:documentation>The uuid of the folder, or one of its parent folders, in which this image can be located.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="folderName" type="reg:string100">
+			<xs:annotation>
+				<xs:documentation>The single name of a folder (so not a path of folders) that is a parent folder of the specified file.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="filePosAttributes">
+		<xs:attribute name="mask" type="reg:polygonType">
+			<xs:annotation>
+				<xs:documentation>This defines the geometric location on the Image, or on the Video,
+					by defining a geometric shape in Well Known Text Format
+					(WKT).</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="page" type="reg:positiveshort">
+			<xs:annotation>
+				<xs:documentation>Only applicable if the uploaded file is of type Document (Word or
+					PDF). The Page is the Nth page within the Document.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="startTime" type="xs:time">
+			<xs:annotation>
+				<xs:documentation>Only applicable for Audio and Video FileEntities, indicating the
+					start time in milliseconds at this media that the description is
+					located.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="endTime" type="xs:time">
+			<xs:annotation>
+				<xs:documentation>Only if StartTime is defined, this value specifies the end time in
+					milliseconds at this media that the description is located.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+
+	<?gb sect=1 en="Elements" nl="Elementen" id="Elements"?>
+	<?gb sect=2 en="Structural Elements" nl="Structurele elementen" id="Structural-elements"?>
+	<xs:element name="register">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="reg:library" minOccurs="0"/>
+				<xs:element ref="reg:units" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attributeGroup ref="reg:registerAttributes"/>
+		</xs:complexType>
+		<xs:unique name="uniqueInfoUnitUUID">
+			<xs:selector xpath="./reg:units/reg:unit"/>
+			<xs:field xpath="@uuid"/>
+		</xs:unique>
+		<xs:unique name="uniqueInfoUnitAltKey">
+			<xs:selector xpath="./reg:units/reg:unit"/>
+			<xs:field xpath="@altID"/>
+		</xs:unique>
+		<xs:unique name="libraryID">
+			<xs:selector xpath="./reg:library/*"/>
+			<xs:field xpath="@id"/>
+		</xs:unique>
+		<xs:keyref name="libraryIDRef" refer="reg:libraryID">
+			<xs:selector xpath=".//*"/>
+			<xs:field xpath="@copy"/>
+		</xs:keyref>
+	</xs:element>
+	<xs:element name="library">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:group ref="reg:entitiesGroup" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:group ref="reg:featuresGroup" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="reg:file" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="reg:comment" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="units">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="reg:unit" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attributeGroup ref="reg:unitAttributes"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="unit">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:group ref="reg:entitiesGroup" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:group ref="reg:entityGroupsGroup" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:group ref="reg:relationsGroup" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:group ref="reg:featuresGroup" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="reg:file" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="reg:comment" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="uuid" type="reg:uuidType" use="required">
+				<xs:annotation>
+					<xs:documentation>This is the Id that may have been imported from external
+						sources, and may also be exported. The UUID should never change, and it
+						should accompany this chunk of information during its entire life, whether
+						that be inside or outside this system.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="altID" type="reg:string36">
+				<xs:annotation>
+					<xs:documentation>ID from the external exporting system for this unit, as an
+						alternative or in addition to the UUID. This value is deprecated and may not
+						be supported in the future. Please use uuid instead. If provided, it will be
+						used as a unique key, and will replace any other item with this same
+						key.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="features" type="reg:unitFeatureIdRef"/>
+			<xs:attribute name="url" type="reg:anyUrl">
+				<xs:annotation>
+					<xs:documentation>The url through which the origin of this information can be accessed. Only intended for exports, not import.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+		<xs:unique name="entityID">
+			<xs:selector xpath=".//*"/>
+			<xs:field xpath="@id"/>
+		</xs:unique>
+		<xs:keyref name="person1IDRef" refer="reg:entityID">
+			<xs:selector xpath="*"/>
+			<xs:field xpath="@person1"/>
+		</xs:keyref>
+		<xs:keyref name="person2IDRef" refer="reg:entityID">
+			<xs:selector xpath="*"/>
+			<xs:field xpath="@person2"/>
+		</xs:keyref>
+		<xs:keyref name="personIDRef" refer="reg:entityID">
+			<xs:selector xpath="*"/>
+			<xs:field xpath="@person"/>
+		</xs:keyref>
+		<xs:keyref name="fileIDRef" refer="reg:entityID">
+			<xs:selector xpath="*"/>
+			<xs:field xpath="@file"/>
+		</xs:keyref>
+		<xs:keyref name="featureIDRef" refer="reg:entityID">
+			<xs:selector xpath="*"/>
+			<xs:field xpath="@feature"/>
+		</xs:keyref>
+		<xs:keyref name="eventIDRef" refer="reg:entityID">
+			<xs:selector xpath="*"/>
+			<xs:field xpath="@event"/>
+		</xs:keyref>
+		<xs:keyref name="placeIDRef" refer="reg:entityID">
+			<xs:selector xpath="*"/>
+			<xs:field xpath="@place"/>
+		</xs:keyref>
+		<xs:keyref name="groupIDRef" refer="reg:entityID">
+			<xs:selector xpath="*"/>
+			<xs:field xpath="@group"/>
+		</xs:keyref>
+	</xs:element>
+
+
+	<?gb sect=2 en="Entity Elements" nl="Entiteit elementen" id="Entity-elements"?>
+	<xs:element name="person" type="reg:personType"/>
+	<xs:element name="event" type="reg:eventType"/>
+	<xs:element name="place" type="reg:placeType"/>
+	<xs:element name="group" type="reg:groupType"/>
+
+	<?gb sect=2 en="Entity Group Elements" nl="Entiteit-collectie elementen" id="Entity-group-elements"?>
+	<xs:element name="persons" type="reg:personsType"/>
+	<xs:element name="events" type="reg:eventsType"/>
+	<xs:element name="places" type="reg:placesType"/>
+	<xs:element name="groups" type="reg:groupsType"/>
+
+	<?gb sect=2 en="Feature Elements" nl="Feature elementen" id="Feature-elements"?>
+	<xs:element name="eventFeature" type="reg:eventFeatureType"/>
+	<xs:element name="groupFeature" type="reg:groupFeatureType"/>
+	<xs:element name="personFeature" type="reg:personFeatureType"/>
+	<xs:element name="placeFeature" type="reg:placeFeatureType"/>
+	<xs:element name="unitFeature" type="reg:unitFeatureType"/>
+
+	<?gb sect=2 en="Feature Group Elements" nl="Feature-collectie elementen" id="Feature-group-elements"?>
+	<xs:element name="eventFeatures" type="reg:eventFeaturesType"/>
+	<xs:element name="groupFeatures" type="reg:groupFeaturesType"/>
+	<xs:element name="personFeatures" type="reg:personFeaturesType"/>
+	<xs:element name="placeFeatures" type="reg:placeFeaturesType"/>
+	<xs:element name="unitFeatures" type="reg:unitFeaturesType"/>
+
+
+
+	<?gb sect=2 en="Relation Elements" nl="Relatie elementen" id="Relation-elements"?>
+	<?gb sect=3 en="Event Relation Elements" nl="Event relatie elementen" id="Event-relation-elements"?>
+	<xs:element name="eventToFeature" type="reg:eventToFeatureType"/>
+	<?gb sect=3 en="Group Relation Elements" nl="Groep relatie elementen" id="Group-relation-elements"?>
+	<xs:element name="groupToEvent" type="reg:groupToEventType"/>
+	<xs:element name="groupToFeature" type="reg:groupToFeatureType"/>
+	<xs:element name="groupToPlace" type="reg:groupToPlaceType"/>
+	<?gb sect=3 en="Person Relation Elements" nl="Persoon relatie elementen" id="Person-relation-elements"?>
+	<xs:element name="personToEvent" type="reg:personToEventType"/>
+	<xs:element name="personToFeature" type="reg:personToFeatureType"/>
+	<xs:element name="personToGroup" type="reg:personToGroupType"/>
+	<xs:element name="personToPerson" type="reg:personToPersonType"/>
+	<xs:element name="personToPlace" type="reg:placeToPersonType"/>
+	<?gb sect=3 en="Place Relation Elements" nl="Plaats relatie elementen" id="Place-relation-elements"?>
+	<xs:element name="placeToEvent" type="reg:placeToEventType"/>
+	<xs:element name="placeToFeature" type="reg:placeToFeatureType"/>
+	<!-- <xs:element name="placeToPerson" type="reg:placeToPerson"/> -->
+	<!-- <xs:element name="groupToPerson" type="reg:personToGroup"/> -->
+	<!--<xs:element name="placeToGroup" type="reg:groupToPlace"/>-->
+	<!-- <xs:element name="eventToGroup" type="reg:groupToEvent"/>-->
+
+	<?gb sect=2 en="Other Elements" nl="Overige elementen" id="Other-elements"?>
+	<xs:element name="file">
+		<xs:complexType>
+			<xs:attributeGroup ref="reg:fileAttributes"/>
+			<xs:attributeGroup ref="reg:filePosAttributes"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="addressRange" type="reg:addressRangeType"/>
+	<xs:element name="comment" type="reg:commentType"/>
+
+	<?gb sect=1 en="Element Groups" nl="Element groepen" id="Element-groups"?>
+	<xs:group name="relationsGroup">
+		<xs:sequence>
+			<xs:element ref="reg:personToPerson" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="reg:personToPlace" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="reg:personToGroup" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="reg:personToEvent" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="reg:personToFeature" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="reg:placeToEvent" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="reg:groupToPlace" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="reg:groupToEvent" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="reg:groupToFeature" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="reg:placeToFeature" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="reg:eventToFeature" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="entityGroupsGroup">
+		<xs:sequence>
+			<xs:element ref="reg:persons" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="reg:places" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="reg:groups" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="reg:events" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="entitiesGroup">
+		<xs:sequence>
+			<xs:element ref="reg:person" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="reg:place" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="reg:group" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="reg:event" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="featuresGroup">
+		<xs:sequence>
+			<xs:element ref="reg:personFeature" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="reg:placeFeature" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="reg:groupFeature" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="reg:eventFeature" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="reg:unitFeature" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:group>
+</xs:schema>
