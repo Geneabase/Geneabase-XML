@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:query="http://schemas.geneabase.com/2012-v1/query"
+    targetNamespace="http://schemas.geneabase.com/2012-v1/query" elementFormDefault="qualified"
+    xmlns:reg="http://schemas.geneabase.com/2012-v1/register"
+    xmlns:cat="http://schemas.geneabase.com/2012-v1/catalog">
+    <xs:import namespace="http://schemas.geneabase.com/2012-v1/catalog"
+        schemaLocation="http://schemas.geneabase.com/2012-v1/catalog.xsd"/>
+    <xs:import namespace="http://schemas.geneabase.com/2012-v1/register"
+        schemaLocation="http://schemas.geneabase.com/2012-v1/register.xsd"/>
+    <xs:element name="query">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="params">
+                    <xs:complexType>
+                        <xs:sequence maxOccurs="unbounded" minOccurs="0">
+                            <xs:element name="param">
+                                <xs:complexType>
+                                    <xs:attribute name="name" type="reg:string100" use="required"/>
+                                    <xs:attribute name="value" type="reg:string200" use="required"/>
+                                    <xs:attribute name="localName" type="reg:string200"/>
+                                    <xs:attribute name="localValue" type="reg:string200"/>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="result">
+                    <xs:complexType>
+                        <xs:sequence maxOccurs="unbounded">
+                            <xs:element ref="reg:register" maxOccurs="unbounded" minOccurs="0"/>
+                            <xs:element ref="cat:catalog" minOccurs="0"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute name="id" type="xs:unsignedLong"/>
+            <xs:attribute name="createdFor" type="reg:string200"/>
+            <xs:attribute name="repositoryID" type="reg:uuidType" use="required"/>
+            <xs:attribute name="repositoryName" type="reg:string100" use="required"/>
+            <xs:attribute name="url" type="reg:anyUrl" use="required"/>
+            <xs:attribute name="numResults" type="xs:unsignedInt" use="required"/>
+            <xs:attribute name="createdAt" type="xs:dateTime" use="required"/>
+            <xs:attribute default="en-US" name="culture" type="xs:language"/>
+            <xs:attribute default="1" name="numParts" type="xs:positiveInteger"/>
+            <xs:attribute default="1" name="part" type="xs:positiveInteger"/>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

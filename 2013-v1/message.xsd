@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://schemas.geneabase.com/2012-v1/message"
+    targetNamespace="http://schemas.geneabase.com/2012-v1/message"
+    xmlns:xhtml="http://www.w3.org/1999/xhtml" elementFormDefault="qualified">
+    <xs:import namespace="http://www.w3.org/1999/xhtml"
+        schemaLocation="http://schemas.geneabase.com/2012-v1/xhtml1-reduced.xsd"/>
+    <xs:element name="message">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="subject" type="xs:string"/>
+                <xs:element name="html" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="style" type="xhtml:StyleSheet" minOccurs="0"/>
+                            <xs:element name="script" type="xhtml:Script" minOccurs="0"/>
+                            <xs:element name="body" type="xhtml:Flow" minOccurs="0"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="plain" type="xs:string" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

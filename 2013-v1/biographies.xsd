@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:reg="http://schemas.geneabase.com/2012-v1/register"
+	xmlns:bio="http://schemas.geneabase.com/2012-v1/biographies"
+	xmlns:xhtml="http://www.w3.org/1999/xhtml"
+	targetNamespace="http://schemas.geneabase.com/2012-v1/biographies"
+	elementFormDefault="qualified">
+	<import namespace="http://schemas.geneabase.com/2012-v1/register" 
+		schemaLocation="http://schemas.geneabase.com/2012-v1/register.xsd"/>
+	<import namespace="http://www.w3.org/1999/xhtml"
+		schemaLocation="http://schemas.geneabase.com/2012-v1/xhtml1-reduced.xsd"/>
+	<element name="biographies">
+		<complexType>
+			<sequence>
+				<element ref="bio:biography" maxOccurs="unbounded"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="biography">
+		<complexType>
+			<sequence>
+				<element ref="bio:person"/>
+				<element ref="bio:event" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="summary" type="xs:string" minOccurs="0"/>
+				<element name="body" type="xhtml:Flow" minOccurs="0"/>
+				<element ref="bio:unit" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="image" type="reg:image" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="link" type="reg:link" minOccurs="0" maxOccurs="unbounded"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="person">
+		<complexType>
+			<sequence>
+				<group ref="reg:personName"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="place">
+		<complexType>
+			<sequence>
+				<group ref="reg:placeName"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="event">
+		<complexType>
+			<sequence minOccurs="0">
+				<element ref="bio:place" minOccurs="0"/>
+			</sequence>
+			<attribute name="type" type="reg:eventTypesEnum"/>
+			<attributeGroup ref="reg:dateGroup"/>
+		</complexType>
+	</element>
+	<element name="unit">
+		<complexType>
+			<attribute name="id" type="reg:uuid"/>
+		</complexType>
+	</element>
+</schema>

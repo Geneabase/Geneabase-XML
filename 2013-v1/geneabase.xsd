@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright © 2011-2013 Geneabase BV, version 2.0.1 -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://schemas.geneabase.com/2013-v1/geneabase"
+    xmlns:xhtml="http://www.w3.org/1999/xhtml"
+    targetNamespace="http://schemas.geneabase.com/2013-v1/geneabase" elementFormDefault="qualified">
+    <xs:simpleType name="string16">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">A string between 0 and 16 characters length.</xs:documentation>
+            <xs:documentation xml:lang="nl">Een tekenreeks van tussen de 0 en 16 karakters lengte.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="16"/>
+            <xs:minLength value="0"/>
+            <xs:whiteSpace value="collapse"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="string36">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">A string between 0 and 36 characters length.</xs:documentation>
+            <xs:documentation xml:lang="nl">Een tekenreeks van tussen de 0 en 36 karakters lengte.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="36"/>
+            <xs:minLength value="0"/>
+            <xs:whiteSpace value="collapse"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="string50">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">A string between 0 and 50 characters length.</xs:documentation>
+            <xs:documentation xml:lang="nl">Een tekenreeks van tussen de 0 en 50 karakters lengte.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="50"/>
+            <xs:minLength value="0"/>
+            <xs:whiteSpace value="collapse"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="string100">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">A string between 0 and 100 characters length.</xs:documentation>
+            <xs:documentation xml:lang="nl">Een tekenreeks van tussen de 0 en 100 karakters lengte.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="100"/>
+            <xs:minLength value="0"/>
+            <xs:whiteSpace value="collapse"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="nonEmptyString100">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">A string between 1 and 100 characters length.</xs:documentation>
+            <xs:documentation xml:lang="nl">Een tekenreeks van tussen de 1 en 100 karakters lengte.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="100"/>
+            <xs:minLength value="1"/>
+            <xs:whiteSpace value="collapse"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="string200">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">A string between 0 and 200 characters length.</xs:documentation>
+            <xs:documentation xml:lang="nl">Een tekenreeks van tussen de 0 en 200 karakters lengte.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="200"/>
+            <xs:minLength value="0"/>
+            <xs:whiteSpace value="collapse"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="uuidType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                UUID or GUID (Microsoft's Implementation of UUID), according to [RFC 4122 http://tools.ietf.org/rfc/rfc4122.txt]
+            </xs:documentation>
+            <xs:documentation xml:lang="nl">
+                UUID of GUID (Microsoft's Implementatie van UUID), volgens [RFC 4122 http://tools.ietf.org/rfc/rfc4122.txt]
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:length value="36"/>
+            <xs:pattern
+                value="[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}"
+            />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="polygonType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">A single or multiple polygons in [WKT
+                http://en.wikipedia.org/wiki/Well-known_text] format. A single polygon consists of
+                at least three points, each point defined with two integers X and Y separated with a
+                space, and XY points separated by comma's. These points are then enclosed between
+                parentheses, and are joined to form a closed polygonal chain. Multiple polygons can
+                be defined by specifying multiple sets of XY coordinates, each set enclosed in
+                brackets, and separated by a comma from the previous set.</xs:documentation>
+            <xs:documentation xml:lang="nl">Eén of meerdere polygonen in [WKT
+                http://en.wikipedia.org/wiki/Well-known_text] formaat. Een polygoon bestaat uit ten
+                minste drie punten, waarbij elk punt omschreven is met twee integers X en Y, middels
+                een spatie van elkaar gescheiden, en de XY punten gescheiden door komma's. Deze
+                punten worden dan ingesloten tussen haakjes, die samen een gesloten veelhoekige
+                keten vormen. Meerdere polygonen kunnen worden gedefinieerd door meerdere sets XY
+                coördinaten aan te geven, waarbij elke set tussen haakjes geplaatst wordt, en
+                gescheiden door een komma van de voorgaande set.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern
+                value="POLYGON\s?\(\(\d+ \d+(,\s?\d+ \d+){2,}\)(,\s?\(\d+ \d+(,\d+ ){2,}\))*\)"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <?gb sect=2 en="Numeric Types" nl="Numerieke types" id="Numeric-types"?>
+    <xs:simpleType name="positiveshort">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">A number between 1 and 32767.</xs:documentation>
+            <xs:documentation xml:lang="nl">Een getal tussen 1 en 32767.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:short">
+            <xs:minInclusive value="1"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="dateType">
+        <xs:union memberTypes="xs:gYear xs:gYearMonth xs:date xs:dateTime">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">
+                    Date in the form of YYYY:MM::DD, YYYY:MM, of YYYY
+                </xs:documentation>
+                <xs:documentation xml:lang="nl">
+                    Datum in de vorm van YYYY:MM::DD, YYYY::MM of YYYY
+                </xs:documentation>
+            </xs:annotation>
+        </xs:union>
+    </xs:simpleType>
+    
+    <xs:simpleType name="md5Type">
+        <xs:restriction base="xs:string">
+            <xs:length value="32"/>
+            <xs:pattern value="[a-f0-9]{32}"/>
+        </xs:restriction>
+    </xs:simpleType>
+   
+    <xs:simpleType name="fileNameType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="100"/>
+            <xs:whiteSpace value="collapse"/>
+            <xs:pattern value="[^?:,\*/\\*&quot;>&lt;|=]+"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="extensionType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="2"/>
+            <xs:maxLength value="6"/>
+            <xs:pattern value="[a-zA-Z0-9]*"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
