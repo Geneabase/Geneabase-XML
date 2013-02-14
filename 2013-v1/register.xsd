@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright © 2011-2012 Geneabase BV, version 2.0.1 -->
+<!-- Copyright © 2011-2013 Geneabase BV. Licenced under CC BY 3.0 http://creativecommons.org/licenses/by/3.0/ -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:reg="http://schemas.geneabase.com/2013-v1/register"
 	xmlns:gb="http://schemas.geneabase.com/2013-v1/geneabase"
@@ -28,27 +28,6 @@
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:pattern value="\*|[0-9]+"/>
-		</xs:restriction>
-	</xs:simpleType>
-	<?gb sect=2 en="Link Types" nl="Link types" id="Link-types"?>
-	<xs:complexType name="link">
-		<xs:attribute name="href" type="reg:anyUrl" use="required"/>
-		<xs:attribute name="label" type="gb:nonEmptyString100" use="required"/>
-	</xs:complexType>
-	<xs:complexType name="image">
-		<xs:attribute name="href" type="reg:imageUrl" use="required"/>
-		<xs:attribute name="width" type="xs:short" use="required"/>
-		<xs:attribute name="height" type="xs:short" use="required"/>
-		<xs:attribute name="label" type="gb:nonEmptyString100" use="required"/>
-	</xs:complexType>
-	<xs:simpleType name="imageUrl">
-		<xs:restriction base="xs:anyURI">
-			<xs:pattern value="https?://.*\.(jpe?g|gif|png)"/>
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:simpleType name="anyUrl">
-		<xs:restriction base="xs:anyURI">
-			<xs:pattern value="https?://.+"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<?gb sect=2 en="Identifier Types" nl="Identificatie types" id="Id-types"?>
@@ -209,6 +188,8 @@
 			<xs:enumeration value="deceased"/>
 			<xs:enumeration value="father"/>
 			<xs:enumeration value="husband"/>
+			<xs:enumeration value="formerWife"/>
+			<xs:enumeration value="formerHusband"/>
 			<xs:enumeration value="married"/>
 			<xs:enumeration value="mother"/>
 			<xs:enumeration value="relocated"/>
@@ -236,6 +217,8 @@
 			<xs:enumeration value="spouse"/>
 			<xs:enumeration value="husband"/>
 			<xs:enumeration value="wife"/>
+			<xs:enumeration value="formerWife"/>
+			<xs:enumeration value="formerHusband"/>
 			<xs:enumeration value="brother"/>
 			<xs:enumeration value="sister"/>
 			<xs:enumeration value="parent"/>
@@ -413,6 +396,8 @@
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="remarks"/>
 			<xs:enumeration value="description"/>
+			<xs:enumeration value="sourceRef"/>
+			
 			<xs:enumeration value="other"/>
 		</xs:restriction>
 	</xs:simpleType>
@@ -1784,6 +1769,7 @@
 			<xs:element name="river" type="reg:placeNameType" minOccurs="0"/>
 			<xs:element name="forest" type="reg:placeNameType" minOccurs="0"/>
 			<xs:element name="area" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="areaCode" type="reg:placeNameType" minOccurs="0"/>
 			<xs:element name="park" type="reg:placeNameType" minOccurs="0"/>
 			<xs:element name="parking" type="reg:placeNameType" minOccurs="0"/>
 			<xs:element name="market" type="reg:placeNameType" minOccurs="0"/>
@@ -1800,6 +1786,7 @@
 			<xs:element name="church" type="reg:placeNameType" minOccurs="0"/>
 			<xs:element name="cemetary" type="reg:placeNameType" minOccurs="0"/>
 			<xs:element name="grave" type="reg:placeNameType" minOccurs="0"/>
+			<xs:element name="postalCode" type="reg:placeNameType" minOccurs="0"/>
 			<xs:element name="number" type="reg:placeNameType" minOccurs="0"/>
 			<xs:element name="numberAddition" type="reg:placeNameType" minOccurs="0"/>
 			<xs:element name="block" type="reg:placeNameType" minOccurs="0"/>
@@ -1807,7 +1794,6 @@
 			<xs:element name="floor" type="reg:placeNameType" minOccurs="0"/>
 			<xs:element name="apartment" type="reg:placeNameType" minOccurs="0"/>
 			<xs:element name="room" type="reg:placeNameType" minOccurs="0"/>
-			<xs:element name="postalCode" type="reg:placeNameType" minOccurs="0"/>
 			<xs:element name="name" type="reg:placeNameType" minOccurs="0"/>
 		</xs:sequence>
 	</xs:group>
@@ -2331,7 +2317,7 @@
 				</xs:annotation>
 			</xs:attribute>
 			<xs:attribute name="features" type="reg:unitFeatureIdRef"/>
-			<xs:attribute name="url" type="reg:anyUrl">
+			<xs:attribute name="url" type="gb:anyUrlType">
 				<xs:annotation>
 					<xs:documentation>The url through which the origin of this information can be accessed. Only intended for exports, not import.</xs:documentation>
 				</xs:annotation>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tr:transcription xmlns:xhtml="http://www.w3.org/1999/xhtml"
+ xmlns:html="http://schemas.geneabase.com/2013-v1/html"
+ xmlns:gb="http://schemas.geneabase.com/2013-v1/geneabase"
+ xmlns:tr="http://schemas.geneabase.com/2013-v1/transcription"
+ xmlns:col="http://schemas.geneabase.com/2013-v1/collection"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://schemas.geneabase.com/2013-v1/transcription file:/C:/Users/Roberto/Documents/GitHub/Geneabase-XML/2013-v1/transcription.xsd">
+    <tr:repository name="name0"/>
+    <tr:folder name="name1"/>
+    <tr:version>2006-05-04T18:13:51.0Z</tr:version>
+    <tr:file name="name2">
+        <tr:page>
+            <tr:div>
+            </tr:div>
+        </tr:page>
+    </tr:file>
+    <tr:file name="name3">
+        <tr:page>
+            <tr:div>
+            </tr:div>
+        </tr:page>
+    </tr:file>
+</tr:transcription>

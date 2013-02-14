@@ -396,8 +396,8 @@
 	</xs:group>
 	<xs:group name="inline">
 		<xs:choice>
-			<!--xs:element ref="a"/-->
-			<!--xs:group ref="special"/-->
+			<xs:element ref="a"/>
+			<xs:group ref="special"/>
 			<xs:group ref="fontstyle"/>
 			<xs:group ref="phrase"/>
 			<!--xs:group ref="inline.forms"/-->

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright © 2011-2013 Geneabase BV, version 2.0.1 -->
+<!-- Copyright © 2011-2013 Geneabase BV. Licenced under CC BY 3.0 http://creativecommons.org/licenses/by/3.0/ -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns="http://schemas.geneabase.com/2013-v1/geneabase"
+    xmlns:gb="http://schemas.geneabase.com/2013-v1/geneabase"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     targetNamespace="http://schemas.geneabase.com/2013-v1/geneabase" elementFormDefault="qualified">
     <xs:simpleType name="string16">
@@ -109,7 +109,6 @@
                 value="POLYGON\s?\(\(\d+ \d+(,\s?\d+ \d+){2,}\)(,\s?\(\d+ \d+(,\d+ ){2,}\))*\)"/>
         </xs:restriction>
     </xs:simpleType>
-    <?gb sect=2 en="Numeric Types" nl="Numerieke types" id="Numeric-types"?>
     <xs:simpleType name="positiveshort">
         <xs:annotation>
             <xs:documentation xml:lang="en">A number between 1 and 32767.</xs:documentation>
@@ -119,7 +118,7 @@
             <xs:minInclusive value="1"/>
         </xs:restriction>
     </xs:simpleType>
-    
+
     <xs:simpleType name="dateType">
         <xs:union memberTypes="xs:gYear xs:gYearMonth xs:date xs:dateTime">
             <xs:annotation>
@@ -132,14 +131,14 @@
             </xs:annotation>
         </xs:union>
     </xs:simpleType>
-    
+
     <xs:simpleType name="md5Type">
         <xs:restriction base="xs:string">
             <xs:length value="32"/>
             <xs:pattern value="[a-f0-9]{32}"/>
         </xs:restriction>
     </xs:simpleType>
-   
+
     <xs:simpleType name="fileNameType">
         <xs:restriction base="xs:string">
             <xs:minLength value="1"/>
@@ -153,6 +152,29 @@
             <xs:minLength value="2"/>
             <xs:maxLength value="6"/>
             <xs:pattern value="[a-zA-Z0-9]*"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="linkType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="href" type="gb:anyUrlType" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="imageType">
+        <xs:attribute name="href" type="gb:imageUrlType" use="required"/>
+        <xs:attribute name="width" type="xs:short" use="required"/>
+        <xs:attribute name="height" type="xs:short" use="required"/>
+        <xs:attribute name="label" type="gb:nonEmptyString100" use="required"/>
+    </xs:complexType>
+    <xs:simpleType name="imageUrlType">
+        <xs:restriction base="xs:anyURI">
+            <xs:pattern value="https?://.*\.(jpe?g|gif|png)"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="anyUrlType">
+        <xs:restriction base="xs:anyURI">
+            <xs:pattern value="https?://.+"/>
         </xs:restriction>
     </xs:simpleType>
 </xs:schema>

@@ -1,101 +1,185 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright © 2011-2013 Geneabase BV, version 2.0.1 -->
+<!-- Copyright © 2011-2013 Geneabase BV. Licenced under CC BY 3.0 http://creativecommons.org/licenses/by/3.0/ -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:col="http://schemas.geneabase.com/2013-v1/collection"
     xmlns:gb="http://schemas.geneabase.com/2013-v1/geneabase"
-    xmlns:xhtml="http://www.w3.org/1999/xhtml"
+    xmlns:html="http://www.w3.org/1999/xhtml"
     targetNamespace="http://schemas.geneabase.com/2013-v1/collection" elementFormDefault="qualified">
     <xs:import namespace="http://www.w3.org/1999/xhtml"
         schemaLocation="http://schemas.geneabase.com/2013-v1/xhtml1-reduced.xsd"/>
     <xs:import namespace="http://schemas.geneabase.com/2013-v1/geneabase"
         schemaLocation="http://schemas.geneabase.com/2013-v1/geneabase.xsd"/>
-    <xs:element name="collection">
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace"
+        schemaLocation="http://www.w3.org/XML/1998/namespace"/>
+
+    <xs:element name="collection" type="col:collectionType"/>
+    <xs:element name="container">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">This element can be used as the top node of an XML document. It has additional attributes that are used to attach this container to an already existing collection.</xs:documentation>
+            <xs:documentation xml:lang="nl"/>
+        </xs:annotation>
         <xs:complexType>
-            <xs:sequence>
-                <xs:group maxOccurs="1" minOccurs="1" ref="col:c-elements"/>
-                <xs:choice maxOccurs="1" minOccurs="0">
-                    <xs:element name="files" type="col:filesType"/>
-                    <xs:sequence>
-                        <xs:element maxOccurs="unbounded" name="c01" type="col:c01"/>
-                    </xs:sequence>
-                </xs:choice>
-            </xs:sequence>
+            <xs:complexContent>
+                <xs:extension base="col:containerType">
+                    <xs:attribute form="unqualified" name="collectionID" type="xs:token"
+                        use="required"/>
+                    <xs:attribute name="parentContainerID" type="xs:token" use="optional"/>
+                    <xs:attribute name="version" type="xs:dateTime" use="required"/>
+                    <xs:attribute name="repositoryID" type="gb:uuidType"/>
+                </xs:extension>
+            </xs:complexContent>
         </xs:complexType>
     </xs:element>
+    <xs:element abstract="false" name="summary" type="col:summaryType"/>
+    <xs:element name="description" type="col:descriptionType"/>
+    <xs:complexType name="collectionType">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="title" type="col:titleType"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="short" type="col:shortTitleType"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="description"
+                type="col:descriptionType"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="container"
+                type="col:containerType"/>
+        </xs:sequence>
+        <xs:attributeGroup ref="col:collectionAttributes"/>
+    </xs:complexType>
+    <xs:complexType name="containerType">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="title" type="col:titleType"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="description"
+                type="col:descriptionType"/>
+            <xs:choice minOccurs="0">
+                <xs:element maxOccurs="unbounded" name="container" type="col:containerType"/>
+                <xs:element minOccurs="1" name="folder" type="col:folderType"/>
+                <xs:element name="file" type="col:fileType"/>
+            </xs:choice>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="link" type="gb:linkType"/>
+        </xs:sequence>
+        <xs:attributeGroup ref="col:containerAttributes"/>
+    </xs:complexType>
 
-    <xs:attributeGroup name="c-attributes">
-        <xs:attribute name="level" use="required">
-            <xs:simpleType>
-                <xs:restriction base="xs:token">
-                    <xs:enumeration value="class"/>
-                    <xs:enumeration value="collection"/>
-                    <xs:enumeration value="file"/>
-                    <xs:enumeration value="fonds"/>
-                    <xs:enumeration value="item"/>
-                    <xs:enumeration value="otherlevel"/>
-                    <xs:enumeration value="recordgrp"/>
-                    <xs:enumeration value="series"/>
-                    <xs:enumeration value="subfonds"/>
-                    <xs:enumeration value="subgrp"/>
-                    <xs:enumeration value="subseries"/>
-                </xs:restriction>
-            </xs:simpleType>
-        </xs:attribute>
+    <xs:simpleType name="codeType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="36"/>
+            <xs:whiteSpace value="collapse"/>
+            <xs:pattern value="[A-Za-z0-9._-]+"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="containerEnumType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="class"/>
+            <xs:enumeration value="collection"/>
+            <xs:enumeration value="file"/>
+            <xs:enumeration value="fonds"/>
+            <xs:enumeration value="item"/>
+            <xs:enumeration value="other"/>
+            <xs:enumeration value="group"/>
+            <xs:enumeration value="series"/>
+            <xs:enumeration value="subFonds"/>
+            <xs:enumeration value="subGroup"/>
+            <xs:enumeration value="subSeries"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="collectionEnumType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="archive"/>
+            <xs:enumeration value="collection"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="titleType">
+        <xs:simpleContent>
+            <xs:extension base="gb:string200">
+                <xs:attribute ref="xml:lang" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="shortTitleType">
+        <xs:simpleContent>
+            <xs:extension base="gb:string100">
+                <xs:attribute ref="xml:lang"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="summaryType">
+        <xs:complexContent>
+            <xs:extension base="html:Flow">
+                <xs:attribute ref="xml:lang"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="descriptionType">
+        <xs:complexContent>
+            <xs:extension base="html:Flow">
+                <xs:attribute ref="xml:lang"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:attributeGroup name="collectionAttributes">
+        <xs:attribute name="type" use="required" type="col:collectionEnumType"/>
+        <xs:attribute name="repositoryName" type="gb:string100"/>
+        <xs:attribute name="repositoryID" type="gb:uuidType" use="required"/>
+        <xs:attribute ref="xml:lang"/>
         <xs:attribute name="obsolete" use="optional" type="xs:boolean" default="false"/>
-        <xs:attribute name="accessible" use="optional" default="public">
+        <xs:attribute name="accessability" use="optional" default="restricted">
             <xs:simpleType>
                 <xs:restriction base="xs:token">
-                    <xs:enumeration value="public"/>
                     <xs:enumeration value="restricted"/>
-                    <xs:enumeration value="none"/>
+                    <xs:enumeration value="limited"/>
+                    <xs:enumeration value="public"/>
                 </xs:restriction>
             </xs:simpleType>
         </xs:attribute>
-        <xs:attribute name="digitization" use="optional" default="ondemand">
+        <xs:attribute name="disclosureDate" type="xs:date"/>
+        <xs:attribute name="startDate" type="gb:dateType"/>
+        <xs:attribute name="endDate" type="gb:dateType"/>
+        <xs:attribute name="code" type="col:codeType" use="optional">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">An unique access code within this collection that identifies this container within this collection.</xs:documentation>
+                <xs:documentation xml:lang="nl">Een unieke toegangscode binnen deze collectie waarmee deze container wordt aangeduid.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="id" type="xs:ID"/>
+        <xs:attribute name="uuid" use="optional" type="gb:uuidType"/>
+        <xs:attribute name="version" type="xs:dateTime" use="required"/>
+    </xs:attributeGroup>
+    <xs:attributeGroup name="containerAttributes">
+        <xs:attribute name="type" use="required" type="col:containerEnumType"/>
+        <xs:attribute ref="xml:lang"/>
+        <xs:attribute name="obsolete" use="optional" type="xs:boolean" default="false"/>
+        <xs:attribute name="accessability" use="optional" default="restricted">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="restricted"/>
+                    <xs:enumeration value="limited"/>
+                    <xs:enumeration value="public"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="digitization" use="optional">
             <xs:simpleType>
                 <xs:restriction base="xs:token">
                     <xs:enumeration value="impossible"/>
                     <xs:enumeration value="ondemand"/>
                     <xs:enumeration value="pending"/>
+                    <xs:enumeration value="partial"/>
                     <xs:enumeration value="completed"/>
                 </xs:restriction>
             </xs:simpleType>
         </xs:attribute>
+        <xs:attribute name="disclosureDate" type="xs:date"/>
         <xs:attribute name="startDate" type="gb:dateType"/>
         <xs:attribute name="endDate" type="gb:dateType"/>
-        <xs:attribute name="code" type="xs:token" use="optional"/>
-        <xs:attribute name="altID" type="xs:ID"/>
-        <xs:attribute name="id" use="required" type="gb:uuidType"/>
+        <xs:attribute name="code" type="col:codeType" use="optional"/>
+        <xs:attribute name="id" type="xs:ID"/>
+        <xs:attribute name="uuid" use="optional" type="gb:uuidType"/>
     </xs:attributeGroup>
-
-    <xs:group name="c-elements">
-        <xs:sequence>
-            <xs:element minOccurs="1" name="title" type="xs:string"/>
-            <xs:element name="description" type="xhtml:Flow"/>
-            <xs:element name="physicalUnits" type="col:physicalUnitsType" minOccurs="0"
-                maxOccurs="1"/>
-        </xs:sequence>
-    </xs:group>
-
-    <xs:complexType name="fileType">
-        <xs:attribute name="id" type="gb:uuidType" use="optional"/>
-        <xs:attribute name="folder" type="gb:uuidType" use="optional"/>
-        <xs:attribute name="name" type="gb:fileNameType" use="optional"/>
-        <xs:attribute name="ext" type="gb:extensionType" use="optional"/>
-    </xs:complexType>
-    
     <xs:complexType name="folderType">
         <xs:attribute name="id" type="gb:uuidType" use="optional"/>
         <xs:attribute name="name" type="gb:fileNameType" use="optional"/>
+        <xs:attribute name="numFiles" type="xs:positiveInteger"/>
     </xs:complexType>
-    
-    <xs:complexType name="filesType">
-        <xs:sequence minOccurs="1" maxOccurs="1">
-            <xs:element minOccurs="0" maxOccurs="unbounded" name="file" type="col:fileType"/>
-            <xs:element minOccurs="0" maxOccurs="unbounded" name="folder" type="col:folderType"/>
-        </xs:sequence>
-    </xs:complexType>
-
     <xs:complexType name="physicalUnitsType">
         <xs:simpleContent>
             <xs:extension base="xs:decimal">
@@ -111,146 +195,10 @@
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
-
-    <xs:complexType name="c01">
-        <xs:sequence>
-            <xs:group maxOccurs="1" minOccurs="1" ref="col:c-elements"/>
-            <xs:choice maxOccurs="1" minOccurs="0">
-                <xs:element name="files" type="col:filesType"/>
-                <xs:sequence>
-                    <xs:element maxOccurs="unbounded" name="c02" type="col:c02"/>
-                </xs:sequence>
-            </xs:choice>
-        </xs:sequence>
-        <xs:attributeGroup ref="col:c-attributes"/>
+    <xs:complexType name="fileType">
+        <xs:attribute name="id" type="gb:uuidType" use="optional"/>
+        <xs:attribute name="folder" type="gb:uuidType" use="optional"/>
+        <xs:attribute name="name" type="gb:fileNameType" use="optional"/>
+        <xs:attribute name="ext" type="gb:extensionType" use="optional"/>
     </xs:complexType>
-    <xs:complexType name="c02">
-        <xs:sequence>
-            <xs:group maxOccurs="1" minOccurs="1" ref="col:c-elements"/>
-            <xs:choice maxOccurs="1" minOccurs="0">
-                <xs:element name="files" type="col:filesType"/>
-                <xs:sequence>
-                    <xs:element maxOccurs="unbounded" name="c03" type="col:c03"/>
-                </xs:sequence>
-            </xs:choice>
-        </xs:sequence>
-        <xs:attributeGroup ref="col:c-attributes"/>
-    </xs:complexType>
-    <xs:complexType name="c03">
-        <xs:sequence>
-            <xs:group maxOccurs="1" minOccurs="1" ref="col:c-elements"/>
-            <xs:choice maxOccurs="1" minOccurs="0">
-                <xs:element name="files" type="col:filesType"/>
-                <xs:sequence>
-                    <xs:element maxOccurs="unbounded" name="c04" type="col:c04"/>
-                </xs:sequence>
-            </xs:choice>
-        </xs:sequence>
-        <xs:attributeGroup ref="col:c-attributes"/>
-    </xs:complexType>
-    <xs:complexType name="c04">
-        <xs:sequence>
-            <xs:group maxOccurs="1" minOccurs="1" ref="col:c-elements"/>
-            <xs:choice maxOccurs="1" minOccurs="0">
-                <xs:element name="files" type="col:filesType"/>
-                <xs:sequence>
-                    <xs:element maxOccurs="unbounded" name="c05" type="col:c05"/>
-                </xs:sequence>
-            </xs:choice>
-        </xs:sequence>
-        <xs:attributeGroup ref="col:c-attributes"/>
-    </xs:complexType>
-    <xs:complexType name="c05">
-        <xs:sequence>
-            <xs:group maxOccurs="1" minOccurs="1" ref="col:c-elements"/>
-            <xs:choice maxOccurs="1" minOccurs="0">
-                <xs:element name="files" type="col:filesType"/>
-                <xs:sequence>
-                    <xs:element maxOccurs="unbounded" name="c06" type="col:c06"/>
-                </xs:sequence>
-            </xs:choice>
-        </xs:sequence>
-        <xs:attributeGroup ref="col:c-attributes"/>
-    </xs:complexType>
-    <xs:complexType name="c06">
-        <xs:sequence>
-            <xs:group maxOccurs="1" minOccurs="1" ref="col:c-elements"/>
-            <xs:choice maxOccurs="1" minOccurs="0">
-                <xs:element name="files" type="col:filesType"/>
-                <xs:sequence>
-                    <xs:element maxOccurs="unbounded" name="c07" type="col:c07"/>
-                </xs:sequence>
-            </xs:choice>
-        </xs:sequence>
-        <xs:attributeGroup ref="col:c-attributes"/>
-    </xs:complexType>
-    <xs:complexType name="c07">
-        <xs:sequence>
-            <xs:group maxOccurs="1" minOccurs="1" ref="col:c-elements"/>
-            <xs:choice maxOccurs="1" minOccurs="0">
-                <xs:element name="files" type="col:filesType"/>
-                <xs:sequence>
-                    <xs:element maxOccurs="unbounded" name="c08" type="col:c08"/>
-                </xs:sequence>
-            </xs:choice>
-        </xs:sequence>
-        <xs:attributeGroup ref="col:c-attributes"/>
-    </xs:complexType>
-    <xs:complexType name="c08">
-        <xs:sequence>
-            <xs:group maxOccurs="1" minOccurs="1" ref="col:c-elements"/>
-            <xs:choice maxOccurs="1" minOccurs="0">
-                <xs:element name="files" type="col:filesType"/>
-                <xs:sequence>
-                    <xs:element maxOccurs="unbounded" name="c09" type="col:c09"/>
-                </xs:sequence>
-            </xs:choice>
-        </xs:sequence>
-        <xs:attributeGroup ref="col:c-attributes"/>
-    </xs:complexType>
-    <xs:complexType name="c09">
-        <xs:sequence>
-            <xs:group maxOccurs="1" minOccurs="1" ref="col:c-elements"/>
-            <xs:choice maxOccurs="1" minOccurs="0">
-                <xs:element name="files" type="col:filesType"/>
-                <xs:sequence>
-                    <xs:element maxOccurs="unbounded" name="c10" type="col:c10"/>
-                </xs:sequence>
-            </xs:choice>
-        </xs:sequence>
-        <xs:attributeGroup ref="col:c-attributes"/>
-    </xs:complexType>
-    <xs:complexType name="c10">
-        <xs:sequence>
-            <xs:group maxOccurs="1" minOccurs="1" ref="col:c-elements"/>
-            <xs:choice maxOccurs="1" minOccurs="0">
-                <xs:element name="files" type="col:filesType"/>
-                <xs:sequence>
-                    <xs:element maxOccurs="unbounded" name="c11" type="col:c11"/>
-                </xs:sequence>
-            </xs:choice>
-        </xs:sequence>
-        <xs:attributeGroup ref="col:c-attributes"/>
-    </xs:complexType>
-    <xs:complexType name="c11">
-        <xs:sequence>
-            <xs:group maxOccurs="1" minOccurs="1" ref="col:c-elements"/>
-            <xs:choice maxOccurs="1" minOccurs="0">
-                <xs:element name="files" type="col:filesType"/>
-                <xs:sequence>
-                    <xs:element maxOccurs="unbounded" name="c12" type="col:c12"/>
-                </xs:sequence>
-            </xs:choice>
-        </xs:sequence>
-        <xs:attributeGroup ref="col:c-attributes"/>
-    </xs:complexType>
-    <xs:complexType name="c12">
-        <xs:sequence>
-            <xs:group maxOccurs="1" minOccurs="1" ref="col:c-elements"/>
-            <xs:element name="files" minOccurs="0" maxOccurs="1" type="col:filesType"/>
-        </xs:sequence>
-        <xs:attributeGroup ref="col:c-attributes"/>
-    </xs:complexType>
-
-
 </xs:schema>

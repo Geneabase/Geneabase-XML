@@ -1,75 +1,125 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns="http://docs.geneabase.com/schemas.xml"
-    xmlns:xml="http://www.w3.org/XML/1998/namespace" elementFormDefault="qualified">
-    <xs:attributeGroup name="coreattrs">
-        <xs:annotation>
-            <xs:documentation>
-                core attributes common to most elements
-                id       document-wide unique id
-                class    space separated list of classes
-                style    associated style info
-                title    advisory title/amplification
-            </xs:documentation>
-        </xs:annotation>
-        <xs:attribute name="id" type="xs:ID"/>
-        <xs:attribute name="class" type="xs:NMTOKENS"/>
-    </xs:attributeGroup>
-    <xs:attributeGroup name="i18n">
-        <xs:annotation>
-            <xs:documentation>
-                internationalization attributes
-                lang        language code (backwards compatible)
-                xml:lang    language code (as per XML 1.0 spec)
-                dir         direction for weak/neutral text
-            </xs:documentation>
-        </xs:annotation>
-        <xs:attribute name="lang" type="LanguageCode"/>
-        <xs:attribute ref="xml:lang"/>
-        <xs:attribute name="dir">
-            <xs:simpleType>
-                <xs:restriction base="xs:token">
-                    <xs:enumeration value="ltr"/>
-                    <xs:enumeration value="rtl"/>
-                </xs:restriction>
-            </xs:simpleType>
-        </xs:attribute>
-    </xs:attributeGroup>
-    <xs:group name="fontstyle">
-        <xs:choice>
-            <xs:element ref="i"/>
-            <xs:element ref="b"/>
-            <xs:element ref="big"/>
-            <xs:element ref="small"/>
-        </xs:choice>
-    </xs:group>
-    <xs:group name="phrase">
-        <xs:choice>
-            <xs:element ref="q"/>
-            <xs:element ref="cite"/>
-            <xs:element ref="abbr"/>
-            <xs:element ref="sub"/>
-            <xs:element ref="sup"/>
-        </xs:choice>
-    </xs:group>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://docs.geneabase.com/schemas.xml"
+    xmlns:xml="http://www.w3.org/XML/1998/namespace"
+    xmlns:html="http://schemas.geneabase.com/2013-v1/html"
+    xmlns:gb="http://schemas.geneabase.com/2013-v1/geneabase"
+    xmlns:tr="http://schemas.geneabase.com/2013-v1/transcription"
+    xmlns:col="http://schemas.geneabase.com/2013-v1/collection"
+    targetNamespace="http://schemas.geneabase.com/2013-v1/transcription"
+    elementFormDefault="qualified">
+    <xs:import namespace="http://schemas.geneabase.com/2013-v1/html"
+        schemaLocation="http://schemas.geneabase.com/2013-v1/html.xsd"/>
+    <xs:import namespace="http://schemas.geneabase.com/2013-v1/geneabase"
+        schemaLocation="http://schemas.geneabase.com/2013-v1/geneabase.xsd"/>
+    <xs:simpleType name="divClassEnumType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="margin-left"/>
+            <xs:enumeration value="margin-right"/>
+            <xs:enumeration value="header"/>
+            <xs:enumeration value="footer"/>
+            <xs:enumeration value="content"/>
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:element name="transcription">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="div"/>
+                <xs:element name="repository">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="gb:nonEmptyString100">
+                                <xs:attribute name="id" type="gb:uuidType"/>
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="folder">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="gb:fileNameType">
+                                <xs:attribute name="id" type="gb:uuidType"/>
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="version" type="xs:dateTime"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="tr:transcriber"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="tr:note"/>
+                <xs:element maxOccurs="unbounded" ref="tr:file"/>
             </xs:sequence>
-            <xs:attribute name="documentID"/>
-            <xs:attribute name="pageBefore"/>
-            <xs:attribute name="page"/>
         </xs:complexType>
     </xs:element>
-    <xs:group name="markup">
-        <xs:sequence>
-            <xs:element name="bold"/>
-            <xs:element name="italic"/>
-        </xs:sequence>
-    </xs:group>
-    
-    
-    
+    <xs:element name="file">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="gb:fileNameType"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="tr:transcriber"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="tr:note"/>
+                <xs:element ref="tr:page" maxOccurs="unbounded" minOccurs="0"/>
+            </xs:sequence>
+            <xs:attribute name="id" type="gb:uuidType"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="page">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="title" minOccurs="0">
+                    <xs:complexType mixed="true">
+                        <xs:complexContent>
+                            <xs:extension base="html:Inline"/>
+                        </xs:complexContent>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="tr:transcriber"/>
+                <xs:element minOccurs="0" ref="tr:note" maxOccurs="unbounded"/>
+                <xs:element ref="tr:region" maxOccurs="unbounded" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="region">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="title" minOccurs="0">
+                    <xs:complexType>
+                        <xs:complexContent>
+                            <xs:extension base="html:Inline"/>
+                        </xs:complexContent>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element minOccurs="0" ref="tr:note" maxOccurs="unbounded"/>
+                <xs:choice maxOccurs="1" minOccurs="0">
+                    <xs:element maxOccurs="unbounded" ref="tr:line"/>
+                    <xs:element maxOccurs="unbounded" ref="tr:block"/>
+                </xs:choice>
+            </xs:sequence>
+            <xs:attribute name="class" form="unqualified" type="tr:divClassEnumType"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="transcriber" type="gb:nonEmptyString100"> </xs:element>
+    <xs:element name="line">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="html:Inline">
+                    <xs:attribute name="margin" type="xs:boolean"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="block">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="html:Block"/>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="note">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="html:Block">
+                    <xs:attribute name="author" type="gb:string100"/>
+                    <xs:attribute name="date" type="xs:date"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
 </xs:schema>

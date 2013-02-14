@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:am="http://schemas.geneabase.com/2013-v1/apimsg" xmlns:html="http://www.w3.org/1999/xhtml"
+    targetNamespace="http://schemas.geneabase.com/2013-v1/apimsg" elementFormDefault="qualified">
+    <xs:import namespace="http://www.w3.org/1999/xhtml"
+        schemaLocation="http://schemas.geneabase.com/2013-v1/xhtml1-reduced.xsd"/>
+    <xs:element name="messages">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">A complete list of Api messages that may be returned in JSON replies from the web server. A message is identified by its @id, and can only appear once in this list.</xs:documentation>
+            <xs:documentation xml:lang="nl">Een complete lijst van Api berichten die gestuurd kunnen worden in het JSON antwoord van de web server. Een bericht wordt geidentificeerd door middel van zijn @id, en kan slechts één keer voorkomen in de lijst. </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="am:message" minOccurs="1" maxOccurs="unbounded"></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+        <xs:unique name="uniqueMessage">
+            <xs:selector xpath="./am:message"/>
+            <xs:field xpath="@id"/>
+        </xs:unique>
+    </xs:element>
+    <xs:element name="message">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">A single message, identified by its @id, of which its content element may be translated into arbitrary number of lanaguages. Each language can only appear once within the message.</xs:documentation>
+            <xs:documentation xml:lang="nl">Een enkel bericht, aangeduid met zijn @id, waarvan het content element kan worden vertaald in een onbeperkt aantal talen. Iedere taal kan slechts één keer voorkomen binnen een message.</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element type="am:paramDefType" name="param" maxOccurs="unbounded" minOccurs="0"/>
+                <xs:element maxOccurs="unbounded" name="content">
+                    <xs:annotation>
+                        <xs:documentation xml:lang="en">The (localized) content that is displayed to the user. This content may contain inline html elements (such as br, b, i, u), and param placeholder elements. The html elements can not include a param placeholder (so you can not make param content bold, for example).</xs:documentation>
+                        <xs:documentation xml:lang="nl">De (vertaalde) content die wordt getoond aan de gebruiker. Deze content mag inline html elementen bevaten (zoals br, b, i, u), en param plaatshouders. De html elemementen kunnen echter geen param plaatshouder bevatten (dus het is niet mogelijk om param content vet te maken, bijvoorbeeld).</xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType mixed="true">
+                        <xs:choice maxOccurs="unbounded" minOccurs="0">
+                            <xs:element type="am:paramUseType" name="param"/>
+                            <xs:group ref="html:inline"/>
+                        </xs:choice>
+                        <xs:attribute name="lang" type="xs:language" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element maxOccurs="unbounded" name="description" minOccurs="0"
+                    type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation xml:lang="en">Description, intended for programmer and/or translator, about where this messages is used. If this is not yet clear from the (English) content.</xs:documentation>
+                        <xs:documentation xml:lang="nl">Beschrijving, bedoeld voor programmeur en/of vertaler, over de context waarin dit bericht wordt toegepast. Als dat nog niet duidelijk is van de (engelse) inhoud. </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute name="id" type="xs:token" use="required">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">A unique key that is used in JSON response from the server. It's general syntax is Section-Subject, where Section is a short three to five letter word, and Subject is CamelCased.</xs:documentation>
+                    <xs:documentation xml:lang="en">Een unieke sleutel die wordt gebruikt in JSON antwoorden van de server. De algemene syntax is Onderdeel-Onderwerp, waar Onderdeel een kort drie tot vijf letter woord is, en Onderwerp in zegenaamd CamelCase wordt gehoofdletterd.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="type" use="required" type="am:typeEnumerationType">
+               
+                
+            </xs:attribute>
+        </xs:complexType>
+        <xs:unique name="uniqueLangContent">
+            <xs:selector xpath="./am:content"/>
+            <xs:field xpath="@lang"/>
+        </xs:unique>
+        <xs:unique name="uniqueLangParamDescription">
+            <xs:selector xpath="./am:param/am:description"/>
+            <xs:field xpath="@lang"/>
+        </xs:unique>
+        <xs:unique name="uniqueLangDescription">
+            <xs:selector xpath="./am:description"/>
+            <xs:field xpath="@lang"/>
+        </xs:unique>
+        <xs:unique name="paramID">
+            <xs:selector xpath="./am:param"/>
+            <xs:field xpath="@id"/>
+        </xs:unique>
+        <xs:keyref name="paramIDRef" refer="am:paramID">
+            <xs:selector xpath="./am:content/am:param"/>
+            <xs:field xpath="@id"/>
+        </xs:keyref>
+    </xs:element>
+    <xs:complexType name="paramDefType">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">Initalization of param placeholders which will be used in the content elements of the message. These param elements need to be listed in the exact same order as in which the arguments will be applied at the response from the service.</xs:documentation>
+                <xs:documentation xml:lang="nl">Initialisatie van param plaatshouders die gebruikt zullen worden in de content elementen van het bericht. Deze param elementen moeten worden opgesomd in exact dezelfde volgorde als waarin de argumenten worden toegevoegd in het antwoord van de service.</xs:documentation>
+            </xs:annotation>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" minOccurs="0"
+                    name="description">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="xs:string">
+                                <xs:attribute name="lang" type="xs:language"
+                                    use="optional"/>
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute name="id" use="required" type="xs:token"/>
+    </xs:complexType> 
+   <xs:complexType name="paramUseType">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">Placeholder that links to an already defined parameter for this message. It's id must match the one of the already defined parameter at message level.</xs:documentation>
+                <xs:documentation xml:lang="nl">Plaatshouder welke linkt naar een al gedefiniëerde parameter voor dit bericht. Het id er van moet overeenkomen met die van de reeds gedefinieëerde plaatshouder op message niveau.</xs:documentation>
+            </xs:annotation>
+            <xs:attribute name="id" use="required" type="xs:token">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">links to message/param/@id</xs:documentation>
+                    <xs:documentation xml:lang="nl">linkt naar message/param/@id</xs:documentation>  
+                </xs:annotation>
+            </xs:attribute>
+        </xs:complexType>
+    
+    <xs:simpleType name="typeEnumerationType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">The urgency level of the message. This type will determine the appearance in the user interface. A message of type "critical" may appear red for example, whereas a message of type "debug" may not be displayed at all.</xs:documentation>
+            <xs:documentation xml:lang="nl">Het urgentie niveau van het bericht. Dit type bepaald de vormgeving in de user interface. Een bericht van het type "critical" kan bijvoorbeeld rood worden weergegeven, terwijl een bericht van het type "debug" helemaal niet wordt weertgegeven.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="debug">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Only intended for problemsolving by developers.</xs:documentation>
+                    <xs:documentation xml:lang="nl">Alleen bedoeld voor probleemoplossing door programmeurs.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="info">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Informative message, nothing went wrong.</xs:documentation>
+                    <xs:documentation xml:lang="nl">Informatief bericht, er is niets fout gegaan.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="warning">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Warning, nothing went wrong, but caution is appropriate.</xs:documentation>
+                    <xs:documentation xml:lang="nl">Waarschuwing, er is niets fout gegaan, maar opmerkzaamheid is geboden.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="error">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Something went wrong, but not very serious.</xs:documentation>
+                    <xs:documentation xml:lang="nl">Er is iets fout gegaan, maar niet heel ernstig.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="critical">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Something serious went wrong.</xs:documentation>
+                    <xs:documentation xml:lang="nl">Er is iets enstig fout gegaan.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
