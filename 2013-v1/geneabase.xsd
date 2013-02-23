@@ -109,7 +109,7 @@
                 value="POLYGON\s?\(\(\d+ \d+(,\s?\d+ \d+){2,}\)(,\s?\(\d+ \d+(,\d+ ){2,}\))*\)"/>
         </xs:restriction>
     </xs:simpleType>
-    <xs:simpleType name="positiveshort">
+    <xs:simpleType name="positiveShortType">
         <xs:annotation>
             <xs:documentation xml:lang="en">A number between 1 and 32767.</xs:documentation>
             <xs:documentation xml:lang="nl">Een getal tussen 1 en 32767.</xs:documentation>
@@ -118,7 +118,33 @@
             <xs:minInclusive value="1"/>
         </xs:restriction>
     </xs:simpleType>
-
+    <xs:simpleType name="positiveLongType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">A number between 1 and  9,223,372,036,854,775,807.</xs:documentation>
+            <xs:documentation xml:lang="nl">Een getal tussen 1 en  9.223.372.036.854.775.807.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:long">
+            <xs:minInclusive value="1"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="intListType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">A list of integers</xs:documentation>
+            <xs:documentation xml:lang="nl">Een lijst met getallen.</xs:documentation>
+        </xs:annotation>
+        <xs:list itemType="gb:positiveShortType"/>
+    </xs:simpleType>
+    
+    <xs:simpleType name="rectangleType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">X, y, width, height and rotation of a rectangle.</xs:documentation>
+            <xs:documentation xml:lang="nl">X, y, breedte, hoogte en rotatie van een rechthoek.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="gb:intListType">
+            <xs:length value="5"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
     <xs:simpleType name="dateType">
         <xs:union memberTypes="xs:gYear xs:gYearMonth xs:date xs:dateTime">
             <xs:annotation>

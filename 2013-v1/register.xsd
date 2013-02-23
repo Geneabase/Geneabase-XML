@@ -940,6 +940,41 @@
 			</xs:enumeration>
 		</xs:restriction>
 	</xs:simpleType>
+	
+	<xs:simpleType name="groupTypesEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="npo">
+				<xs:annotation>
+					<xs:documentation> Nonprofit organization (also known as a not-for-profit organization),
+						includes NGO (Non governmental organizations) </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="alliance">
+				<xs:annotation>
+					<xs:documentation> agreement or friendship between two or more parties, made in order to
+						advance common goals and to secure common interests </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="club"/>
+			<xs:enumeration value="family"/>
+			<xs:enumeration value="household"/>
+			<xs:enumeration value="school"/>
+			<xs:enumeration value="university"/>
+			<xs:enumeration value="government"/>
+			<xs:enumeration value="politics"/>
+			<xs:enumeration value="community">
+				<xs:annotation>
+					<xs:documentation> a group of interacting people, possibly living in close proximity,
+						and often refers to a group that shares some common values, and is attributed with
+						social cohesion within a shared geographical location, generally in social units
+						larger than a household </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="company"/>
+			<xs:enumeration value="religion"/>
+			<xs:enumeration value="ethnicity"/>
+		</xs:restriction>
+	</xs:simpleType>
 
 	<xs:simpleType name="familyTypesEnum">
 		<xs:restriction base="xs:string">
@@ -1140,7 +1175,8 @@
 				maxOccurs="unbounded"/>
 			<xs:element ref="reg:comment" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
-		<xs:attribute name="id" type="reg:eventId"/>
+		<xs:attribute name="id" type="reg:eventId" default="event1"/>
+		<xs:attribute name="type" type="reg:eventTypesEnum" use="required"/>
 		<xs:attribute name="copy" type="reg:eventIdRef"/>
 		<xs:attribute name="date" type="gb:dateType"/>
 		<xs:attribute name="place" type="reg:placeIdRef"/>
@@ -1154,383 +1190,7 @@
 		<xs:attribute name="feature" type="reg:eventFeatureIdRef"/>
 		<xs:attributeGroup ref="reg:filePosAttributes"/>
 	</xs:complexType>
-	<?gb sect=4 en="Event Subtypes" nl="Event subtypes"?>
-	<xs:annotation>
-		<xs:documentation xml:lang="en">
-			The following subtypes of Event exists:
-		</xs:documentation>
-		<xs:documentation xml:lang="nl">
-			De volgende subtypen van Event bestaan:
-		</xs:documentation>
-	</xs:annotation>
-	<?gb itemlist="start"?>
-	<xs:complexType name="adoption">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="adultChristening">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="alternateMarriage">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="annulment">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="arrival">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="baptism">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="barMitzvah">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="basMitzvah">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="birth">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="blessing">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="burial">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="causeOfDeath">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="census">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="christening">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="confirmation">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="cremation">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="death">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="degree">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="departure">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="divorce">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="divorceFiling">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="education">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="election">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="emigration">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="engagement">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="firstCommunion">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="graduation">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="immigration">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="inventory">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="journey">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="marriage">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="marriageBanns">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="marriageContract">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="marriageLicense">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="marriageSettlement">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="medicalInformation">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="militaryService">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="naturalization">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="nobilityTitle">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="occupation">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="ordination">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="probation">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="property">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="reburial">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="registration">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="religiousConversion">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="relocation">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="residence">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="retirement">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="settlement">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="transaction">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="will">
-		<xs:complexContent>
-			<xs:extension base="reg:eventType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<?gb itemlist="end"?>
-	<!-- end of event types -->
-
+	
 	<?gb sect=3 en="Person Types" nl="Persoon types" id="Person-types"?>
 	<xs:complexType name="personNameType">
 		<xs:simpleContent>
@@ -1650,7 +1310,7 @@
 				maxOccurs="unbounded"/>
 			<xs:element name="event" type="reg:eventType" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
-		<xs:attribute name="id" type="reg:personId"/>
+		<xs:attribute name="id" type="reg:personId" default="person1"/>
 		<xs:attribute name="copy" type="reg:personIdRef"/>
 		<xs:attribute name="gender" type="reg:genderEnum" default="undefined"/>
 		<xs:attribute name="feature" type="reg:personFeatureIdRef"/>
@@ -1677,7 +1337,7 @@
 			<xs:element name="feature" type="reg:placeFeatureType" minOccurs="0"
 				maxOccurs="unbounded"/>
 		</xs:sequence>
-		<xs:attribute name="id" type="reg:placeId"/>
+		<xs:attribute name="id" type="reg:placeId" default="place1"/>
 		<xs:attribute name="copy" type="reg:placeIdRef"/>
 		<xs:attribute name="person" type="reg:personIdRef"/>
 		<xs:attribute name="group" type="reg:groupIdRef"/>
@@ -1809,7 +1469,8 @@
 			<xs:element ref="reg:person" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element ref="reg:groupFeature" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
-		<xs:attribute name="id" type="reg:groupId"/>
+		<xs:attribute name="id" type="reg:groupId" default="group1"/>
+		<xs:attribute name="type" type="reg:groupTypesEnum" use="required"/>
 		<xs:attribute name="copy" type="reg:groupIdRef"/>
 		<xs:attribute name="person" type="reg:personIdRef"/>
 		<xs:attribute name="place" type="reg:placeIdRef"/>
@@ -1831,123 +1492,6 @@
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>
-
-	<?gb sect=4 en="Group Subtypes" nl="Group subtypes"?>
-	<xs:annotation>
-		<xs:documentation xml:lang="en">
-			The following subtypes of Group exists:
-		</xs:documentation>
-		<xs:documentation xml:lang="nl">
-			De volgende subtypen van Group bestaan:
-		</xs:documentation>
-	</xs:annotation>
-	<?gb itemlist="start"?>
-	<xs:complexType name="npo">
-		<xs:annotation>
-			<xs:documentation> Nonprofit organization (also known as a not-for-profit organization),
-				includes NGO (Non governmental organizations) </xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="reg:groupType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="alliance">
-		<xs:annotation>
-			<xs:documentation> agreement or friendship between two or more parties, made in order to
-				advance common goals and to secure common interests </xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="reg:groupType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="club">
-		<xs:complexContent>
-			<xs:extension base="reg:groupType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="family">
-		<xs:complexContent>
-			<xs:extension base="reg:groupType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="household">
-		<xs:complexContent>
-			<xs:extension base="reg:groupType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="school">
-		<xs:complexContent>
-			<xs:extension base="reg:groupType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="university">
-		<xs:complexContent>
-			<xs:extension base="reg:groupType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="government">
-		<xs:complexContent>
-			<xs:extension base="reg:groupType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="politics">
-		<xs:complexContent>
-			<xs:extension base="reg:groupType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="community">
-		<xs:annotation>
-			<xs:documentation> a group of interacting people, possibly living in close proximity,
-				and often refers to a group that shares some common values, and is attributed with
-				social cohesion within a shared geographical location, generally in social units
-				larger than a household </xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="reg:groupType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="company">
-		<xs:complexContent>
-			<xs:extension base="reg:groupType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="religion">
-		<xs:complexContent>
-			<xs:extension base="reg:groupType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="ethnicity">
-		<xs:complexContent>
-			<xs:extension base="reg:groupType">
-				<xs:sequence/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<?gb itemlist="end"?>
 
 	<?gb sect=2 en="Relation Types" nl="Relatie types" id="reg-relation-types"?>
 	<?gb sect=3 en="Event Relation Types" nl="Event relatie types" id="Event-relation-types"?>
@@ -2223,7 +1767,7 @@
 					(WKT).</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="page" type="gb:positiveshort">
+		<xs:attribute name="page" type="gb:positiveShortType">
 			<xs:annotation>
 				<xs:documentation>Only applicable if the uploaded file is of type Document (Word or
 					PDF). The Page is the Nth page within the Document.</xs:documentation>

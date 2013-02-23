@@ -20,7 +20,16 @@
             <xs:enumeration value="content"/>
         </xs:restriction>
     </xs:simpleType>
-
+    <xs:attributeGroup name="transcriptionAttributes">
+        <xs:attribute name="uuid" type="gb:uuidType"/>
+        <xs:attribute name="id" type="gb:positiveLongType">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">The internal ID from the origin database, used in exports only, ignored at imports. This ID can be used to communicate to services which expect the internal ID.</xs:documentation>
+                <xs:documentation xml:lang="nl">De ID uit de oorspronkelijke database, alleen gebruikt in exports, genegeerd in imports. Deze ID kan gebruikt worden om te communiceren met services waarin deze ID verwacht wordt.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="geometry" type="gb:rectangleType"/>
+    </xs:attributeGroup>
     <xs:element name="transcription">
         <xs:complexType>
             <xs:sequence>
@@ -57,7 +66,7 @@
                 <xs:element maxOccurs="unbounded" minOccurs="0" ref="tr:note"/>
                 <xs:element ref="tr:page" maxOccurs="unbounded" minOccurs="0"/>
             </xs:sequence>
-            <xs:attribute name="id" type="gb:uuidType"/>
+            <xs:attribute name="uuid" type="gb:uuidType"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="page">
@@ -74,6 +83,7 @@
                 <xs:element minOccurs="0" ref="tr:note" maxOccurs="unbounded"/>
                 <xs:element ref="tr:region" maxOccurs="unbounded" minOccurs="0"/>
             </xs:sequence>
+            <xs:attributeGroup ref="tr:transcriptionAttributes"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="region">
@@ -92,6 +102,7 @@
                     <xs:element maxOccurs="unbounded" ref="tr:block"/>
                 </xs:choice>
             </xs:sequence>
+            <xs:attributeGroup ref="tr:transcriptionAttributes"/>
             <xs:attribute name="class" form="unqualified" type="tr:divClassEnumType"/>
         </xs:complexType>
     </xs:element>
@@ -100,6 +111,7 @@
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="html:Inline">
+                    <xs:attributeGroup ref="tr:transcriptionAttributes"/>
                     <xs:attribute name="margin" type="xs:boolean"/>
                 </xs:extension>
             </xs:complexContent>
@@ -108,10 +120,13 @@
     <xs:element name="block">
         <xs:complexType>
             <xs:complexContent>
-                <xs:extension base="html:Block"/>
+                <xs:extension base="html:Block">
+                    <xs:attributeGroup ref="tr:transcriptionAttributes"/>
+                </xs:extension>
             </xs:complexContent>
         </xs:complexType>
     </xs:element>
+
     <xs:element name="note">
         <xs:complexType>
             <xs:complexContent>

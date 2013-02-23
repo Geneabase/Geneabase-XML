@@ -11,7 +11,6 @@
         schemaLocation="http://schemas.geneabase.com/2013-v1/geneabase.xsd"/>
     <xs:import namespace="http://www.w3.org/XML/1998/namespace"
         schemaLocation="http://schemas.geneabase.com/w3c/xml.xsd"/>
-
     <xs:element name="archive" type="col:archiveType"/>
     <xs:element name="unit">
         <xs:complexType>
@@ -20,7 +19,6 @@
                     <xs:choice maxOccurs="unbounded">
                         <xs:element ref="col:unit"/>
                         <xs:element ref="col:file"/>
-                        <xs:element ref="col:item"/>
                     </xs:choice>
                 </xs:extension>
             </xs:complexContent>
@@ -59,7 +57,11 @@
             <xs:element maxOccurs="unbounded" minOccurs="0" name="short" type="col:shortTitleType"/>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="description"
                 type="col:descriptionType"/>
-            <xs:element ref="col:unit"/>
+            <xs:choice>
+                <xs:element maxOccurs="unbounded" ref="col:unit"/>
+                <xs:element maxOccurs="unbounded" ref="col:file"/>
+                <xs:element ref="col:item"/>
+            </xs:choice>
         </xs:sequence>
         <xs:attributeGroup ref="col:archiveAttributes"/>
     </xs:complexType>
@@ -80,25 +82,44 @@
         </xs:restriction>
     </xs:simpleType>
     <xs:simpleType name="unitEnumType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en"></xs:documentation>
+            <xs:documentation xml:lang="nl"></xs:documentation>
+        </xs:annotation>
         <xs:restriction base="xs:token">
-            <xs:enumeration value="class"/>
-            <xs:enumeration value="archive"/>
-            <xs:enumeration value="file"/>
-            <xs:enumeration value="fonds"/>
-            <xs:enumeration value="item"/>
-            <xs:enumeration value="other"/>
+            <xs:enumeration value="fonds">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en"> The fonds is generally the highest level of arrangement, and is usually used to describe the whole of the archives of an organisation or the papers of an individual.</xs:documentation>
+                    <xs:documentation xml:lang="nl"></xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="sub-fonds">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Fonds may be devided into sub-fonds, generally the records of different branches of an organisation or major themes within the papers of an individual.</xs:documentation>
+                    <xs:documentation xml:lang="nl"></xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="series">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Series may be in a smaller archive come, either below a sub-fonds, or directly below a fonds, usually used for groupings of individual types of documents (minutes, correspondence files, deeds, etc.)</xs:documentation>
+                    <xs:documentation xml:lang="nl"></xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="sub-series">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">A futher subdivision of series.</xs:documentation>
+                    <xs:documentation xml:lang="nl"></xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
             <xs:enumeration value="group"/>
-            <xs:enumeration value="series"/>
-            <xs:enumeration value="subFonds"/>
-            <xs:enumeration value="subGroup"/>
-            <xs:enumeration value="subSeries"/>
+            <xs:enumeration value="sub-group"/>
         </xs:restriction>
     </xs:simpleType>
 
     <xs:simpleType name="archiveEnumType">
         <xs:restriction base="xs:token">
             <xs:enumeration value="fonds"/>
-            <xs:enumeration value="archive"/>
+            <xs:enumeration value="collection"/>
         </xs:restriction>
     </xs:simpleType>
     <xs:complexType name="titleType">

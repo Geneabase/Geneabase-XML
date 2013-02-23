@@ -25,6 +25,39 @@
             <xsl:apply-templates/>
         </fo:block>
     </xsl:template>
+    <xsl:template match="tr:note">
+        <fo:block font-size="10pt" font-style="italic">
+            <xsl:apply-templates/>
+        </fo:block>
+    </xsl:template>
+    <xsl:template match="tr:transcriber">
+        <fo:block font-size="10pt" space-before="0.8em" space-after="0em"
+            space-after.maximum="0.4em" color="black" keep-with-next.within-column="always"
+            keep-together.within-column="always">
+            Transcribent: <xsl:apply-templates/>
+        </fo:block>
+    </xsl:template>
+    <xsl:template match="tr:repository">
+        <fo:block font-size="1.8em" font-weight="bold" space-before="0.8em" space-after="0em"
+            space-after.maximum="0.4em" color="black" keep-with-next.within-column="always"
+            keep-together.within-column="always">
+            <xsl:apply-templates/>
+        </fo:block>
+    </xsl:template>
+    <xsl:template match="tr:version">
+        <fo:block font-size="10pt" space-before="0.8em" space-after="0em"
+            space-after.maximum="0.4em" color="black" keep-with-next.within-column="always"
+            keep-together.within-column="always">
+            Versie <xsl:apply-templates/>
+        </fo:block>
+    </xsl:template>
+    <xsl:template match="tr:folder">
+        <fo:block font-size="10pt" space-before="0.8em" space-after="0em"
+            space-after.maximum="0.4em" color="black" keep-with-next.within-column="always"
+            keep-together.within-column="always">
+            Folder <xsl:apply-templates/>
+        </fo:block>
+    </xsl:template>
     <xsl:template match="tr:region">
         <fo:block space-before="2em" space-after="2em">
             <xsl:apply-templates/>
@@ -57,18 +90,20 @@
     </xsl:template>
     <xsl:template match="html:span">
         <fo:inline>
-            <xsl:attribute name="text-decoration">
-                <xsl:choose>
-                    <xsl:when test="@class='strikethrough'">line-through</xsl:when>
-                    <xsl:when test="@class='underlined'">underline</xsl:when>
-                </xsl:choose>
-            </xsl:attribute>
-            <xsl:attribute name="background-color">
-                <xsl:choose>
-                    <xsl:when test="@class='unclear'">#b7de03</xsl:when>
-                    <xsl:when test="@class='unreadable'">#efd602</xsl:when>
-                </xsl:choose>
-            </xsl:attribute>
+            <xsl:choose>
+                <xsl:when test="@class='strikethrough'">
+                    <xsl:attribute name="text-decoration">line-through</xsl:attribute>
+                </xsl:when>
+                <xsl:when test="@class='underlined'">
+                    <xsl:attribute name="text-decoration">underline</xsl:attribute>
+                </xsl:when>
+                <xsl:when test="@class='unclear'">
+                    <xsl:attribute name="background-color">#b7de03</xsl:attribute>
+                </xsl:when>
+                <xsl:when test="@class='unreadable'">
+                    <xsl:attribute name="background-color">#efd602</xsl:attribute>
+                </xsl:when>
+            </xsl:choose>
             <xsl:apply-templates/>
         </fo:inline>
     </xsl:template>
@@ -77,4 +112,5 @@
             <xsl:apply-templates/>
         </fo:inline>
     </xsl:template>
+    
 </xsl:stylesheet>
