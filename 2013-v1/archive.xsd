@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright © 2011-2013 Geneabase BV. Licenced under CC BY 3.0 http://creativecommons.org/licenses/by/3.0/ -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:col="http://schemas.geneabase.com/2013-v1/archive"
+    xmlns:a="http://schemas.geneabase.com/2013-v1/archive"
     xmlns:gb="http://schemas.geneabase.com/2013-v1/geneabase"
     xmlns:html="http://www.w3.org/1999/xhtml" xmlns:xml="http://www.w3.org/XML/1998/namespace"
     targetNamespace="http://schemas.geneabase.com/2013-v1/archive" elementFormDefault="qualified">
@@ -11,14 +11,23 @@
         schemaLocation="http://schemas.geneabase.com/2013-v1/geneabase.xsd"/>
     <xs:import namespace="http://www.w3.org/XML/1998/namespace"
         schemaLocation="http://schemas.geneabase.com/w3c/xml.xsd"/>
-    <xs:element name="archive" type="col:archiveType"/>
+    <xs:element name="archive" type="a:archiveType">
+        <xs:unique name="uniqueUnitID">
+            <xs:selector xpath="./a:archive"/>
+            <xs:field xpath="@id"/>
+        </xs:unique>
+        <xs:unique name="uniqueUnitCode">
+            <xs:selector xpath="*"/>
+            <xs:field xpath="@code"/>
+        </xs:unique>
+    </xs:element>
     <xs:element name="unit">
         <xs:complexType>
             <xs:complexContent>
-                <xs:extension base="col:unitType">
+                <xs:extension base="a:unitType">
                     <xs:choice maxOccurs="unbounded">
-                        <xs:element ref="col:unit"/>
-                        <xs:element ref="col:file"/>
+                        <xs:element ref="a:unit"/>
+                        <xs:element ref="a:file"/>
                     </xs:choice>
                 </xs:extension>
             </xs:complexContent>
@@ -27,11 +36,11 @@
     <xs:element name="file">
         <xs:complexType>
             <xs:complexContent>
-                <xs:extension base="col:unitType">
+                <xs:extension base="a:unitType">
                     <xs:choice minOccurs="0">
-                        <xs:element maxOccurs="unbounded" name="item" type="col:unitType"/>
-                        <xs:element name="record" type="col:fileType"/>
-                        <xs:element name="folder" type="col:folderType"/>
+                        <xs:element maxOccurs="unbounded" name="item" type="a:unitType"/>
+                        <xs:element name="record" type="a:fileType"/>
+                        <xs:element name="folder" type="a:folderType"/>
                     </xs:choice>
                 </xs:extension>
             </xs:complexContent>
@@ -40,75 +49,71 @@
     <xs:element name="item">
         <xs:complexType>
             <xs:complexContent>
-                <xs:extension base="col:unitType">
+                <xs:extension base="a:unitType">
                     <xs:choice minOccurs="0">
-                        <xs:element name="record" type="col:fileType"/>
-                        <xs:element name="folder" type="col:folderType"/>
+                        <xs:element name="record" type="a:fileType"/>
+                        <xs:element name="folder" type="a:folderType"/>
                     </xs:choice>
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
     </xs:element>
-    <xs:element abstract="false" name="summary" type="col:summaryType"/>
-    <xs:element name="description" type="col:descriptionType"/>
+    <xs:element abstract="false" name="summary" type="a:summaryType"/>
+    <xs:element name="description" type="a:descriptionType"/>
     <xs:complexType name="archiveType">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" name="title" type="col:titleType"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="short" type="col:shortTitleType"/>
+            <xs:element maxOccurs="unbounded" name="title" type="a:titleType"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="short" type="a:shortTitleType"/>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="description"
-                type="col:descriptionType"/>
+                type="a:descriptionType"/>
             <xs:choice>
-                <xs:element maxOccurs="unbounded" ref="col:unit"/>
-                <xs:element maxOccurs="unbounded" ref="col:file"/>
-                <xs:element ref="col:item"/>
+                <xs:element maxOccurs="unbounded" ref="a:unit"/>
+                <xs:element maxOccurs="unbounded" ref="a:file"/>
+                <xs:element ref="a:item"/>
             </xs:choice>
         </xs:sequence>
-        <xs:attributeGroup ref="col:archiveAttributes"/>
+        <xs:attributeGroup ref="a:idAttributes"/>
+        <xs:attributeGroup ref="a:archiveAttributes"/>
     </xs:complexType>
     <xs:complexType name="unitType">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="title" type="col:titleType"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="title" type="a:titleType"/>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="description"
-                type="col:descriptionType"/>
+                type="a:descriptionType"/>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="link" type="gb:linkType"/>
         </xs:sequence>
-        <xs:attributeGroup ref="col:unitAttributes"/>
+        <xs:attributeGroup ref="a:idAttributes"/>
+        <xs:attributeGroup ref="a:unitAttributes"/>
     </xs:complexType>
 
-    <xs:simpleType name="idType">
-        <xs:restriction base="xs:token">
-            <xs:minLength value="1"/>
-            <xs:maxLength value="36"/>
-        </xs:restriction>
-    </xs:simpleType>
     <xs:simpleType name="unitEnumType">
         <xs:annotation>
-            <xs:documentation xml:lang="en"></xs:documentation>
-            <xs:documentation xml:lang="nl"></xs:documentation>
+            <xs:documentation xml:lang="en"/>
+            <xs:documentation xml:lang="nl"/>
         </xs:annotation>
         <xs:restriction base="xs:token">
             <xs:enumeration value="fonds">
                 <xs:annotation>
                     <xs:documentation xml:lang="en"> The fonds is generally the highest level of arrangement, and is usually used to describe the whole of the archives of an organisation or the papers of an individual.</xs:documentation>
-                    <xs:documentation xml:lang="nl"></xs:documentation>
+                    <xs:documentation xml:lang="nl"/>
                 </xs:annotation>
             </xs:enumeration>
             <xs:enumeration value="sub-fonds">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">Fonds may be devided into sub-fonds, generally the records of different branches of an organisation or major themes within the papers of an individual.</xs:documentation>
-                    <xs:documentation xml:lang="nl"></xs:documentation>
+                    <xs:documentation xml:lang="nl"/>
                 </xs:annotation>
             </xs:enumeration>
             <xs:enumeration value="series">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">Series may be in a smaller archive come, either below a sub-fonds, or directly below a fonds, usually used for groupings of individual types of documents (minutes, correspondence files, deeds, etc.)</xs:documentation>
-                    <xs:documentation xml:lang="nl"></xs:documentation>
+                    <xs:documentation xml:lang="nl"/>
                 </xs:annotation>
             </xs:enumeration>
             <xs:enumeration value="sub-series">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">A futher subdivision of series.</xs:documentation>
-                    <xs:documentation xml:lang="nl"></xs:documentation>
+                    <xs:documentation xml:lang="nl"/>
                 </xs:annotation>
             </xs:enumeration>
             <xs:enumeration value="group"/>
@@ -122,6 +127,7 @@
             <xs:enumeration value="collection"/>
         </xs:restriction>
     </xs:simpleType>
+ 
     <xs:complexType name="titleType">
         <xs:simpleContent>
             <xs:extension base="gb:string200">
@@ -151,38 +157,16 @@
         </xs:complexContent>
     </xs:complexType>
     <xs:attributeGroup name="archiveAttributes">
-        <xs:attribute name="id" type="col:idType">
+        <xs:attribute name="code" type="gb:string16" use="required">
             <xs:annotation>
-                <xs:documentation xml:lang="en">A globally unique identifier for this archive.</xs:documentation>
-                <xs:documentation xml:lang="nl">Een wereldwijd unieke identifier voor deze collectie</xs:documentation>
+                <xs:documentation xml:lang="en">A code that uniquely identifies this archive within the repository. This code is used for presentation, as prefix of the title.</xs:documentation>
+                <xs:documentation xml:lang="nl">Een code waarmee dit item uniek wordt aangeduid binnen de repository. Deze code is wordt gebruikt in de presentatie, als prefix van de titel.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="gbID" type="xs:positiveInteger">
-            <xs:annotation>
-                <xs:documentation xml:lang="en">The internal id, to be used for Geneabase API access. This id is only for exports, and will be ignored at imports.</xs:documentation>
-                <xs:documentation xml:lang="nl">De interne id, te gebruiken voor Geneabase API toegang. Deze id is alleen voor exports, en wordt genegeerd bij imports.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="localID" type="col:idType" use="required">
-            <xs:annotation>
-                <xs:documentation xml:lang="en">A code that uniquely identifies this archive within the repository. This code is usually a more readable and memorizable than the (globally unique) id, and is used for presentation.</xs:documentation>
-                <xs:documentation xml:lang="nl">Een code waarmee dit item minimaal uniek wordt aangeduid binnen de repository. Deze code is gewoonlijk beter leesbaar en onthoudbaar dan de (wereldwijd unieke) id, en wordt gebruikt in de presentatie.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="type" use="required" type="col:archiveEnumType"/>
-        <xs:attribute name="repositoryName" type="gb:string100"/>
-        <xs:attribute name="repositoryID" type="gb:uuidType" use="required"/>
+        <xs:attribute name="type" use="required" type="a:archiveEnumType"/>
         <xs:attribute ref="xml:lang"/>
         <xs:attribute name="deleted" use="optional" type="xs:boolean" default="false"/>
-        <xs:attribute name="accessability" use="optional" default="restricted">
-            <xs:simpleType>
-                <xs:restriction base="xs:token">
-                    <xs:enumeration value="restricted"/>
-                    <xs:enumeration value="limited"/>
-                    <xs:enumeration value="public"/>
-                </xs:restriction>
-            </xs:simpleType>
-        </xs:attribute>
+        <xs:attribute name="accessible" use="optional" type="xs:boolean"> </xs:attribute>
         <xs:attribute name="requestable" type="xs:boolean">
             <xs:annotation>
                 <xs:documentation xml:lang="en">The default value for units for which the requestable attribute has not been specified.</xs:documentation>
@@ -194,26 +178,24 @@
         <xs:attribute name="endDate" type="gb:dateType"/>
         <xs:attribute name="version" type="xs:dateTime" use="required"/>
     </xs:attributeGroup>
+
+    <xs:attributeGroup name="idAttributes">
+        <xs:attribute name="id" type="gb:remoteIDType" use="required"/>
+        <xs:attribute name="repository" type="gb:repositoryIDType">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">This attribute must, and may only, be used at the root element of the xml.</xs:documentation>
+                <xs:documentation xml:lang="nl">Dit attribuut moet, en mag alleen, gebruikt worden voor het root element van de xml.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:attributeGroup>
     <xs:attributeGroup name="unitAttributes">
-        <xs:attribute name="id" type="col:idType">
+        <xs:attribute name="code" type="gb:string16" use="required">
             <xs:annotation>
-                <xs:documentation xml:lang="en">A globally unique identifier for this unit.</xs:documentation>
-                <xs:documentation xml:lang="nl">Een wereldwijd unieke identifier voor deze unit.</xs:documentation>
+                <xs:documentation xml:lang="en">A code that, combined with the unit type, uniquely identifies this item within this archive. This code is used for presentation.</xs:documentation>
+                <xs:documentation xml:lang="nl">Een code die, gecombineerd met het unit type, dit item uniek aanduidt binnen dit archief. Deze code wordt gebruikt in de presentatie.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="gbID" type="xs:positiveInteger">
-            <xs:annotation>
-                <xs:documentation xml:lang="en">The internal id, to be used for Geneabase API access. This id is only for exports, and will be ignored at imports.</xs:documentation>
-                <xs:documentation xml:lang="nl">De interne id, te gebruiken voor Geneabase API toegang. Deze id is alleen voor exports, en wordt genegeerd bij imports.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="localID" type="col:idType" use="required">
-            <xs:annotation>
-                <xs:documentation xml:lang="en">A code that, combined with the unit type, uniquely identifies this item within the archive. This code is usually a more readable and memorizable than the (globally unique) id, and is used for presentation.</xs:documentation>
-                <xs:documentation xml:lang="nl">Een code die, gecombineerd met het unit type, dit item uniek aanduidt binnen de collectie. Deze code is gewoonlijk beter leesbaar en onthoudbaar dan de (wereldwijd unieke) id, en wordt gebruikt in de presentatie.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="type" use="required" type="col:unitEnumType"/>
+        <xs:attribute name="type" use="required" type="a:unitEnumType"/>
         <xs:attribute ref="xml:lang"/>
         <xs:attribute name="accessability" use="optional" default="restricted">
             <xs:simpleType>
@@ -234,6 +216,7 @@
         <xs:attribute name="startDate" type="gb:dateType"/>
         <xs:attribute name="endDate" type="gb:dateType"/>
     </xs:attributeGroup>
+    
     <xs:complexType name="folderType">
         <xs:attribute name="uuid" type="gb:uuidType" use="optional"/>
         <xs:attribute name="name" type="gb:fileNameType" use="optional"/>

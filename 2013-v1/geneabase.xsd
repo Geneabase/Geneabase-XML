@@ -6,49 +6,38 @@
     targetNamespace="http://schemas.geneabase.com/2013-v1/geneabase" elementFormDefault="qualified">
     <xs:simpleType name="string16">
         <xs:annotation>
-            <xs:documentation xml:lang="en">A string between 0 and 16 characters length.</xs:documentation>
-            <xs:documentation xml:lang="nl">Een tekenreeks van tussen de 0 en 16 karakters lengte.</xs:documentation>
+            <xs:documentation xml:lang="en">A string between 1 and 16 characters length.</xs:documentation>
+            <xs:documentation xml:lang="nl">Een tekenreeks van tussen de 1 en 16 karakters lengte.</xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:maxLength value="16"/>
-            <xs:minLength value="0"/>
+            <xs:minLength value="1"/>
             <xs:whiteSpace value="collapse"/>
         </xs:restriction>
     </xs:simpleType>
     <xs:simpleType name="string36">
         <xs:annotation>
-            <xs:documentation xml:lang="en">A string between 0 and 36 characters length.</xs:documentation>
-            <xs:documentation xml:lang="nl">Een tekenreeks van tussen de 0 en 36 karakters lengte.</xs:documentation>
+            <xs:documentation xml:lang="en">A string between 1 and 36 characters length.</xs:documentation>
+            <xs:documentation xml:lang="nl">Een tekenreeks van tussen de 1 en 36 karakters lengte.</xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:maxLength value="36"/>
-            <xs:minLength value="0"/>
+            <xs:minLength value="1"/>
             <xs:whiteSpace value="collapse"/>
         </xs:restriction>
     </xs:simpleType>
     <xs:simpleType name="string50">
         <xs:annotation>
-            <xs:documentation xml:lang="en">A string between 0 and 50 characters length.</xs:documentation>
-            <xs:documentation xml:lang="nl">Een tekenreeks van tussen de 0 en 50 karakters lengte.</xs:documentation>
+            <xs:documentation xml:lang="en">A string between 1 and 50 characters length.</xs:documentation>
+            <xs:documentation xml:lang="nl">Een tekenreeks van tussen de 1 en 50 karakters lengte.</xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:maxLength value="50"/>
-            <xs:minLength value="0"/>
+            <xs:minLength value="1"/>
             <xs:whiteSpace value="collapse"/>
         </xs:restriction>
     </xs:simpleType>
     <xs:simpleType name="string100">
-        <xs:annotation>
-            <xs:documentation xml:lang="en">A string between 0 and 100 characters length.</xs:documentation>
-            <xs:documentation xml:lang="nl">Een tekenreeks van tussen de 0 en 100 karakters lengte.</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:maxLength value="100"/>
-            <xs:minLength value="0"/>
-            <xs:whiteSpace value="collapse"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="nonEmptyString100">
         <xs:annotation>
             <xs:documentation xml:lang="en">A string between 1 and 100 characters length.</xs:documentation>
             <xs:documentation xml:lang="nl">Een tekenreeks van tussen de 1 en 100 karakters lengte.</xs:documentation>
@@ -61,12 +50,12 @@
     </xs:simpleType>
     <xs:simpleType name="string200">
         <xs:annotation>
-            <xs:documentation xml:lang="en">A string between 0 and 200 characters length.</xs:documentation>
-            <xs:documentation xml:lang="nl">Een tekenreeks van tussen de 0 en 200 karakters lengte.</xs:documentation>
+            <xs:documentation xml:lang="en">A string between 1 and 200 characters length.</xs:documentation>
+            <xs:documentation xml:lang="nl">Een tekenreeks van tussen de 1 en 200 karakters lengte.</xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:maxLength value="200"/>
-            <xs:minLength value="0"/>
+            <xs:minLength value="1"/>
             <xs:whiteSpace value="collapse"/>
         </xs:restriction>
     </xs:simpleType>
@@ -157,6 +146,35 @@
             </xs:annotation>
         </xs:union>
     </xs:simpleType>
+    
+    <xs:simpleType name="isilType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">The ISIL code that uniquely identifies a repository within the world, see http://biblstandard.dk/isil/</xs:documentation>
+            <xs:documentation xml:lang="nl">De ISIL code waarmee een repository uniek wordt aangeduid binnen de wereld, zie http://biblstandard.dk/isil/</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:length value="16"/>
+            <xs:pattern value="[A-Z]{4}-[A-Za-z0-9-]+"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="remoteIDType">
+        <xs:union memberTypes="xs:positiveInteger gb:uuidType">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">When importing data, the preferred id is an UUID. If that is not available, a regular int32 is accepted, which must be unique within the repository for that type of object.</xs:documentation>
+                <xs:documentation xml:lang="nl">Bij het importeren van data is de geprefereerde id een UUID. In plaats daarvan mag ook een regulier int32 worden gebruikt, welke uniek moet zijn voor het type object binnen de repository.</xs:documentation>
+            </xs:annotation>
+        </xs:union>
+    </xs:simpleType>
+    
+    <xs:simpleType name="repositoryIDType">
+        <xs:union memberTypes="gb:isilType gb:uuidType">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">To specify a repository, either its ISIL code may be used (see http://biblstandard.dk/isil/), or the UUID.</xs:documentation>
+                <xs:documentation xml:lang="nl">Om een repository aan te duiden mag ofwel de ISIL code worden gebruikt (zie http://biblstandard.dk/isil/), of de UUID.</xs:documentation>
+            </xs:annotation>
+        </xs:union>
+    </xs:simpleType>
 
     <xs:simpleType name="md5Type">
         <xs:restriction base="xs:string">
@@ -191,7 +209,7 @@
         <xs:attribute name="href" type="gb:imageUrlType" use="required"/>
         <xs:attribute name="width" type="xs:short" use="required"/>
         <xs:attribute name="height" type="xs:short" use="required"/>
-        <xs:attribute name="label" type="gb:nonEmptyString100" use="required"/>
+        <xs:attribute name="label" type="gb:string100" use="required"/>
     </xs:complexType>
     <xs:simpleType name="imageUrlType">
         <xs:restriction base="xs:anyURI">
