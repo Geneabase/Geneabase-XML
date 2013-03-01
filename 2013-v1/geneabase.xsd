@@ -15,6 +15,17 @@
             <xs:whiteSpace value="collapse"/>
         </xs:restriction>
     </xs:simpleType>
+    <xs:simpleType name="string24">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">A string between 1 and 24 characters length.</xs:documentation>
+            <xs:documentation xml:lang="nl">Een tekenreeks van tussen de 1 en 24 karakters lengte.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="24"/>
+            <xs:minLength value="1"/>
+            <xs:whiteSpace value="collapse"/>
+        </xs:restriction>
+    </xs:simpleType>
     <xs:simpleType name="string36">
         <xs:annotation>
             <xs:documentation xml:lang="en">A string between 1 and 36 characters length.</xs:documentation>
@@ -153,8 +164,9 @@
             <xs:documentation xml:lang="nl">De ISIL code waarmee een repository uniek wordt aangeduid binnen de wereld, zie http://biblstandard.dk/isil/</xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
-            <xs:length value="16"/>
-            <xs:pattern value="[A-Z]{4}-[A-Za-z0-9-]+"/>
+            <xs:minLength value="3"/>
+            <xs:maxLength value="16"/>
+            <xs:pattern value="[A-Z]{2,4}-[A-Za-z0-9-]+"/>
         </xs:restriction>
     </xs:simpleType>
     
