@@ -20,7 +20,7 @@
 			Het is de bedoeling dat dit <strong>test</strong>balblab
 		</xs:documentation>
 	</xs:annotation>
-	
+
 	<xs:simpleType name="housenumber">
 		<xs:annotation>
 			<xs:documentation xml:lang="en">Housenumber on a street, specified as a single number, or '*" to indicate all numbers. </xs:documentation>
@@ -397,7 +397,7 @@
 			<xs:enumeration value="remarks"/>
 			<xs:enumeration value="description"/>
 			<xs:enumeration value="sourceRef"/>
-			
+
 			<xs:enumeration value="other"/>
 		</xs:restriction>
 	</xs:simpleType>
@@ -940,7 +940,7 @@
 			</xs:enumeration>
 		</xs:restriction>
 	</xs:simpleType>
-	
+
 	<xs:simpleType name="groupTypesEnum">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="npo">
@@ -1180,8 +1180,7 @@
 			<xs:element name="group" type="r:groupType" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element name="literalType" type="g:string100" minOccurs="0"/>
 			<xs:element name="literalDate" type="g:string100" minOccurs="0"/>
-			<xs:element name="feature" type="r:eventFeatureType" minOccurs="0"
-				maxOccurs="unbounded"/>
+			<xs:element name="feature" type="r:eventFeatureType" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element ref="r:comment" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 		<xs:attribute name="id" type="r:eventId" default="event1"/>
@@ -1199,7 +1198,7 @@
 		<xs:attribute name="feature" type="r:eventFeatureIdRef"/>
 		<xs:attributeGroup ref="r:filePosAttributes"/>
 	</xs:complexType>
-	
+
 	<?gb sect=3 en="Person Types" nl="Persoon types" id="Person-types"?>
 	<xs:complexType name="personNameType">
 		<xs:simpleContent>
@@ -1343,8 +1342,8 @@
 		<xs:sequence>
 			<xs:group ref="r:placeNameGroup" minOccurs="0"/>
 			<xs:element ref="r:addressRange" minOccurs="0"/>
-			<xs:element name="feature" type="r:placeFeatureType" minOccurs="0"
-				maxOccurs="unbounded"/>
+			<xs:element name="feature" type="r:placeFeatureType" minOccurs="0" maxOccurs="unbounded"
+			/>
 		</xs:sequence>
 		<xs:attribute name="id" type="r:placeId" default="place1"/>
 		<xs:attribute name="copy" type="r:placeIdRef"/>

@@ -134,6 +134,11 @@
         </xs:annotation>
         <xs:list itemType="gb:positiveShortType"/>
     </xs:simpleType>
+    <xs:simpleType name="decimalTwoPrec">
+        <xs:restriction base="xs:decimal">
+            <xs:fractionDigits value="2" />
+        </xs:restriction>
+    </xs:simpleType>
     
     <xs:simpleType name="rectangleType">
         <xs:annotation>

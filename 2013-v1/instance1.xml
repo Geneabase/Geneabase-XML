@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<a:archive xmlns:gb="http://schemas.geneabase.com/2013-v1/geneabase"
+ xmlns:xhtml="http://www.w3.org/1999/xhtml"
+ xmlns:a="http://schemas.geneabase.com/2013-v1/archive"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://schemas.geneabase.com/2013-v1/archive file:/C:/Users/Roberto/Documents/GitHub/Geneabase-XML/2013-v1/archive.xsd" id="50" code="code0" type="fonds" version="2006-05-04T18:13:51.0Z">
+    <a:title xml:lang="en-US">title0</a:title>
+    <a:title xml:lang="en-US">title1</a:title>
+    <a:unit type="fonds" id="50" code="code1">
+        <a:file id="50" code="code2">
+        </a:file>
+        <a:file id="50" code="code3">
+        </a:file>
+    </a:unit>
+    <a:unit type="fonds" id="50" code="code4">
+        <a:file id="50" code="code5">
+        </a:file>
+        <a:file id="50" code="code6">
+        </a:file>
+    </a:unit>
+</a:archive>
