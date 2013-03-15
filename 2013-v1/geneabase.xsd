@@ -70,6 +70,17 @@
             <xs:whiteSpace value="collapse"/>
         </xs:restriction>
     </xs:simpleType>
+    <xs:simpleType name="string400">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">A string between 1 and 400 characters length.</xs:documentation>
+            <xs:documentation xml:lang="nl">Een tekenreeks van tussen de 1 en 400 karakters lengte.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="400"/>
+            <xs:minLength value="1"/>
+            <xs:whiteSpace value="collapse"/>
+        </xs:restriction>
+    </xs:simpleType>
     <xs:simpleType name="uuidType">
         <xs:annotation>
             <xs:documentation xml:lang="en">
