@@ -150,6 +150,12 @@
             <xs:fractionDigits value="2" />
         </xs:restriction>
     </xs:simpleType>
+    <xs:simpleType name="positiveByte">
+        <xs:restriction base="xs:unsignedByte">
+            <xs:minExclusive value="0"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
     
     <xs:simpleType name="rectangleType">
         <xs:annotation>

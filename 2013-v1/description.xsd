@@ -17,17 +17,13 @@
     <xs:element name="repository">
         <xs:complexType>
             <xs:sequence>
-                <xs:element maxOccurs="unbounded" name="title" type="d:titleType"/>
-                <xs:element maxOccurs="unbounded" minOccurs="0" name="longTitle"
-                    type="d:longTitleType"/>
-                <xs:element maxOccurs="unbounded" minOccurs="0" name="description"
-                    type="d:descriptionType"/>
+                <xs:element ref="d:info" maxOccurs="unbounded"/>
                 <xs:choice minOccurs="0">
                     <xs:element name="date">
                         <xs:complexType>
                             <xs:simpleContent>
                                 <xs:extension base="g:dateType">
-                                    <xs:attribute default="false" name="roughly" type="xs:boolean"/>
+                                    <xs:attribute default="false" name="approx" type="xs:boolean"/>
                                 </xs:extension>
                             </xs:simpleContent>
                         </xs:complexType>
@@ -39,17 +35,17 @@
                                     <xs:complexType>
                                         <xs:simpleContent>
                                             <xs:extension base="g:dateType">
-                                                <xs:attribute default="false" name="roughly"
+                                                <xs:attribute default="false" name="approx"
                                                   type="xs:boolean"/>
                                             </xs:extension>
                                         </xs:simpleContent>
                                     </xs:complexType>
                                 </xs:element>
-                                <xs:element minOccurs="0" name="until">
+                                <xs:element minOccurs="0" name="through">
                                     <xs:complexType>
                                         <xs:simpleContent>
                                             <xs:extension base="g:dateType">
-                                                <xs:attribute default="false" name="roughly"
+                                                <xs:attribute default="false" name="approx"
                                                   type="xs:boolean"/>
                                             </xs:extension>
                                         </xs:simpleContent>
@@ -90,29 +86,21 @@
             <xs:selector xpath="./*"/>
             <xs:field xpath="@code"/>
         </xs:unique>
-        <xs:unique name="uniqueArchiveTitleLanguage">
-            <xs:selector xpath="./d:title"/>
-            <xs:field xpath="@xml:lang"/>
-        </xs:unique>
-        <xs:unique name="uniqueArchiveShortTitleLanguage">
-            <xs:selector xpath="./d:shortTitle"/>
-            <xs:field xpath="@xml:lang"/>
-        </xs:unique>
-        <xs:unique name="uniqueArchiveDescriptionLanguage">
-            <xs:selector xpath="./d:description"/>
+        <xs:unique name="uniqueArchiveInfoLanguage">
+            <xs:selector xpath="./d:info"/>
             <xs:field xpath="@xml:lang"/>
         </xs:unique>
         <xs:unique name="uniqueArchivePhysical">
             <xs:selector xpath="./d:physical"/>
-            <xs:field xpath="@id"/>
+            <xs:field xpath="@nr"/>
         </xs:unique>
         <xs:unique name="uniqueArchiveOrigin">
             <xs:selector xpath="./d:origin"/>
-            <xs:field xpath="@id"/>
+            <xs:field xpath="@nr"/>
         </xs:unique>
         <xs:unique name="uniqueArchiveLink">
             <xs:selector xpath="./d:link"/>
-            <xs:field xpath="@id"/>
+            <xs:field xpath="@nr"/>
         </xs:unique>
     </xs:element>
     <xs:element name="collection" type="d:inventoryType">
@@ -124,29 +112,21 @@
             <xs:selector xpath="d:group|d:file|d:item"/>
             <xs:field xpath="@code"/>
         </xs:unique>
-        <xs:unique name="uniqueCollectionTitleLanguage">
-            <xs:selector xpath="./d:title"/>
-            <xs:field xpath="@xml:lang"/>
-        </xs:unique>
-        <xs:unique name="uniqueCollectionShortTitleLanguage">
-            <xs:selector xpath="./d:shortTitle"/>
-            <xs:field xpath="@xml:lang"/>
-        </xs:unique>
-        <xs:unique name="uniqueCollectionDescriptionLanguage">
-            <xs:selector xpath="./d:description"/>
+        <xs:unique name="uniqueCollectionInfoLanguage">
+            <xs:selector xpath="./d:info"/>
             <xs:field xpath="@xml:lang"/>
         </xs:unique>
         <xs:unique name="uniqueCollectionPhysical">
             <xs:selector xpath="./d:physical"/>
-            <xs:field xpath="@id"/>
+            <xs:field xpath="@nr"/>
         </xs:unique>
         <xs:unique name="uniqueCollectionOrigin">
             <xs:selector xpath="./d:origin"/>
-            <xs:field xpath="@id"/>
+            <xs:field xpath="@nr"/>
         </xs:unique>
         <xs:unique name="uniqueCollectionLink">
             <xs:selector xpath="./d:link"/>
-            <xs:field xpath="@id"/>
+            <xs:field xpath="@nr"/>
         </xs:unique>
     </xs:element>
     <xs:element name="group">
@@ -156,7 +136,6 @@
                     <xs:choice maxOccurs="unbounded" minOccurs="0">
                         <xs:element ref="d:group"/>
                         <xs:element ref="d:file"/>
-                        <xs:element ref="d:item"/>
                     </xs:choice>
                     <xs:attribute name="level" use="required" type="d:groupLevelEnumType"/>
                 </xs:extension>
@@ -166,25 +145,21 @@
             <xs:selector xpath="./*"/>
             <xs:field xpath="@code"/>
         </xs:unique>
-        <xs:unique name="uniqueGroupTitleLanguage">
-            <xs:selector xpath="./d:title"/>
-            <xs:field xpath="@xml:lang"/>
-        </xs:unique>
-        <xs:unique name="uniqueClassDescriptionLanguage">
-            <xs:selector xpath="./d:description"/>
+        <xs:unique name="uniqueGroupInfoLanguage">
+            <xs:selector xpath="./d:info"/>
             <xs:field xpath="@xml:lang"/>
         </xs:unique>
         <xs:unique name="uniqueGroupPhysical">
             <xs:selector xpath="./d:physical"/>
-            <xs:field xpath="@id"/>
+            <xs:field xpath="@nr"/>
         </xs:unique>
         <xs:unique name="uniqueGroupOrigin">
             <xs:selector xpath="./d:origin"/>
-            <xs:field xpath="@id"/>
+            <xs:field xpath="@nr"/>
         </xs:unique>
         <xs:unique name="uniqueGroupLink">
             <xs:selector xpath="./d:link"/>
-            <xs:field xpath="@id"/>
+            <xs:field xpath="@nr"/>
         </xs:unique>
     </xs:element>
     <xs:element name="file">
@@ -203,25 +178,21 @@
             <xs:selector xpath="./*"/>
             <xs:field xpath="@code"/>
         </xs:unique>
-        <xs:unique name="uniqueFileTitleLanguage">
-            <xs:selector xpath="./d:title"/>
-            <xs:field xpath="@xml:lang"/>
-        </xs:unique>
-        <xs:unique name="uniqueFileDescriptionLanguage">
-            <xs:selector xpath="./d:description"/>
+        <xs:unique name="uniqueFileInfoLanguage">
+            <xs:selector xpath="./d:info"/>
             <xs:field xpath="@xml:lang"/>
         </xs:unique>
         <xs:unique name="uniqueFilePhysical">
             <xs:selector xpath="./d:physical"/>
-            <xs:field xpath="@id"/>
+            <xs:field xpath="@nr"/>
         </xs:unique>
         <xs:unique name="uniqueFileOrigin">
             <xs:selector xpath="./d:origin"/>
-            <xs:field xpath="@id"/>
+            <xs:field xpath="@nr"/>
         </xs:unique>
         <xs:unique name="uniqueFileLink">
             <xs:selector xpath="./d:link"/>
-            <xs:field xpath="@id"/>
+            <xs:field xpath="@nr"/>
         </xs:unique>
     </xs:element>
     <xs:element name="link">
@@ -242,48 +213,76 @@
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
-        <xs:unique name="uniqueItemTitleLanguage">
+        <xs:unique name="uniqueItemInfoLanguage">
             <xs:selector xpath="./d:title"/>
-            <xs:field xpath="@xml:lang"/>
-        </xs:unique>
-        <xs:unique name="uniqueItemDescriptionLanguage">
-            <xs:selector xpath="./d:description"/>
             <xs:field xpath="@xml:lang"/>
         </xs:unique>
         <xs:unique name="uniqueItemPhysical">
             <xs:selector xpath="./d:physical"/>
-            <xs:field xpath="@id"/>
+            <xs:field xpath="@nr"/>
         </xs:unique>
         <xs:unique name="uniqueItemOrigin">
             <xs:selector xpath="./d:origin"/>
-            <xs:field xpath="@id"/>
+            <xs:field xpath="@nr"/>
         </xs:unique>
         <xs:unique name="uniqueItemLink">
             <xs:selector xpath="./d:link"/>
-            <xs:field xpath="@id"/>
+            <xs:field xpath="@nr"/>
         </xs:unique>
     </xs:element>
     <xs:element name="physical">
         <xs:complexType>
-            <xs:attribute default="1" name="nr" type="xs:unsignedByte"/>
-            <xs:attribute name="unit" use="required" type="d:physicalTypeEnum"> </xs:attribute>
-            <xs:attribute default="1" name="count" type="xs:positiveInteger"/>
+            <xs:choice>
+                <xs:element name="unit">
+                    <xs:complexType>
+                        <xs:attribute name="type" type="d:physicalUnitTypeEnum" default="Item"/>
+                        <xs:attribute default="1" name="count" type="xs:positiveInteger"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="container">
+                    <xs:complexType>
+                        <xs:sequence maxOccurs="1">
+                            <xs:element name="unit">
+                                <xs:complexType>
+                                    <xs:attribute name="type" type="d:physicalUnitTypeEnum"/>
+                                    <xs:attribute name="count" type="xs:positiveInteger"/>
+                                    <xs:attribute name="nr" type="g:positiveByte"/>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="type" type="d:physicalContainerTypeEnum"/>
+                        <xs:attribute name="count" default="1" type="xs:positiveInteger"/>
+                    </xs:complexType>
+                    <xs:unique name="uniqueContainerUnitNr">
+                        <xs:selector xpath="d:unit"/>
+                        <xs:field xpath="@nr"/>
+                    </xs:unique>
+                </xs:element>
+            </xs:choice>
+            <xs:attribute default="1" name="nr" type="g:positiveByte"/>
         </xs:complexType>
     </xs:element>
     <xs:element abstract="false" name="summary" type="d:summaryType"/>
     <xs:element name="description" type="d:descriptionType"/>
-    <xs:complexType name="inventoryType">
+    <xs:element name="info" type="d:infoType"/>
+    <xs:complexType name="infoType">
         <xs:sequence>
             <xs:element maxOccurs="unbounded" name="title" type="d:titleType"/>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="longTitle" type="d:longTitleType"/>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="description"
                 type="d:descriptionType"/>
+        </xs:sequence>
+        <xs:attribute ref="xml:lang" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="inventoryType">
+        <xs:sequence>
+            <xs:element ref="d:info" maxOccurs="unbounded"/>
             <xs:choice minOccurs="0">
                 <xs:element name="date">
                     <xs:complexType>
                         <xs:simpleContent>
                             <xs:extension base="g:dateType">
-                                <xs:attribute default="false" name="roughly" type="xs:boolean"/>
+                                <xs:attribute default="false" name="approx" type="xs:boolean"/>
                             </xs:extension>
                         </xs:simpleContent>
                     </xs:complexType>
@@ -295,17 +294,17 @@
                                 <xs:complexType>
                                     <xs:simpleContent>
                                         <xs:extension base="g:dateType">
-                                            <xs:attribute default="false" name="roughly"
+                                            <xs:attribute default="false" name="approx"
                                                 type="xs:boolean"/>
                                         </xs:extension>
                                     </xs:simpleContent>
                                 </xs:complexType>
                             </xs:element>
-                            <xs:element minOccurs="0" name="until">
+                            <xs:element minOccurs="0" name="through">
                                 <xs:complexType>
                                     <xs:simpleContent>
                                         <xs:extension base="g:dateType">
-                                            <xs:attribute default="false" name="roughly"
+                                            <xs:attribute default="false" name="approx"
                                                 type="xs:boolean"/>
                                         </xs:extension>
                                     </xs:simpleContent>
@@ -317,26 +316,23 @@
             </xs:choice>
             <xs:element maxOccurs="unbounded" minOccurs="0" ref="d:physical"/>
             <xs:element minOccurs="0" name="origin" type="d:originType"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="link" type="g:linkType"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" ref="d:link"/>
             <xs:choice minOccurs="0" maxOccurs="unbounded">
                 <xs:element maxOccurs="1" ref="d:group"/>
-                <xs:element maxOccurs="1" ref="d:file" minOccurs="1"/>
-                <xs:element ref="d:item"/>
+                <xs:element ref="d:file"/>
             </xs:choice>
         </xs:sequence>
         <xs:attributeGroup ref="d:inventoryAttributes"/>
     </xs:complexType>
     <xs:complexType name="componentType">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="title" type="d:titleType"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="description"
-                type="d:descriptionType"/>
+            <xs:element maxOccurs="unbounded" ref="d:info"/>
             <xs:choice minOccurs="0">
                 <xs:element name="date">
                     <xs:complexType>
                         <xs:simpleContent>
                             <xs:extension base="g:dateType">
-                                <xs:attribute default="false" name="roughly" type="xs:boolean"/>
+                                <xs:attribute default="false" name="approx" type="xs:boolean"/>
                             </xs:extension>
                         </xs:simpleContent>
                     </xs:complexType>
@@ -348,17 +344,17 @@
                                 <xs:complexType>
                                     <xs:simpleContent>
                                         <xs:extension base="g:dateType">
-                                            <xs:attribute default="false" name="roughly"
+                                            <xs:attribute default="false" name="approx"
                                                 type="xs:boolean"/>
                                         </xs:extension>
                                     </xs:simpleContent>
                                 </xs:complexType>
                             </xs:element>
-                            <xs:element minOccurs="0" name="until">
+                            <xs:element minOccurs="0" name="through">
                                 <xs:complexType>
                                     <xs:simpleContent>
                                         <xs:extension base="g:dateType">
-                                            <xs:attribute default="false" name="roughly"
+                                            <xs:attribute default="false" name="approx"
                                                 type="xs:boolean"/>
                                         </xs:extension>
                                     </xs:simpleContent>
@@ -445,16 +441,12 @@
 
     <xs:complexType name="titleType">
         <xs:simpleContent>
-            <xs:extension base="g:string100">
-                <xs:attribute ref="xml:lang" use="required"/>
-            </xs:extension>
+            <xs:extension base="g:string100"> </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
     <xs:complexType name="longTitleType">
         <xs:simpleContent>
-            <xs:extension base="g:string400">
-                <xs:attribute ref="xml:lang"/>
-            </xs:extension>
+            <xs:extension base="g:string400"> </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
     <xs:complexType name="summaryType">
@@ -466,26 +458,21 @@
     </xs:complexType>
     <xs:complexType name="descriptionType">
         <xs:complexContent>
-            <xs:extension base="h:Flow">
-                <xs:attribute ref="xml:lang"/>
-            </xs:extension>
+            <xs:extension base="h:Flow"> </xs:extension>
         </xs:complexContent>
     </xs:complexType>
     <xs:attributeGroup name="repositoryAttributes">
         <xs:attribute name="id" type="g:uuidType" use="required"/>
         <xs:attribute name="code" type="g:isilType" use="optional"> </xs:attribute>
         <xs:attribute name="deleted" use="optional" type="xs:boolean" default="false"/>
-        <xs:attribute name="accessible" use="optional" type="xs:boolean"> </xs:attribute>
+        <xs:attribute name="public" use="optional" type="xs:boolean" default="true"/>
         <xs:attribute name="requestable" type="xs:boolean">
             <xs:annotation>
                 <xs:documentation xml:lang="en">The default value for units for which the requestable attribute has not been specified.</xs:documentation>
                 <xs:documentation xml:lang="nl">De standaard waarde voor units waarvan het "requestable" attribuut niet gespecificeerd is.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="disclosure" type="xs:date"/>
-        <xs:attribute name="date" type="g:dateType"/>
-        <xs:attribute name="from" type="g:dateType"/>
-        <xs:attribute name="until" type="g:dateType"/>
+        <xs:attribute name="publicDate" type="xs:date"/>
         <xs:attribute name="version" type="xs:dateTime" use="required"/>
     </xs:attributeGroup>
     <xs:attributeGroup name="inventoryAttributes">
@@ -504,14 +491,14 @@
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="deleted" use="optional" type="xs:boolean" default="false"/>
-        <xs:attribute name="accessible" use="optional" type="xs:boolean"> </xs:attribute>
+        <xs:attribute name="public" use="optional" type="xs:boolean" default="true"> </xs:attribute>
         <xs:attribute name="requestable" type="xs:boolean">
             <xs:annotation>
                 <xs:documentation xml:lang="en">The default value for units for which the requestable attribute has not been specified.</xs:documentation>
                 <xs:documentation xml:lang="nl">De standaard waarde voor units waarvan het "requestable" attribuut niet gespecificeerd is.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="disclosure" type="xs:date"/>
+        <xs:attribute name="publicDate" type="xs:date"/>
         <xs:attribute name="version" type="xs:dateTime" use="optional"/>
     </xs:attributeGroup>
     <xs:attributeGroup name="unitAttributes">
@@ -530,7 +517,7 @@
                 <xs:documentation xml:lang="nl">Dit attribuut moet, en mag alleen, gebruikt worden voor het root element van de xml.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="public" use="optional" type="xs:boolean"> </xs:attribute>
+        <xs:attribute name="public" use="optional" type="xs:boolean" default="true"> </xs:attribute>
         <xs:attribute name="publicDate" type="xs:date"/>
         <xs:attribute name="requestable" use="optional" type="xs:boolean">
             <xs:annotation>
@@ -585,11 +572,11 @@
     <xs:simpleType name="accessType">
         <xs:union memberTypes="d:accessSingleTypes d:accessAnyTypeEnum"/>
     </xs:simpleType>
-    <xs:simpleType name="physicalTypeEnum">
+
+    <xs:simpleType name="physicalUnitTypeEnum">
         <xs:restriction base="xs:token">
             <xs:enumeration value="Album"/>
             <xs:enumeration value="Atlas"/>
-            <xs:enumeration value="Audio Reel"/>
             <xs:enumeration value="Audio Tape"/>
             <xs:enumeration value="Binding"/>
             <xs:enumeration value="Blueprint"/>
@@ -604,6 +591,7 @@
             <xs:enumeration value="Card"/>
             <xs:enumeration value="Card System"/>
             <xs:enumeration value="Card System Box"/>
+            <xs:enumeration value="Cartographic Map"/>
             <xs:enumeration value="Charter"/>
             <xs:enumeration value="Chirograph"/>
             <xs:enumeration value="Circular"/>
@@ -612,22 +600,28 @@
             <xs:enumeration value="Contract"/>
             <xs:enumeration value="Cover"/>
             <xs:enumeration value="DVD"/>
+            <xs:enumeration value="Digital Email File"/>
             <xs:enumeration value="Digital File"/>
+            <xs:enumeration value="Digital Image File"/>
+            <xs:enumeration value="Digital Movie File"/>
+            <xs:enumeration value="Digital Presentation File"/>
+            <xs:enumeration value="Digital Sound File"/>
+            <xs:enumeration value="Digital Spreadsheet File"/>
+            <xs:enumeration value="Digital Text File"/>
+            <xs:enumeration value="Digital Website"/>
             <xs:enumeration value="Document File"/>
             <xs:enumeration value="Drawing"/>
-            <xs:enumeration value="Email File"/>
             <xs:enumeration value="Engraving"/>
             <xs:enumeration value="Envelope"/>
             <xs:enumeration value="Film Dia Positive"/>
             <xs:enumeration value="Film Negative"/>
             <xs:enumeration value="Film Negative Strip"/>
-            <xs:enumeration value="Film Reel"/>
+            <xs:enumeration value="Film Roll"/>
             <xs:enumeration value="Folder"/>
             <xs:enumeration value="Four Flap Enclosure"/>
-            <xs:enumeration value="Framed Picture"/>
+            <xs:enumeration value="Frame"/>
             <xs:enumeration value="Glass Dia Positive"/>
             <xs:enumeration value="Glass Negative"/>
-            <xs:enumeration value="Image File"/>
             <xs:enumeration value="Item"/>
             <xs:enumeration value="Letter"/>
             <xs:enumeration value="Lias"/>
@@ -635,28 +629,50 @@
             <xs:enumeration value="Manuscript"/>
             <xs:enumeration value="Meter"/>
             <xs:enumeration value="Microfilm"/>
-            <xs:enumeration value="Movie File"/>
-            <xs:enumeration value="Music Record"/>
             <xs:enumeration value="Newspaper"/>
             <xs:enumeration value="Note"/>
             <xs:enumeration value="Notebook"/>
             <xs:enumeration value="Pennant"/>
             <xs:enumeration value="Photo Print"/>
-            <xs:enumeration value="Photo Album"/>
             <xs:enumeration value="Portfolio"/>
             <xs:enumeration value="Postcard"/>
-            <xs:enumeration value="Presentation File"/>
             <xs:enumeration value="Quire"/>
             <xs:enumeration value="Report"/>
             <xs:enumeration value="Ring Binder"/>
             <xs:enumeration value="Roll"/>
             <xs:enumeration value="Sheet"/>
-            <xs:enumeration value="Sound File"/>
-            <xs:enumeration value="Spreadsheet File"/>
-            <xs:enumeration value="Text File"/>
+            <xs:enumeration value="Sleeve"/>
+            <xs:enumeration value="Stencil"/>
             <xs:enumeration value="Video Tape"/>
+            <xs:enumeration value="Vinyl Record"/>
             <xs:enumeration value="Volume"/>
-            <xs:enumeration value="Web Page"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="physicalContainerTypeEnum">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="Album"/>
+            <xs:enumeration value="Binding"/>
+            <xs:enumeration value="Box"/>
+            <xs:enumeration value="Box File"/>
+            <xs:enumeration value="Bundle"/>
+            <xs:enumeration value="CD"/>
+            <xs:enumeration value="Card System"/>
+            <xs:enumeration value="Card System Box"/>
+            <xs:enumeration value="Clip Binding"/>
+            <xs:enumeration value="Cover"/>
+            <xs:enumeration value="DVD"/>
+            <xs:enumeration value="Envelope"/>
+            <xs:enumeration value="Film Negative Strip"/>
+            <xs:enumeration value="Film Roll"/>
+            <xs:enumeration value="Folder"/>
+            <xs:enumeration value="Four Flap Enclosure"/>
+            <xs:enumeration value="Frame"/>
+            <xs:enumeration value="Lias"/>
+            <xs:enumeration value="Meter"/>
+            <xs:enumeration value="Portfolio"/>
+            <xs:enumeration value="Ring Binder"/>
+            <xs:enumeration value="Roll"/>
+            <xs:enumeration value="Sleeve"/>
         </xs:restriction>
     </xs:simpleType>
 </xs:schema>
