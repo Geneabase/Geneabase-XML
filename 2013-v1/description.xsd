@@ -241,7 +241,7 @@
                 </xs:element>
                 <xs:element name="container">
                     <xs:complexType>
-                        <xs:sequence maxOccurs="1">
+                        <xs:sequence maxOccurs="unbounded">
                             <xs:element name="unit">
                                 <xs:complexType>
                                     <xs:attribute name="type" type="d:physicalUnitTypeEnum"/>
@@ -267,10 +267,9 @@
     <xs:element name="info" type="d:infoType"/>
     <xs:complexType name="infoType">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" name="title" type="d:titleType"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="longTitle" type="d:longTitleType"/>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="description"
-                type="d:descriptionType"/>
+            <xs:element maxOccurs="1" name="title" type="d:titleType"/>
+            <xs:element maxOccurs="1" minOccurs="0" name="longTitle" type="d:longTitleType"/>
+            <xs:element maxOccurs="1" minOccurs="0" name="description" type="d:descriptionType"/>
         </xs:sequence>
         <xs:attribute ref="xml:lang" use="required"/>
     </xs:complexType>
@@ -499,6 +498,7 @@
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="publicDate" type="xs:date"/>
+        <xs:attribute name="requestableDate" type="xs:date"/>
         <xs:attribute name="version" type="xs:dateTime" use="optional"/>
     </xs:attributeGroup>
     <xs:attributeGroup name="unitAttributes">
@@ -510,7 +510,6 @@
                 <xs:documentation xml:lang="nl">Een code waarmee dit item (minimaal) uniek aanduid binnen de moeder class, of binnen het archief als het geen moeder class heeft. Deze code wordt gebruikt in de presentatie.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute ref="xml:lang"/>
         <xs:attribute name="repository" type="g:repositoryIDType">
             <xs:annotation>
                 <xs:documentation xml:lang="en">This attribute must, and may only, be used at the root element of the xml.</xs:documentation>
