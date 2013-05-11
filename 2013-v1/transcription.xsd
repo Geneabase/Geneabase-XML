@@ -33,15 +33,7 @@
     <xs:element name="transcription">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="repository">
-                    <xs:complexType>
-                        <xs:simpleContent>
-                            <xs:extension base="gb:nonEmptyString100">
-                                <xs:attribute name="id" type="gb:uuidType"/>
-                            </xs:extension>
-                        </xs:simpleContent>
-                    </xs:complexType>
-                </xs:element>
+                <xs:element name="repository" type="gb:repositoryIDType"> </xs:element>
                 <xs:element name="folder">
                     <xs:complexType>
                         <xs:simpleContent>
@@ -106,7 +98,7 @@
             <xs:attribute name="class" form="unqualified" type="tr:divClassEnumType"/>
         </xs:complexType>
     </xs:element>
-    <xs:element name="transcriber" type="gb:nonEmptyString100"> </xs:element>
+    <xs:element name="transcriber" type="gb:string100"> </xs:element>
     <xs:element name="line">
         <xs:complexType>
             <xs:complexContent>
