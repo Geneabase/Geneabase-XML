@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:am="http://schemas.geneabase.com/2013-v1/apimsg" xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:m="http://schemas.geneabase.com/2013-v1/apimsg"
+    xmlns:html="http://schemas.geneabase.com/2013-v1/html"
     targetNamespace="http://schemas.geneabase.com/2013-v1/apimsg" elementFormDefault="qualified">
-    <xs:import namespace="http://www.w3.org/1999/xhtml"
-        schemaLocation="http://schemas.geneabase.com/2013-v1/xhtml1-reduced.xsd"/>
+    <xs:import namespace="http://schemas.geneabase.com/2013-v1/html"
+        schemaLocation="http://schemas.geneabase.com/2013-v1/html.xsd"/>
     <xs:element name="messages">
         <xs:annotation>
             <xs:documentation xml:lang="en">A complete list of Api messages that may be returned in JSON replies from the web server. A message is identified by its @id, and can only appear once in this list.</xs:documentation>
@@ -11,11 +12,12 @@
         </xs:annotation>
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="am:message" minOccurs="1" maxOccurs="unbounded"></xs:element>
+                <xs:element ref="m:message" minOccurs="1" maxOccurs="unbounded"/>
             </xs:sequence>
+            <xs:attribute name="version" type="xs:dateTime" use="required"/>
         </xs:complexType>
         <xs:unique name="uniqueMessage">
-            <xs:selector xpath="./am:message"/>
+            <xs:selector xpath="./m:message"/>
             <xs:field xpath="@id"/>
         </xs:unique>
     </xs:element>
@@ -26,7 +28,7 @@
         </xs:annotation>
         <xs:complexType>
             <xs:sequence>
-                <xs:element type="am:paramDefType" name="param" maxOccurs="unbounded" minOccurs="0"/>
+                <xs:element type="m:paramDefType" name="param" maxOccurs="unbounded" minOccurs="0"/>
                 <xs:element maxOccurs="unbounded" name="content">
                     <xs:annotation>
                         <xs:documentation xml:lang="en">The (localized) content that is displayed to the user. This content may contain inline html elements (such as br, b, i, u), and param placeholder elements. The html elements can not include a param placeholder (so you can not make param content bold, for example).</xs:documentation>
@@ -34,14 +36,13 @@
                     </xs:annotation>
                     <xs:complexType mixed="true">
                         <xs:choice maxOccurs="unbounded" minOccurs="0">
-                            <xs:element type="am:paramUseType" name="param"/>
+                            <xs:element type="m:paramUseType" name="param"/>
                             <xs:group ref="html:inline"/>
                         </xs:choice>
                         <xs:attribute name="lang" type="xs:language" use="required"/>
                     </xs:complexType>
                 </xs:element>
-                <xs:element maxOccurs="unbounded" name="description" minOccurs="0"
-                    type="xs:string">
+                <xs:element maxOccurs="unbounded" name="description" minOccurs="0" type="xs:string">
                     <xs:annotation>
                         <xs:documentation xml:lang="en">Description, intended for programmer and/or translator, about where this messages is used. If this is not yet clear from the (English) content.</xs:documentation>
                         <xs:documentation xml:lang="nl">Beschrijving, bedoeld voor programmeur en/of vertaler, over de context waarin dit bericht wordt toegepast. Als dat nog niet duidelijk is van de (engelse) inhoud. </xs:documentation>
@@ -54,65 +55,60 @@
                     <xs:documentation xml:lang="en">Een unieke sleutel die wordt gebruikt in JSON antwoorden van de server. De algemene syntax is Onderdeel-Onderwerp, waar Onderdeel een kort drie tot vijf letter woord is, en Onderwerp in zegenaamd CamelCase wordt gehoofdletterd.</xs:documentation>
                 </xs:annotation>
             </xs:attribute>
-            <xs:attribute name="type" use="required" type="am:typeEnumerationType">
-               
-                
-            </xs:attribute>
+            <xs:attribute name="type" use="required" type="m:typeEnumerationType"> </xs:attribute>
         </xs:complexType>
         <xs:unique name="uniqueLangContent">
-            <xs:selector xpath="./am:content"/>
+            <xs:selector xpath="./m:content"/>
             <xs:field xpath="@lang"/>
         </xs:unique>
         <xs:unique name="uniqueLangParamDescription">
-            <xs:selector xpath="./am:param/am:description"/>
+            <xs:selector xpath="./m:param/m:description"/>
             <xs:field xpath="@lang"/>
         </xs:unique>
         <xs:unique name="uniqueLangDescription">
-            <xs:selector xpath="./am:description"/>
+            <xs:selector xpath="./m:description"/>
             <xs:field xpath="@lang"/>
         </xs:unique>
         <xs:unique name="paramID">
-            <xs:selector xpath="./am:param"/>
+            <xs:selector xpath="./m:param"/>
             <xs:field xpath="@id"/>
         </xs:unique>
-        <xs:keyref name="paramIDRef" refer="am:paramID">
-            <xs:selector xpath="./am:content/am:param"/>
+        <xs:keyref name="paramIDRef" refer="m:paramID">
+            <xs:selector xpath="./m:content/m:param"/>
             <xs:field xpath="@id"/>
         </xs:keyref>
     </xs:element>
     <xs:complexType name="paramDefType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">Initalization of param placeholders which will be used in the content elements of the message. These param elements need to be listed in the exact same order as in which the arguments will be applied at the response from the service.</xs:documentation>
+            <xs:documentation xml:lang="nl">Initialisatie van param plaatshouders die gebruikt zullen worden in de content elementen van het bericht. Deze param elementen moeten worden opgesomd in exact dezelfde volgorde als waarin de argumenten worden toegevoegd in het antwoord van de service.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="description">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="xs:string">
+                            <xs:attribute name="lang" type="xs:language" use="optional"/>
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="id" use="required" type="xs:token"/>
+    </xs:complexType>
+    <xs:complexType name="paramUseType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">Placeholder that links to an already defined parameter for this message. It's id must match the one of the already defined parameter at message level.</xs:documentation>
+            <xs:documentation xml:lang="nl">Plaatshouder welke linkt naar een al gedefiniëerde parameter voor dit bericht. Het id er van moet overeenkomen met die van de reeds gedefinieëerde plaatshouder op message niveau.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="id" use="required" type="xs:token">
             <xs:annotation>
-                <xs:documentation xml:lang="en">Initalization of param placeholders which will be used in the content elements of the message. These param elements need to be listed in the exact same order as in which the arguments will be applied at the response from the service.</xs:documentation>
-                <xs:documentation xml:lang="nl">Initialisatie van param plaatshouders die gebruikt zullen worden in de content elementen van het bericht. Deze param elementen moeten worden opgesomd in exact dezelfde volgorde als waarin de argumenten worden toegevoegd in het antwoord van de service.</xs:documentation>
+                <xs:documentation xml:lang="en">links to message/param/@id</xs:documentation>
+                <xs:documentation xml:lang="nl">linkt naar message/param/@id</xs:documentation>
             </xs:annotation>
-            <xs:sequence>
-                <xs:element maxOccurs="unbounded" minOccurs="0"
-                    name="description">
-                    <xs:complexType>
-                        <xs:simpleContent>
-                            <xs:extension base="xs:string">
-                                <xs:attribute name="lang" type="xs:language"
-                                    use="optional"/>
-                            </xs:extension>
-                        </xs:simpleContent>
-                    </xs:complexType>
-                </xs:element>
-            </xs:sequence>
-            <xs:attribute name="id" use="required" type="xs:token"/>
-    </xs:complexType> 
-   <xs:complexType name="paramUseType">
-            <xs:annotation>
-                <xs:documentation xml:lang="en">Placeholder that links to an already defined parameter for this message. It's id must match the one of the already defined parameter at message level.</xs:documentation>
-                <xs:documentation xml:lang="nl">Plaatshouder welke linkt naar een al gedefiniëerde parameter voor dit bericht. Het id er van moet overeenkomen met die van de reeds gedefinieëerde plaatshouder op message niveau.</xs:documentation>
-            </xs:annotation>
-            <xs:attribute name="id" use="required" type="xs:token">
-                <xs:annotation>
-                    <xs:documentation xml:lang="en">links to message/param/@id</xs:documentation>
-                    <xs:documentation xml:lang="nl">linkt naar message/param/@id</xs:documentation>  
-                </xs:annotation>
-            </xs:attribute>
-        </xs:complexType>
-    
+        </xs:attribute>
+    </xs:complexType>
+
     <xs:simpleType name="typeEnumerationType">
         <xs:annotation>
             <xs:documentation xml:lang="en">The urgency level of the message. This type will determine the appearance in the user interface. A message of type "critical" may appear red for example, whereas a message of type "debug" may not be displayed at all.</xs:documentation>
