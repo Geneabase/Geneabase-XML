@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:m="http://schemas.geneabase.com/2013-v1/apimsg"
+    xmlns:m="http://schemas.geneabase.com/2013-v1/api-messages"
     xmlns:html="http://schemas.geneabase.com/2013-v1/html"
-    targetNamespace="http://schemas.geneabase.com/2013-v1/apimsg" elementFormDefault="qualified">
+    targetNamespace="http://schemas.geneabase.com/2013-v1/api-messages" elementFormDefault="qualified">
     <xs:import namespace="http://schemas.geneabase.com/2013-v1/html"
         schemaLocation="http://schemas.geneabase.com/2013-v1/html.xsd"/>
     <xs:element name="messages">
