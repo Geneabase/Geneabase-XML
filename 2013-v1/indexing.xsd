@@ -1664,10 +1664,10 @@
 	</xs:complexType>
 
 	<?gb sect=1 en="Attribute groups" nl="Attribuut groepen" id="Attribute-groups"?>
-	<xs:attributeGroup name="indexAttributes">
+	<xs:attributeGroup name="registerAttributes">
 		<xs:attribute name="id" type="g:remoteIDType" use="required">
 			<xs:annotation>
-				<xs:documentation>The UUID of the index that this Unit is to be applied
+				<xs:documentation>The UUID of the register that this Unit is to be applied
 					to.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
@@ -1676,11 +1676,10 @@
 		<xs:attribute name="code" type="g:string24" use="required"/>
 		<xs:attribute name="name" type="g:string100" use="required">
 			<xs:annotation>
-				<xs:documentation>The name of the index that this Unit is to be applied to. The
-					preferred method of specifying the index is with indexID instead of name.
-					If indexID is specified, the indexName is ignored.</xs:documentation>
+				<xs:documentation>The name of the register.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
+		<xs:attribute name="part" type="g:string24" use="required"/>
 	</xs:attributeGroup>
 	<xs:attributeGroup name="fileAttributes">
 		<xs:attribute name="id" type="i:fileId"/>
@@ -1738,12 +1737,12 @@
 
 	<?gb sect=1 en="Elements" nl="Elementen" id="Elements"?>
 	<?gb sect=2 en="Structural Elements" nl="Structurele elementen" id="Structural-elements"?>
-	<xs:element name="index">
+	<xs:element name="register">
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element maxOccurs="unbounded" ref="i:unit"/>
 			</xs:sequence>
-			<xs:attributeGroup ref="i:indexAttributes"/>
+			<xs:attributeGroup ref="i:registerAttributes"/>
 		</xs:complexType>
 		<xs:unique name="uniqueUnitID">
 			<xs:selector xpath="./i:unit"/>

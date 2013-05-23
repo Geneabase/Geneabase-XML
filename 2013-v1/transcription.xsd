@@ -3,8 +3,7 @@
     xmlns:xml="http://www.w3.org/XML/1998/namespace"
     xmlns:html="http://schemas.geneabase.com/2013-v1/html"
     xmlns:gb="http://schemas.geneabase.com/2013-v1/geneabase"
-    xmlns:tr="http://schemas.geneabase.com/2013-v1/transcription"
-    xmlns:col="http://schemas.geneabase.com/2013-v1/collection"
+    xmlns:t="http://schemas.geneabase.com/2013-v1/transcription"
     targetNamespace="http://schemas.geneabase.com/2013-v1/transcription"
     elementFormDefault="qualified">
     <xs:import namespace="http://schemas.geneabase.com/2013-v1/html"
@@ -44,9 +43,9 @@
                     </xs:complexType>
                 </xs:element>
                 <xs:element name="version" type="xs:dateTime"/>
-                <xs:element maxOccurs="unbounded" minOccurs="0" ref="tr:transcriber"/>
-                <xs:element maxOccurs="unbounded" minOccurs="0" ref="tr:note"/>
-                <xs:element maxOccurs="unbounded" ref="tr:file"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="t:transcriber"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="t:note"/>
+                <xs:element maxOccurs="unbounded" ref="t:file"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -54,9 +53,9 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="name" type="gb:fileNameType"/>
-                <xs:element maxOccurs="unbounded" minOccurs="0" ref="tr:transcriber"/>
-                <xs:element maxOccurs="unbounded" minOccurs="0" ref="tr:note"/>
-                <xs:element ref="tr:page" maxOccurs="unbounded" minOccurs="0"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="t:transcriber"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="t:note"/>
+                <xs:element ref="t:page" maxOccurs="unbounded" minOccurs="0"/>
             </xs:sequence>
             <xs:attribute name="uuid" type="gb:uuidType"/>
         </xs:complexType>
@@ -71,11 +70,11 @@
                         </xs:complexContent>
                     </xs:complexType>
                 </xs:element>
-                <xs:element maxOccurs="unbounded" minOccurs="0" ref="tr:transcriber"/>
-                <xs:element minOccurs="0" ref="tr:note" maxOccurs="unbounded"/>
-                <xs:element ref="tr:region" maxOccurs="unbounded" minOccurs="0"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="t:transcriber"/>
+                <xs:element minOccurs="0" ref="t:note" maxOccurs="unbounded"/>
+                <xs:element ref="t:region" maxOccurs="unbounded" minOccurs="0"/>
             </xs:sequence>
-            <xs:attributeGroup ref="tr:transcriptionAttributes"/>
+            <xs:attributeGroup ref="t:transcriptionAttributes"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="region">
@@ -88,14 +87,14 @@
                         </xs:complexContent>
                     </xs:complexType>
                 </xs:element>
-                <xs:element minOccurs="0" ref="tr:note" maxOccurs="unbounded"/>
+                <xs:element minOccurs="0" ref="t:note" maxOccurs="unbounded"/>
                 <xs:choice maxOccurs="1" minOccurs="0">
-                    <xs:element maxOccurs="unbounded" ref="tr:line"/>
-                    <xs:element maxOccurs="unbounded" ref="tr:block"/>
+                    <xs:element maxOccurs="unbounded" ref="t:line"/>
+                    <xs:element maxOccurs="unbounded" ref="t:block"/>
                 </xs:choice>
             </xs:sequence>
-            <xs:attributeGroup ref="tr:transcriptionAttributes"/>
-            <xs:attribute name="class" form="unqualified" type="tr:divClassEnumType"/>
+            <xs:attributeGroup ref="t:transcriptionAttributes"/>
+            <xs:attribute name="class" form="unqualified" type="t:divClassEnumType"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="transcriber" type="gb:string100"> </xs:element>
@@ -103,7 +102,7 @@
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="html:Inline">
-                    <xs:attributeGroup ref="tr:transcriptionAttributes"/>
+                    <xs:attributeGroup ref="t:transcriptionAttributes"/>
                     <xs:attribute name="margin" type="xs:boolean"/>
                 </xs:extension>
             </xs:complexContent>
@@ -113,7 +112,7 @@
         <xs:complexType>
             <xs:complexContent>
                 <xs:extension base="html:Block">
-                    <xs:attributeGroup ref="tr:transcriptionAttributes"/>
+                    <xs:attributeGroup ref="t:transcriptionAttributes"/>
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
