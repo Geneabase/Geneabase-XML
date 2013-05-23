@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright © 2011-2013 Geneabase BV. Licenced under CC BY 3.0 http://creativecommons.org/licenses/by/3.0/ -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:r="http://schemas.geneabase.com/2013-v1/register"
+	xmlns:i="http://schemas.geneabase.com/2013-v1/indexing"
 	xmlns:g="http://schemas.geneabase.com/2013-v1/geneabase"
-	targetNamespace="http://schemas.geneabase.com/2013-v1/register" elementFormDefault="qualified">
+	targetNamespace="http://schemas.geneabase.com/2013-v1/indexing" elementFormDefault="qualified">
 	<xs:import namespace="http://schemas.geneabase.com/2013-v1/geneabase"
 		schemaLocation="http://schemas.geneabase.com/2013-v1/geneabase.xsd"/>
 	<!-- strings -->
@@ -992,42 +992,6 @@
 			<xs:enumeration value="all"/>
 		</xs:restriction>
 	</xs:simpleType>
-
-	<xs:simpleType name="updateEnumType">
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="Replace"/>
-			<xs:enumeration value="Append"/>
-			<xs:enumeration value="None"/>
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:simpleType name="compositionEnum">
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="smart">
-				<xs:annotation>
-					<xs:documentation> The parsing application is instructed to automatically
-						connect entities to each other, and/or assign roles between them, if this
-						can be logically deducted from the structure of the provided data.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:enumeration>
-			<xs:enumeration value="explicit">
-				<xs:annotation>
-					<xs:documentation> No automatic connections are added, or roles defined, except
-						those that are explictly defined. </xs:documentation>
-				</xs:annotation>
-			</xs:enumeration>
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:simpleType name="locationEnum">
-		<xs:restriction base="xs:string">
-			<xs:maxLength value="200"/>
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:simpleType name="categoryEnum">
-		<xs:restriction base="xs:string">
-			<xs:maxLength value="200"/>
-		</xs:restriction>
-	</xs:simpleType>
 	<xs:simpleType name="genderEnum">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="male"/>
@@ -1065,53 +1029,53 @@
 	</xs:complexType>
 	<xs:complexType name="personFeatureType">
 		<xs:complexContent>
-			<xs:extension base="r:featureType">
-				<xs:attribute name="id" type="r:personFeatureId"/>
-				<xs:attribute name="copy" type="r:personFeatureIdRef">
+			<xs:extension base="i:featureType">
+				<xs:attribute name="id" type="i:personFeatureId"/>
+				<xs:attribute name="copy" type="i:personFeatureIdRef">
 					<xs:annotation>
 						<xs:documentation> refererence to earlier defined PersonFeature.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
-				<xs:attribute name="name" type="r:personFeaturesEnum" use="required">
+				<xs:attribute name="name" type="i:personFeaturesEnum" use="required">
 					<xs:annotation>
 						<xs:documentation>The name of the feature being described.</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
-				<xs:attribute name="person" type="r:personIdRef"/>
+				<xs:attribute name="person" type="i:personIdRef"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="placeFeatureType">
 		<xs:complexContent>
-			<xs:extension base="r:featureType">
-				<xs:attribute name="id" type="r:placeFeatureId"/>
-				<xs:attribute name="copy" type="r:placeFeatureIdRef">
+			<xs:extension base="i:featureType">
+				<xs:attribute name="id" type="i:placeFeatureId"/>
+				<xs:attribute name="copy" type="i:placeFeatureIdRef">
 					<xs:annotation>
 						<xs:documentation> refererence to earlier defined PlaceFeature.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
-				<xs:attribute name="name" type="r:placeFeaturesEnum" use="required">
+				<xs:attribute name="name" type="i:placeFeaturesEnum" use="required">
 					<xs:annotation>
 						<xs:documentation>The name of the feature being described.</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
-				<xs:attribute name="place" type="r:placeIdRef"/>
+				<xs:attribute name="place" type="i:placeIdRef"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="unitFeatureType">
 		<xs:complexContent>
-			<xs:extension base="r:featureType">
-				<xs:attribute name="id" type="r:unitFeatureId"/>
-				<xs:attribute name="copy" type="r:unitFeatureIdRef">
+			<xs:extension base="i:featureType">
+				<xs:attribute name="id" type="i:unitFeatureId"/>
+				<xs:attribute name="copy" type="i:unitFeatureIdRef">
 					<xs:annotation>
 						<xs:documentation> refererence to earlier defined UnitFeature.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
-				<xs:attribute name="name" type="r:unitFeaturesEnum" use="required">
+				<xs:attribute name="name" type="i:unitFeaturesEnum" use="required">
 					<xs:annotation>
 						<xs:documentation>The name of the feature, belonging to the Unit element,
 							being described.</xs:documentation>
@@ -1122,28 +1086,28 @@
 	</xs:complexType>
 	<xs:complexType name="groupFeatureType">
 		<xs:complexContent>
-			<xs:extension base="r:featureType">
-				<xs:attribute name="id" type="r:groupFeatureId"/>
-				<xs:attribute name="copy" type="r:groupFeatureIdRef">
+			<xs:extension base="i:featureType">
+				<xs:attribute name="id" type="i:groupFeatureId"/>
+				<xs:attribute name="copy" type="i:groupFeatureIdRef">
 					<xs:annotation>
 						<xs:documentation> refererence to earlier defined GroupFeature.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
-				<xs:attribute name="name" type="r:groupFeaturesEnum" use="required">
+				<xs:attribute name="name" type="i:groupFeaturesEnum" use="required">
 					<xs:annotation>
 						<xs:documentation>The name of the feature being described.</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
-				<xs:attribute name="group" type="r:groupIdRef"/>
+				<xs:attribute name="group" type="i:groupIdRef"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="simpleEventFeatureType">
 		<xs:complexContent>
-			<xs:extension base="r:featureType">
-				<xs:attribute name="id" type="r:eventFeatureId"/>
-				<xs:attribute name="name" type="r:eventFeaturesEnum" use="required">
+			<xs:extension base="i:featureType">
+				<xs:attribute name="id" type="i:eventFeatureId"/>
+				<xs:attribute name="name" type="i:eventFeaturesEnum" use="required">
 					<xs:annotation>
 						<xs:documentation>The name of the feature being described.</xs:documentation>
 					</xs:annotation>
@@ -1153,20 +1117,20 @@
 	</xs:complexType>
 	<xs:complexType name="eventFeatureType">
 		<xs:complexContent>
-			<xs:extension base="r:featureType">
-				<xs:attribute name="id" type="r:eventFeatureId"/>
-				<xs:attribute name="copy" type="r:eventFeatureIdRef">
+			<xs:extension base="i:featureType">
+				<xs:attribute name="id" type="i:eventFeatureId"/>
+				<xs:attribute name="copy" type="i:eventFeatureIdRef">
 					<xs:annotation>
 						<xs:documentation> refererence to earlier defined EventFeature.
 						</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
-				<xs:attribute name="name" type="r:eventFeaturesEnum" use="required">
+				<xs:attribute name="name" type="i:eventFeaturesEnum" use="required">
 					<xs:annotation>
 						<xs:documentation>The name of the feature being described.</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
-				<xs:attribute name="event" type="r:eventIdRef"/>
+				<xs:attribute name="event" type="i:eventIdRef"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
@@ -1175,28 +1139,27 @@
 	<?gb sect=3 en="Event Type and Subtypes" nl="Event type en subtypes" id="Event-types"?>
 	<xs:complexType name="eventType">
 		<xs:sequence>
-			<xs:element name="person" type="r:personType" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element name="place" type="r:placeType" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element name="group" type="r:groupType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="person" type="i:personType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="place" type="i:placeType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="group" type="i:groupType" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element name="literalType" type="g:string100" minOccurs="0"/>
 			<xs:element name="literalDate" type="g:string100" minOccurs="0"/>
-			<xs:element name="feature" type="r:eventFeatureType" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element ref="r:comment" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="feature" type="i:eventFeatureType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="i:comment" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
-		<xs:attribute name="id" type="r:eventId" default="event1"/>
-		<xs:attribute name="type" type="r:eventTypesEnum" use="required"/>
-		<xs:attribute name="copy" type="r:eventIdRef"/>
+		<xs:attribute name="id" type="i:eventId" default="event1"/>
+		<xs:attribute name="type" type="i:eventTypesEnum" use="required"/>
 		<xs:attribute name="date" type="g:dateType"/>
-		<xs:attribute name="place" type="r:placeIdRef"/>
-		<xs:attribute name="person" type="r:personIdRef"/>
-		<xs:attribute name="group" type="r:groupIdRef"/>
-		<xs:attribute name="file" type="r:fileIdRef"/>
-		<xs:attribute name="roleFromPerson" type="r:personToEventEnum"/>
-		<xs:attribute name="roleFromGroup" type="r:groupToEventEnum"/>
-		<xs:attribute name="roleFromPlace" type="r:placeToEventEnum"/>
+		<xs:attribute name="place" type="i:placeIdRef"/>
+		<xs:attribute name="person" type="i:personIdRef"/>
+		<xs:attribute name="group" type="i:groupIdRef"/>
+		<xs:attribute name="file" type="i:fileIdRef"/>
+		<xs:attribute name="roleFromPerson" type="i:personToEventEnum"/>
+		<xs:attribute name="roleFromGroup" type="i:groupToEventEnum"/>
+		<xs:attribute name="roleFromPlace" type="i:placeToEventEnum"/>
 
-		<xs:attribute name="feature" type="r:eventFeatureIdRef"/>
-		<xs:attributeGroup ref="r:filePosAttributes"/>
+		<xs:attribute name="feature" type="i:eventFeatureIdRef"/>
+		<xs:attributeGroup ref="i:filePosAttributes"/>
 	</xs:complexType>
 
 	<?gb sect=3 en="Person Types" nl="Persoon types" id="Person-types"?>
@@ -1226,7 +1189,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="prefix" type="r:personNameType" minOccurs="0">
+			<xs:element name="prefix" type="i:personNameType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation> Prefix for the Familyname </xs:documentation>
 				</xs:annotation>
@@ -1237,261 +1200,256 @@
 				</xs:annotation>
 				<xs:complexType>
 					<xs:complexContent>
-						<xs:extension base="r:personNameType">
-							<xs:attribute name="derivation" type="r:familyTypesEnum"/>
+						<xs:extension base="i:personNameType">
+							<xs:attribute name="derivation" type="i:familyTypesEnum"/>
 							<xs:attribute name="primary" type="xs:boolean"/>
 						</xs:extension>
 					</xs:complexContent>
 				</xs:complexType>
 			</xs:element>
-			<xs:element name="connector" type="r:personNameType" minOccurs="0"/>
+			<xs:element name="connector" type="i:personNameType" minOccurs="0"/>
 		</xs:sequence>
 	</xs:group>
 	<xs:group name="personNameGroup">
 		<xs:sequence>
-			<xs:element name="title" type="r:personNameType" minOccurs="0">
+			<xs:element name="title" type="i:personNameType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation> Appellation belonging to a person by right of rank, office,
 						attainment </xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="initials" type="r:personNameType" minOccurs="0">
+			<xs:element name="initials" type="i:personNameType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation> Only the first letters of the forenames </xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="common" type="r:personNameType" minOccurs="0">
+			<xs:element name="common" type="i:personNameType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation> Informal name, first forename, given name for daily use
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="given" type="r:personNameType" minOccurs="0">
+			<xs:element name="given" type="i:personNameType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation> Given name, forename(s), first name, christian name
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:group ref="r:surnameGroup" minOccurs="0" maxOccurs="unbounded">
+			<xs:group ref="i:surnameGroup" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>
 						Family name
 					</xs:documentation>
 				</xs:annotation>
 			</xs:group>
-			<xs:element name="mononym" type="r:personNameType" minOccurs="0">
+			<xs:element name="mononym" type="i:personNameType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation> single name </xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="nickname" type="r:personNameType" minOccurs="0">
+			<xs:element name="nickname" type="i:personNameType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation> alternative name either symbolizing a form of acceptance or
 						ridicule </xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="pseudonym" type="r:personNameType" minOccurs="0">
+			<xs:element name="pseudonym" type="i:personNameType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation> false name that differs from original "true name"
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="anonymous" type="r:personNameType" minOccurs="0">
+			<xs:element name="anonymous" type="i:personNameType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation> a name unknown or deliberately withheld </xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="name" type="r:personNameType" minOccurs="0">
+			<xs:element name="name" type="i:personNameType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation> a name of which its type is undefined or unknown
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs="0" name="suffix" type="r:personNameType"/>
+			<xs:element minOccurs="0" name="suffix" type="i:personNameType"/>
 		</xs:sequence>
 	</xs:group>
 
 	<xs:complexType name="personType">
 		<xs:sequence>
-			<xs:group ref="r:personNameGroup"/>
-			<xs:element name="feature" type="r:personFeatureType" minOccurs="0"
+			<xs:group ref="i:personNameGroup"/>
+			<xs:element name="feature" type="i:personFeatureType" minOccurs="0"
 				maxOccurs="unbounded"/>
-			<xs:element name="event" type="r:eventType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="event" type="i:eventType" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
-		<xs:attribute name="id" type="r:personId" default="person1"/>
-		<xs:attribute name="copy" type="r:personIdRef"/>
-		<xs:attribute name="gender" type="r:genderEnum" default="undefined"/>
-		<xs:attribute name="feature" type="r:personFeatureIdRef"/>
-		<xs:attribute name="group" type="r:groupIdRef"/>
-		<xs:attribute name="place" type="r:placeIdRef"/>
-		<xs:attribute name="file" type="r:fileIdRef"/>
-		<xs:attribute name="roleToGroup" type="r:personToGroupEnum"/>
-		<xs:attribute name="roleFromGroup" type="r:groupToPersonEnum"/>
-		<xs:attribute name="roleToPlace" type="r:personToPlaceEnum"/>
-		<xs:attribute name="roleFromPlace" type="r:placeToPersonEnum"/>
-		<xs:attribute name="roleToPerson" type="r:personToPersonEnum"/>
-		<xs:attribute name="roleFromPerson" type="r:personToPersonEnum"/>
-		<xs:attribute name="roleToUnit" type="r:personToUnitEnum"/>
-		<xs:attributeGroup ref="r:filePosAttributes"/>
-		<xs:attribute name="event" type="r:eventIdRef"/>
-		<xs:attribute name="roleToEvent" type="r:personToEventEnum"/>
+		<xs:attribute name="id" type="i:personId" default="person1"/>
+		<xs:attribute name="gender" type="i:genderEnum" default="undefined"/>
+		<xs:attribute name="feature" type="i:personFeatureIdRef"/>
+		<xs:attribute name="group" type="i:groupIdRef"/>
+		<xs:attribute name="place" type="i:placeIdRef"/>
+		<xs:attribute name="file" type="i:fileIdRef"/>
+		<xs:attribute name="roleToGroup" type="i:personToGroupEnum"/>
+		<xs:attribute name="roleFromGroup" type="i:groupToPersonEnum"/>
+		<xs:attribute name="roleToPlace" type="i:personToPlaceEnum"/>
+		<xs:attribute name="roleFromPlace" type="i:placeToPersonEnum"/>
+		<xs:attribute name="roleToPerson" type="i:personToPersonEnum"/>
+		<xs:attribute name="roleFromPerson" type="i:personToPersonEnum"/>
+		<xs:attribute name="roleToUnit" type="i:personToUnitEnum"/>
+		<xs:attributeGroup ref="i:filePosAttributes"/>
+		<xs:attribute name="event" type="i:eventIdRef"/>
+		<xs:attribute name="roleToEvent" type="i:personToEventEnum"/>
 	</xs:complexType>
 
 	<?gb sect=3 en="Place Types and Groups" nl="Place types and groups" id="Place-types"?>
 	<xs:complexType name="placeType">
 		<xs:sequence>
-			<xs:group ref="r:placeNameGroup" minOccurs="0"/>
-			<xs:element ref="r:addressRange" minOccurs="0"/>
-			<xs:element name="feature" type="r:placeFeatureType" minOccurs="0" maxOccurs="unbounded"
+			<xs:group ref="i:placeNameGroup" minOccurs="0"/>
+			<xs:element ref="i:addressRange" minOccurs="0"/>
+			<xs:element name="feature" type="i:placeFeatureType" minOccurs="0" maxOccurs="unbounded"
 			/>
 		</xs:sequence>
-		<xs:attribute name="id" type="r:placeId" default="place1"/>
-		<xs:attribute name="copy" type="r:placeIdRef"/>
-		<xs:attribute name="person" type="r:personIdRef"/>
-		<xs:attribute name="group" type="r:groupIdRef"/>
-		<xs:attribute name="event" type="r:eventIdRef"/>
-		<xs:attribute name="file" type="r:fileIdRef"/>
-		<xs:attribute name="roleFromPerson" type="r:personToPlaceEnum"/>
-		<xs:attribute name="roleToPerson" type="r:placeToPersonEnum"/>
-		<xs:attribute name="roleFromGroup" type="r:groupToPlaceEnum"/>
-		<xs:attribute name="roleToGroup" type="r:placeToGroupEnum"/>
-		<xs:attribute name="roleToEvent" type="r:placeToEventEnum"/>
-		<xs:attribute name="map" type="r:locationEnum"/>
-		<xs:attribute name="feature" type="r:placeFeatureIdRef"/>
-		<xs:attributeGroup ref="r:filePosAttributes"/>
+		<xs:attribute name="id" type="i:placeId" default="place1"/>
+		<xs:attribute name="person" type="i:personIdRef"/>
+		<xs:attribute name="group" type="i:groupIdRef"/>
+		<xs:attribute name="event" type="i:eventIdRef"/>
+		<xs:attribute name="file" type="i:fileIdRef"/>
+		<xs:attribute name="roleFromPerson" type="i:personToPlaceEnum"/>
+		<xs:attribute name="roleToPerson" type="i:placeToPersonEnum"/>
+		<xs:attribute name="roleFromGroup" type="i:groupToPlaceEnum"/>
+		<xs:attribute name="roleToGroup" type="i:placeToGroupEnum"/>
+		<xs:attribute name="roleToEvent" type="i:placeToEventEnum"/>
+		<xs:attribute name="feature" type="i:placeFeatureIdRef"/>
+		<xs:attributeGroup ref="i:filePosAttributes"/>
 	</xs:complexType>
 	<xs:complexType name="placeNameType">
 		<xs:simpleContent>
 			<xs:extension base="g:string200">
 				<xs:attribute name="prefix" type="g:string50"/>
 				<xs:attribute name="normalized" type="g:string200"/>
-				<xs:attribute name="map" type="r:locationEnum"/>
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>
 	<xs:complexType name="addressRangeType">
 		<xs:simpleContent>
 			<xs:extension base="g:string200">
-				<xs:attribute name="from" type="r:housenumber" default="*">
+				<xs:attribute name="from" type="i:housenumber" default="*">
 					<xs:annotation>
 						<xs:documentation xml:lang="en"> Start house number of the address range. </xs:documentation>
 						<xs:documentation xml:lang="nl"> Start huisnummber van de addressenreeks. </xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
-				<xs:attribute name="to" type="r:housenumber">
+				<xs:attribute name="to" type="i:housenumber">
 					<xs:annotation>
 						<xs:documentation xml:lang="en"> End house number of the address range. </xs:documentation>
 						<xs:documentation xml:lang="nl"> Eind huisnummber van de adressenreeks. </xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
-				<xs:attribute name="streetside" type="r:streetsideEnum" default="all"/>
+				<xs:attribute name="streetside" type="i:streetsideEnum" default="all"/>
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>
 
 	<xs:group name="placeNameGroup">
 		<xs:sequence>
-			<xs:element name="planet" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="continent" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="worldRegion" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="countryGroup" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="kingdom" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="bundesrepublik" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="federation" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="republic" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="country" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="land" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="islandGroup" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="island" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="state" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="province" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="region" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="county" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="prefecture" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="kreis" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="stadtkreis" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="departement" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="arrondissement" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="municipality" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="deelgemeente" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="canton" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="district" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="metropolitan" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="independentCity" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="city" type="r:placeNameType" minOccurs="0">
+			<xs:element name="planet" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="continent" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="worldRegion" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="countryGroup" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="kingdom" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="bundesrepublik" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="federation" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="republic" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="country" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="land" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="islandGroup" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="island" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="state" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="province" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="region" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="county" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="prefecture" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="kreis" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="stadtkreis" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="departement" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="arrondissement" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="municipality" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="deelgemeente" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="canton" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="district" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="metropolitan" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="independentCity" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="city" type="i:placeNameType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation xml:lang="en">May also be used for a place when the exact type of place (city, town, village) is not known.</xs:documentation>
 					<xs:documentation xml:lang="nl">Mag ook gebruikt worden voor algemene aanduiding van een woonplaats, waarbij het type plaats niet bekend is.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="stadsdeel" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="town" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="village" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="township" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="borough" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="quarter" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="street" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="sea" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="lake" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="canal" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="river" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="forest" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="area" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="areaCode" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="park" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="parking" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="market" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="square" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="courtyard" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="airport" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="harbor" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="bridge" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="trailerPark" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="industrialArea" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="landingStage" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="factory" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="school" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="church" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="cemetary" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="grave" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="postalCode" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="number" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="numberAddition" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="block" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="building" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="floor" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="apartment" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="room" type="r:placeNameType" minOccurs="0"/>
-			<xs:element name="name" type="r:placeNameType" minOccurs="0"/>
+			<xs:element name="stadsdeel" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="town" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="village" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="township" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="borough" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="quarter" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="street" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="sea" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="lake" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="canal" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="river" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="forest" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="area" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="areaCode" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="park" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="parking" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="market" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="square" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="courtyard" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="airport" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="harbor" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="bridge" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="trailerPark" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="industrialArea" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="landingStage" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="factory" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="school" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="church" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="cemetary" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="grave" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="postalCode" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="number" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="numberAddition" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="block" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="building" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="floor" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="apartment" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="room" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="name" type="i:placeNameType" minOccurs="0"/>
 		</xs:sequence>
 	</xs:group>
 
 	<?gb sect=3 en="Group Type and Subtypes" nl="Group type en subtypes" id="Group-types"?>
 	<xs:complexType name="groupType">
 		<xs:sequence>
-			<xs:element name="name" type="r:groupNameType" minOccurs="0" maxOccurs="1">
+			<xs:element name="name" type="i:groupNameType" minOccurs="0" maxOccurs="1">
 				<xs:annotation>
 					<xs:documentation>name of organization or group</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element ref="r:person" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element ref="r:groupFeature" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="i:person" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="i:groupFeature" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
-		<xs:attribute name="id" type="r:groupId" default="group1"/>
-		<xs:attribute name="type" type="r:groupTypesEnum" use="required"/>
-		<xs:attribute name="copy" type="r:groupIdRef"/>
-		<xs:attribute name="person" type="r:personIdRef"/>
-		<xs:attribute name="place" type="r:placeIdRef"/>
-		<xs:attribute name="feature" type="r:groupFeatureIdRef"/>
-		<xs:attribute name="file" type="r:fileIdRef"/>
-		<xs:attribute name="roleFromPerson" type="r:personToGroupEnum"/>
-		<xs:attribute name="roleToPerson" type="r:groupToPersonEnum"/>
-		<xs:attribute name="roleFromPlace" type="r:placeToGroupEnum"/>
-		<xs:attribute name="roleToPlace" type="r:groupToPlaceEnum"/>
+		<xs:attribute name="id" type="i:groupId" default="group1"/>
+		<xs:attribute name="type" type="i:groupTypesEnum" use="required"/>
+		<xs:attribute name="person" type="i:personIdRef"/>
+		<xs:attribute name="place" type="i:placeIdRef"/>
+		<xs:attribute name="feature" type="i:groupFeatureIdRef"/>
+		<xs:attribute name="file" type="i:fileIdRef"/>
+		<xs:attribute name="roleFromPerson" type="i:personToGroupEnum"/>
+		<xs:attribute name="roleToPerson" type="i:groupToPersonEnum"/>
+		<xs:attribute name="roleFromPlace" type="i:placeToGroupEnum"/>
+		<xs:attribute name="roleToPlace" type="i:groupToPlaceEnum"/>
 		<xs:attribute name="normalized" type="g:string200"/>
-		<xs:attributeGroup ref="r:filePosAttributes"/>
-		<xs:attribute name="roleToEvent" type="r:groupToEventEnum"/>
-		<xs:attribute name="event" type="r:eventIdRef"/>
+		<xs:attributeGroup ref="i:filePosAttributes"/>
+		<xs:attribute name="roleToEvent" type="i:groupToEventEnum"/>
+		<xs:attribute name="event" type="i:eventIdRef"/>
 	</xs:complexType>
 	<xs:complexType name="groupNameType">
 		<xs:simpleContent>
@@ -1505,106 +1463,106 @@
 	<?gb sect=3 en="Event Relation Types" nl="Event relatie types" id="Event-relation-types"?>
 	<xs:complexType name="eventToFeatureType">
 		<xs:complexContent>
-			<xs:extension base="r:relationType">
-				<xs:attribute name="event" type="r:eventIdRef"/>
-				<xs:attribute name="feature" type="r:eventFeatureIdRef"/>
+			<xs:extension base="i:relationType">
+				<xs:attribute name="event" type="i:eventIdRef"/>
+				<xs:attribute name="feature" type="i:eventFeatureIdRef"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 	<?gb sect=3 en="Group Relation Types" nl="Groep relatie types" id="Group-relation-types"?>
 	<xs:complexType name="groupToEventType">
 		<xs:complexContent>
-			<xs:extension base="r:relationType">
-				<xs:attribute name="event" type="r:placeIdRef"/>
-				<xs:attribute name="group" type="r:groupIdRef"/>
-				<xs:attribute name="groupRole" type="r:groupToEventEnum"/>
+			<xs:extension base="i:relationType">
+				<xs:attribute name="event" type="i:placeIdRef"/>
+				<xs:attribute name="group" type="i:groupIdRef"/>
+				<xs:attribute name="groupRole" type="i:groupToEventEnum"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="groupToFeatureType">
 		<xs:complexContent>
-			<xs:extension base="r:relationType">
-				<xs:attribute name="group" type="r:groupIdRef"/>
-				<xs:attribute name="feature" type="r:groupFeatureIdRef"/>
+			<xs:extension base="i:relationType">
+				<xs:attribute name="group" type="i:groupIdRef"/>
+				<xs:attribute name="feature" type="i:groupFeatureIdRef"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="groupToPlaceType">
 		<xs:complexContent>
-			<xs:extension base="r:relationType">
-				<xs:attribute name="place" type="r:placeIdRef"/>
-				<xs:attribute name="group" type="r:groupIdRef"/>
-				<xs:attribute name="placeRole" type="r:placeToGroupEnum"/>
-				<xs:attribute name="groupRole" type="r:groupToPlaceEnum"/>
+			<xs:extension base="i:relationType">
+				<xs:attribute name="place" type="i:placeIdRef"/>
+				<xs:attribute name="group" type="i:groupIdRef"/>
+				<xs:attribute name="placeRole" type="i:placeToGroupEnum"/>
+				<xs:attribute name="groupRole" type="i:groupToPlaceEnum"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 	<?gb sect=3 en="Person Relation Types" nl="Persoon relatie types" id="Person-relation-types"?>
 	<xs:complexType name="personToFeatureType">
 		<xs:complexContent>
-			<xs:extension base="r:relationType">
-				<xs:attribute name="person" type="r:personIdRef"/>
-				<xs:attribute name="feature" type="r:personFeatureIdRef"/>
+			<xs:extension base="i:relationType">
+				<xs:attribute name="person" type="i:personIdRef"/>
+				<xs:attribute name="feature" type="i:personFeatureIdRef"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="personToEventType">
 		<xs:complexContent>
-			<xs:extension base="r:relationType">
-				<xs:attribute name="person" type="r:personIdRef"/>
-				<xs:attribute name="event" type="r:eventIdRef"/>
-				<xs:attribute name="personRole" type="r:personToEventEnum"/>
+			<xs:extension base="i:relationType">
+				<xs:attribute name="person" type="i:personIdRef"/>
+				<xs:attribute name="event" type="i:eventIdRef"/>
+				<xs:attribute name="personRole" type="i:personToEventEnum"/>
 			</xs:extension>
 			<!-- we do not allow a role to bed defined from Event to Person. this is defined by the name of the event, combined by the role of the person -->
 		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="personToGroupType">
 		<xs:complexContent>
-			<xs:extension base="r:relationType">
-				<xs:attribute name="person" type="r:personIdRef"/>
-				<xs:attribute name="group" type="r:groupIdRef"/>
-				<xs:attribute name="personRole" type="r:personToGroupEnum"/>
-				<xs:attribute name="groupRole" type="r:groupToPersonEnum"/>
+			<xs:extension base="i:relationType">
+				<xs:attribute name="person" type="i:personIdRef"/>
+				<xs:attribute name="group" type="i:groupIdRef"/>
+				<xs:attribute name="personRole" type="i:personToGroupEnum"/>
+				<xs:attribute name="groupRole" type="i:groupToPersonEnum"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="personToPersonType">
 		<xs:complexContent>
-			<xs:extension base="r:relationType">
-				<xs:attribute name="person1" type="r:personIdRef"/>
-				<xs:attribute name="person2" type="r:personIdRef"/>
-				<xs:attribute name="role1" type="r:personToPersonEnum"/>
-				<xs:attribute name="role2" type="r:personToPersonEnum"/>
-				<xs:attribute name="roleMutual" type="r:personToPersonMutualEnum"/>
+			<xs:extension base="i:relationType">
+				<xs:attribute name="person1" type="i:personIdRef"/>
+				<xs:attribute name="person2" type="i:personIdRef"/>
+				<xs:attribute name="role1" type="i:personToPersonEnum"/>
+				<xs:attribute name="role2" type="i:personToPersonEnum"/>
+				<xs:attribute name="roleMutual" type="i:personToPersonMutualEnum"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 	<?gb sect=3 en="Place Relation Types" nl="Plaats relatie types" id="Place-relation-types"?>
 	<xs:complexType name="placeToFeatureType">
 		<xs:complexContent>
-			<xs:extension base="r:relationType">
-				<xs:attribute name="place" type="r:placeIdRef"/>
-				<xs:attribute name="feature" type="r:personFeatureIdRef"/>
+			<xs:extension base="i:relationType">
+				<xs:attribute name="place" type="i:placeIdRef"/>
+				<xs:attribute name="feature" type="i:personFeatureIdRef"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="placeToEventType">
 		<xs:complexContent>
-			<xs:extension base="r:relationType">
-				<xs:attribute name="place" type="r:placeIdRef"/>
-				<xs:attribute name="event" type="r:eventIdRef"/>
-				<xs:attribute name="placeRole" type="r:placeToEventEnum"/>
+			<xs:extension base="i:relationType">
+				<xs:attribute name="place" type="i:placeIdRef"/>
+				<xs:attribute name="event" type="i:eventIdRef"/>
+				<xs:attribute name="placeRole" type="i:placeToEventEnum"/>
 			</xs:extension>
 			<!-- we do not allow a role to be defined from place to event. it's just the place, and the role is automatically: place of [name event] -->
 		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="placeToPersonType">
 		<xs:complexContent>
-			<xs:extension base="r:relationType">
-				<xs:attribute name="place" type="r:placeIdRef"/>
-				<xs:attribute name="person" type="r:personIdRef"/>
-				<xs:attribute name="placeRole" type="r:placeToPersonEnum"/>
-				<xs:attribute name="personRole" type="r:personToPlaceEnum"/>
+			<xs:extension base="i:relationType">
+				<xs:attribute name="place" type="i:placeIdRef"/>
+				<xs:attribute name="person" type="i:personIdRef"/>
+				<xs:attribute name="placeRole" type="i:placeToPersonEnum"/>
+				<xs:attribute name="personRole" type="i:personToPlaceEnum"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
@@ -1612,70 +1570,70 @@
 	<?gb sect=2 en="Entity Collection Types" nl="Entiteit-collectie types" id="Grouping"?>
 	<xs:complexType name="eventsType">
 		<xs:sequence>
-			<xs:element ref="r:event" maxOccurs="unbounded"/>
+			<xs:element ref="i:event" maxOccurs="unbounded"/>
 		</xs:sequence>
-		<xs:attribute name="id" type="r:eventsId"/>
-		<xs:attribute name="place" type="r:placeIdRef"/>
-		<xs:attribute name="person" type="r:personIdRef"/>
-		<xs:attribute name="roleFromPerson" type="r:personToEventEnum"/>
+		<xs:attribute name="id" type="i:eventsId"/>
+		<xs:attribute name="place" type="i:placeIdRef"/>
+		<xs:attribute name="person" type="i:personIdRef"/>
+		<xs:attribute name="roleFromPerson" type="i:personToEventEnum"/>
 	</xs:complexType>
 	<xs:complexType name="personsType">
 		<xs:sequence>
-			<xs:element ref="r:person" maxOccurs="unbounded"/>
+			<xs:element ref="i:person" maxOccurs="unbounded"/>
 		</xs:sequence>
-		<xs:attribute name="id" type="r:personsId"/>
-		<xs:attribute name="roleToEvent" type="r:personToEventEnum"/>
-		<xs:attribute name="roleToGroup" type="r:personToGroupEnum"/>
-		<xs:attribute name="roleToPerson" type="r:personToPersonEnum"/>
-		<xs:attribute name="roleFromPerson" type="r:personToPersonEnum"/>
+		<xs:attribute name="id" type="i:personsId"/>
+		<xs:attribute name="roleToEvent" type="i:personToEventEnum"/>
+		<xs:attribute name="roleToGroup" type="i:personToGroupEnum"/>
+		<xs:attribute name="roleToPerson" type="i:personToPersonEnum"/>
+		<xs:attribute name="roleFromPerson" type="i:personToPersonEnum"/>
 	</xs:complexType>
 	<xs:complexType name="groupsType">
 		<xs:sequence>
-			<xs:element ref="r:group" maxOccurs="unbounded"/>
+			<xs:element ref="i:group" maxOccurs="unbounded"/>
 		</xs:sequence>
-		<xs:attribute name="id" type="r:groupsId"/>
-		<xs:attribute name="roleFromPerson" type="r:personToGroupEnum"/>
-		<xs:attribute name="roleToPerson" type="r:groupToPersonEnum"/>
-		<xs:attribute name="roleToEvent" type="r:groupToEventEnum"/>
-		<xs:attribute name="roleToPlace" type="r:groupToPlaceEnum"/>
+		<xs:attribute name="id" type="i:groupsId"/>
+		<xs:attribute name="roleFromPerson" type="i:personToGroupEnum"/>
+		<xs:attribute name="roleToPerson" type="i:groupToPersonEnum"/>
+		<xs:attribute name="roleToEvent" type="i:groupToEventEnum"/>
+		<xs:attribute name="roleToPlace" type="i:groupToPlaceEnum"/>
 	</xs:complexType>
 	<xs:complexType name="placesType">
 		<xs:sequence>
-			<xs:element ref="r:place" maxOccurs="unbounded"/>
+			<xs:element ref="i:place" maxOccurs="unbounded"/>
 		</xs:sequence>
-		<xs:attribute name="id" type="r:placesId"/>
-		<xs:attribute name="roleFromPerson" type="r:personToPlaceEnum"/>
-		<xs:attribute name="roleToPerson" type="r:placeToPersonEnum"/>
+		<xs:attribute name="id" type="i:placesId"/>
+		<xs:attribute name="roleFromPerson" type="i:personToPlaceEnum"/>
+		<xs:attribute name="roleToPerson" type="i:placeToPersonEnum"/>
 	</xs:complexType>
 	<xs:complexType name="personFeaturesType">
 		<xs:sequence>
-			<xs:element ref="r:personFeature" maxOccurs="unbounded"/>
+			<xs:element ref="i:personFeature" maxOccurs="unbounded"/>
 		</xs:sequence>
-		<xs:attribute name="id" type="r:personFeaturesId"/>
+		<xs:attribute name="id" type="i:personFeaturesId"/>
 	</xs:complexType>
 	<xs:complexType name="eventFeaturesType">
 		<xs:sequence>
-			<xs:element ref="r:eventFeature" maxOccurs="unbounded"/>
+			<xs:element ref="i:eventFeature" maxOccurs="unbounded"/>
 		</xs:sequence>
-		<xs:attribute name="id" type="r:eventFeaturesId"/>
+		<xs:attribute name="id" type="i:eventFeaturesId"/>
 	</xs:complexType>
 	<xs:complexType name="placeFeaturesType">
 		<xs:sequence>
-			<xs:element ref="r:placeFeature" maxOccurs="unbounded"/>
+			<xs:element ref="i:placeFeature" maxOccurs="unbounded"/>
 		</xs:sequence>
-		<xs:attribute name="id" type="r:placeFeaturesId"/>
+		<xs:attribute name="id" type="i:placeFeaturesId"/>
 	</xs:complexType>
 	<xs:complexType name="groupFeaturesType">
 		<xs:sequence>
-			<xs:element ref="r:groupFeature" maxOccurs="unbounded"/>
+			<xs:element ref="i:groupFeature" maxOccurs="unbounded"/>
 		</xs:sequence>
-		<xs:attribute name="id" type="r:groupFeaturesId"/>
+		<xs:attribute name="id" type="i:groupFeaturesId"/>
 	</xs:complexType>
 	<xs:complexType name="unitFeaturesType">
 		<xs:sequence>
-			<xs:element ref="r:unitFeature" maxOccurs="unbounded"/>
+			<xs:element ref="i:unitFeature" maxOccurs="unbounded"/>
 		</xs:sequence>
-		<xs:attribute name="id" type="r:unitFeaturesId"/>
+		<xs:attribute name="id" type="i:unitFeaturesId"/>
 	</xs:complexType>
 
 	<?gb sect=2 en="Other Types" nl="Overige types" id="Other-types"?>
@@ -1695,51 +1653,37 @@
 				<xs:attribute name="author" type="g:string200"/>
 				<xs:attribute name="date" type="xs:date"/>
 				<xs:attribute name="lang" type="xs:language"/>
-				<xs:attribute name="group" type="r:groupIdRef"/>
-				<xs:attribute name="person" type="r:personIdRef"/>
-				<xs:attribute name="place" type="r:placeIdRef"/>
-				<xs:attribute name="event" type="r:eventIdRef"/>
-				<xs:attribute name="file" type="r:fileIdRef"/>
-				<xs:attributeGroup ref="r:filePosAttributes"/>
+				<xs:attribute name="group" type="i:groupIdRef"/>
+				<xs:attribute name="person" type="i:personIdRef"/>
+				<xs:attribute name="place" type="i:placeIdRef"/>
+				<xs:attribute name="event" type="i:eventIdRef"/>
+				<xs:attribute name="file" type="i:fileIdRef"/>
+				<xs:attributeGroup ref="i:filePosAttributes"/>
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>
 
 	<?gb sect=1 en="Attribute groups" nl="Attribuut groepen" id="Attribute-groups"?>
-	<xs:attributeGroup name="registerAttributes">
-		<xs:attribute name="uuid" type="g:uuidType" use="required">
+	<xs:attributeGroup name="indexAttributes">
+		<xs:attribute name="id" type="g:remoteIDType" use="required">
 			<xs:annotation>
-				<xs:documentation>The UUID of the Register that this Unit is to be applied
+				<xs:documentation>The UUID of the index that this Unit is to be applied
 					to.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="version" type="xs:dateTime" use="optional"/>
-		<xs:attribute name="update" type="r:updateEnumType" default="Append"/>
+		<xs:attribute name="version" type="xs:dateTime" use="required"/>
+		<xs:attribute name="repository" type="g:repositoryIDType" use="required"/>
+		<xs:attribute name="code" type="g:string24" use="required"/>
 		<xs:attribute name="name" type="g:string100" use="required">
 			<xs:annotation>
-				<xs:documentation>The name of the Register that this Unit is to be applied to. The
-					preferred method of specifying the Register is with registerID instead of name.
-					If registerID is specified, the registerName is ignored.</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
-	</xs:attributeGroup>
-	<xs:attributeGroup name="unitsAttributes">
-		<xs:attribute name="repository" type="g:uuidType" use="required">
-			<xs:annotation>
-				<xs:documentation>The UUID of the repository that must be queried for fileNames.</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
-	</xs:attributeGroup>
-	<xs:attributeGroup name="unitAttributes">
-		<xs:attribute name="composition" type="r:compositionEnum" default="smart">
-			<xs:annotation>
-				<xs:documentation> Instructs the parsing application on how to deal with implicit
-					relations and roles. </xs:documentation>
+				<xs:documentation>The name of the index that this Unit is to be applied to. The
+					preferred method of specifying the index is with indexID instead of name.
+					If indexID is specified, the indexName is ignored.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 	</xs:attributeGroup>
 	<xs:attributeGroup name="fileAttributes">
-		<xs:attribute name="id" type="r:fileId"/>
+		<xs:attribute name="id" type="i:fileId"/>
 		<xs:attribute name="uuid" type="g:uuidType">
 			<xs:annotation>
 				<xs:documentation>The UUID that was assigned to a FolderFile after it was uploaded
@@ -1747,7 +1691,7 @@
 					must be specified.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="name" type="g:string36">
+		<xs:attribute name="name" type="g:fileNameType">
 			<xs:annotation>
 				<xs:documentation>The filename that has already been uploaded to to Geneabase, using
 					the fileUpload tool. This is an alternative method of specifying a filename,
@@ -1756,19 +1700,15 @@
 					required to uniquely identify the file should be specified. This may include the folderName or folderID.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="folderID" type="g:uuidType">
+		<xs:attribute name="folder" type="g:uuidType">
 			<xs:annotation>
 				<xs:documentation>The uuid of the folder, or one of its parent folders, in which this image can be located.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="folderName" type="g:string100">
-			<xs:annotation>
-				<xs:documentation>The single name of a folder (so not a path of folders) that is a parent folder of the specified file.</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
+		<xs:attribute name="ext" type="g:extensionType" use="optional"/>
 	</xs:attributeGroup>
 	<xs:attributeGroup name="filePosAttributes">
-		<xs:attribute name="mask" type="g:polygonType">
+		<xs:attribute name="geometry" type="g:rectangleType">
 			<xs:annotation>
 				<xs:documentation>This defines the geometric location on the Image, or on the Video,
 					by defining a geometric shape in Well Known Text Format
@@ -1798,60 +1738,29 @@
 
 	<?gb sect=1 en="Elements" nl="Elementen" id="Elements"?>
 	<?gb sect=2 en="Structural Elements" nl="Structurele elementen" id="Structural-elements"?>
-	<xs:element name="register">
+	<xs:element name="index">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element ref="r:library" minOccurs="0"/>
-				<xs:element ref="r:units" maxOccurs="unbounded"/>
+				<xs:element maxOccurs="unbounded" ref="i:unit"/>
 			</xs:sequence>
-			<xs:attributeGroup ref="r:registerAttributes"/>
+			<xs:attributeGroup ref="i:indexAttributes"/>
 		</xs:complexType>
-		<xs:unique name="uniqueInfoUnitUUID">
-			<xs:selector xpath="./r:units/r:unit"/>
-			<xs:field xpath="@uuid"/>
-		</xs:unique>
-		<xs:unique name="uniqueInfoUnitAltKey">
-			<xs:selector xpath="./r:units/r:unit"/>
-			<xs:field xpath="@altID"/>
-		</xs:unique>
-		<xs:unique name="libraryID">
-			<xs:selector xpath="./r:library/*"/>
+		<xs:unique name="uniqueUnitID">
+			<xs:selector xpath="./i:unit"/>
 			<xs:field xpath="@id"/>
 		</xs:unique>
-		<xs:keyref name="libraryIDRef" refer="r:libraryID">
-			<xs:selector xpath=".//*"/>
-			<xs:field xpath="@copy"/>
-		</xs:keyref>
-	</xs:element>
-	<xs:element name="library">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:group ref="r:entitiesGroup" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:group ref="r:featuresGroup" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="r:file" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="r:comment" minOccurs="0" maxOccurs="unbounded"/>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="units">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="r:unit" minOccurs="0" maxOccurs="unbounded"/>
-			</xs:sequence>
-			<xs:attributeGroup ref="r:unitAttributes"/>
-		</xs:complexType>
 	</xs:element>
 	<xs:element name="unit">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:group ref="r:entitiesGroup" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:group ref="r:entityGroupsGroup" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:group ref="r:relationsGroup" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:group ref="r:featuresGroup" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="r:file" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="r:comment" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:group ref="i:entitiesGroup" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:group ref="i:entityGroupsGroup" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:group ref="i:relationsGroup" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:group ref="i:featuresGroup" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="i:file" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="i:comment" minOccurs="0" maxOccurs="unbounded"/>
 			</xs:sequence>
-			<xs:attribute name="uuid" type="g:uuidType" use="required">
+			<xs:attribute name="id" type="g:remoteIDType" use="required">
 				<xs:annotation>
 					<xs:documentation>This is the Id that may have been imported from external
 						sources, and may also be exported. The UUID should never change, and it
@@ -1859,7 +1768,7 @@
 						that be inside or outside this system.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
-			<xs:attribute name="altID" type="g:string36">
+			<xs:attribute name="prevID" type="g:remoteIDType">
 				<xs:annotation>
 					<xs:documentation>ID from the external exporting system for this unit, as an
 						alternative or in addition to the UUID. This value is deprecated and may not
@@ -1868,46 +1777,43 @@
 						key.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
-			<xs:attribute name="features" type="r:unitFeatureIdRef"/>
-			<xs:attribute name="url" type="g:anyUrlType">
-				<xs:annotation>
-					<xs:documentation>The url through which the origin of this information can be accessed. Only intended for exports, not import.</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
+			<xs:attribute default="false" name="deleted" type="xs:boolean" use="optional"/>
+			<xs:attribute default="true" name="public" type="xs:boolean" use="optional"> </xs:attribute>
+			<xs:attribute name="publicDate" type="xs:date"/>
 		</xs:complexType>
 		<xs:unique name="entityID">
 			<xs:selector xpath=".//*"/>
 			<xs:field xpath="@id"/>
 		</xs:unique>
-		<xs:keyref name="person1IDRef" refer="r:entityID">
+		<xs:keyref name="person1IDRef" refer="i:entityID">
 			<xs:selector xpath="*"/>
 			<xs:field xpath="@person1"/>
 		</xs:keyref>
-		<xs:keyref name="person2IDRef" refer="r:entityID">
+		<xs:keyref name="person2IDRef" refer="i:entityID">
 			<xs:selector xpath="*"/>
 			<xs:field xpath="@person2"/>
 		</xs:keyref>
-		<xs:keyref name="personIDRef" refer="r:entityID">
+		<xs:keyref name="personIDRef" refer="i:entityID">
 			<xs:selector xpath="*"/>
 			<xs:field xpath="@person"/>
 		</xs:keyref>
-		<xs:keyref name="fileIDRef" refer="r:entityID">
+		<xs:keyref name="fileIDRef" refer="i:entityID">
 			<xs:selector xpath="*"/>
 			<xs:field xpath="@file"/>
 		</xs:keyref>
-		<xs:keyref name="featureIDRef" refer="r:entityID">
+		<xs:keyref name="featureIDRef" refer="i:entityID">
 			<xs:selector xpath="*"/>
 			<xs:field xpath="@feature"/>
 		</xs:keyref>
-		<xs:keyref name="eventIDRef" refer="r:entityID">
+		<xs:keyref name="eventIDRef" refer="i:entityID">
 			<xs:selector xpath="*"/>
 			<xs:field xpath="@event"/>
 		</xs:keyref>
-		<xs:keyref name="placeIDRef" refer="r:entityID">
+		<xs:keyref name="placeIDRef" refer="i:entityID">
 			<xs:selector xpath="*"/>
 			<xs:field xpath="@place"/>
 		</xs:keyref>
-		<xs:keyref name="groupIDRef" refer="r:entityID">
+		<xs:keyref name="groupIDRef" refer="i:entityID">
 			<xs:selector xpath="*"/>
 			<xs:field xpath="@group"/>
 		</xs:keyref>
@@ -1915,103 +1821,103 @@
 
 
 	<?gb sect=2 en="Entity Elements" nl="Entiteit elementen" id="Entity-elements"?>
-	<xs:element name="person" type="r:personType"/>
-	<xs:element name="event" type="r:eventType"/>
-	<xs:element name="place" type="r:placeType"/>
-	<xs:element name="group" type="r:groupType"/>
+	<xs:element name="person" type="i:personType"/>
+	<xs:element name="event" type="i:eventType"/>
+	<xs:element name="place" type="i:placeType"/>
+	<xs:element name="group" type="i:groupType"/>
 
 	<?gb sect=2 en="Entity Group Elements" nl="Entiteit-collectie elementen" id="Entity-group-elements"?>
-	<xs:element name="persons" type="r:personsType"/>
-	<xs:element name="events" type="r:eventsType"/>
-	<xs:element name="places" type="r:placesType"/>
-	<xs:element name="groups" type="r:groupsType"/>
+	<xs:element name="persons" type="i:personsType"/>
+	<xs:element name="events" type="i:eventsType"/>
+	<xs:element name="places" type="i:placesType"/>
+	<xs:element name="groups" type="i:groupsType"/>
 
 	<?gb sect=2 en="Feature Elements" nl="Feature elementen" id="Feature-elements"?>
-	<xs:element name="eventFeature" type="r:eventFeatureType"/>
-	<xs:element name="groupFeature" type="r:groupFeatureType"/>
-	<xs:element name="personFeature" type="r:personFeatureType"/>
-	<xs:element name="placeFeature" type="r:placeFeatureType"/>
-	<xs:element name="unitFeature" type="r:unitFeatureType"/>
+	<xs:element name="eventFeature" type="i:eventFeatureType"/>
+	<xs:element name="groupFeature" type="i:groupFeatureType"/>
+	<xs:element name="personFeature" type="i:personFeatureType"/>
+	<xs:element name="placeFeature" type="i:placeFeatureType"/>
+	<xs:element name="unitFeature" type="i:unitFeatureType"/>
 
 	<?gb sect=2 en="Feature Group Elements" nl="Feature-collectie elementen" id="Feature-group-elements"?>
-	<xs:element name="eventFeatures" type="r:eventFeaturesType"/>
-	<xs:element name="groupFeatures" type="r:groupFeaturesType"/>
-	<xs:element name="personFeatures" type="r:personFeaturesType"/>
-	<xs:element name="placeFeatures" type="r:placeFeaturesType"/>
-	<xs:element name="unitFeatures" type="r:unitFeaturesType"/>
+	<xs:element name="eventFeatures" type="i:eventFeaturesType"/>
+	<xs:element name="groupFeatures" type="i:groupFeaturesType"/>
+	<xs:element name="personFeatures" type="i:personFeaturesType"/>
+	<xs:element name="placeFeatures" type="i:placeFeaturesType"/>
+	<xs:element name="unitFeatures" type="i:unitFeaturesType"/>
 
 
 
 	<?gb sect=2 en="Relation Elements" nl="Relatie elementen" id="Relation-elements"?>
 	<?gb sect=3 en="Event Relation Elements" nl="Event relatie elementen" id="Event-relation-elements"?>
-	<xs:element name="eventToFeature" type="r:eventToFeatureType"/>
+	<xs:element name="eventToFeature" type="i:eventToFeatureType"/>
 	<?gb sect=3 en="Group Relation Elements" nl="Groep relatie elementen" id="Group-relation-elements"?>
-	<xs:element name="groupToEvent" type="r:groupToEventType"/>
-	<xs:element name="groupToFeature" type="r:groupToFeatureType"/>
-	<xs:element name="groupToPlace" type="r:groupToPlaceType"/>
+	<xs:element name="groupToEvent" type="i:groupToEventType"/>
+	<xs:element name="groupToFeature" type="i:groupToFeatureType"/>
+	<xs:element name="groupToPlace" type="i:groupToPlaceType"/>
 	<?gb sect=3 en="Person Relation Elements" nl="Persoon relatie elementen" id="Person-relation-elements"?>
-	<xs:element name="personToEvent" type="r:personToEventType"/>
-	<xs:element name="personToFeature" type="r:personToFeatureType"/>
-	<xs:element name="personToGroup" type="r:personToGroupType"/>
-	<xs:element name="personToPerson" type="r:personToPersonType"/>
-	<xs:element name="personToPlace" type="r:placeToPersonType"/>
+	<xs:element name="personToEvent" type="i:personToEventType"/>
+	<xs:element name="personToFeature" type="i:personToFeatureType"/>
+	<xs:element name="personToGroup" type="i:personToGroupType"/>
+	<xs:element name="personToPerson" type="i:personToPersonType"/>
+	<xs:element name="personToPlace" type="i:placeToPersonType"/>
 	<?gb sect=3 en="Place Relation Elements" nl="Plaats relatie elementen" id="Place-relation-elements"?>
-	<xs:element name="placeToEvent" type="r:placeToEventType"/>
-	<xs:element name="placeToFeature" type="r:placeToFeatureType"/>
-	<!-- <xs:element name="placeToPerson" type="r:placeToPerson"/> -->
-	<!-- <xs:element name="groupToPerson" type="r:personToGroup"/> -->
-	<!--<xs:element name="placeToGroup" type="r:groupToPlace"/>-->
-	<!-- <xs:element name="eventToGroup" type="r:groupToEvent"/>-->
+	<xs:element name="placeToEvent" type="i:placeToEventType"/>
+	<xs:element name="placeToFeature" type="i:placeToFeatureType"/>
+	<!-- <xs:element name="placeToPerson" type="i:placeToPerson"/> -->
+	<!-- <xs:element name="groupToPerson" type="i:personToGroup"/> -->
+	<!--<xs:element name="placeToGroup" type="i:groupToPlace"/>-->
+	<!-- <xs:element name="eventToGroup" type="i:groupToEvent"/>-->
 
 	<?gb sect=2 en="Other Elements" nl="Overige elementen" id="Other-elements"?>
 	<xs:element name="file">
 		<xs:complexType>
-			<xs:attributeGroup ref="r:fileAttributes"/>
-			<xs:attributeGroup ref="r:filePosAttributes"/>
+			<xs:attributeGroup ref="i:fileAttributes"/>
+			<xs:attributeGroup ref="i:filePosAttributes"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="addressRange" type="r:addressRangeType"/>
-	<xs:element name="comment" type="r:commentType"/>
+	<xs:element name="addressRange" type="i:addressRangeType"/>
+	<xs:element name="comment" type="i:commentType"/>
 
 	<?gb sect=1 en="Element Groups" nl="Element groepen" id="Element-groups"?>
 	<xs:group name="relationsGroup">
 		<xs:sequence>
-			<xs:element ref="r:personToPerson" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element ref="r:personToPlace" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element ref="r:personToGroup" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element ref="r:personToEvent" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element ref="r:personToFeature" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element ref="r:placeToEvent" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element ref="r:groupToPlace" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element ref="r:groupToEvent" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element ref="r:groupToFeature" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element ref="r:placeToFeature" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element ref="r:eventToFeature" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="i:personToPerson" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="i:personToPlace" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="i:personToGroup" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="i:personToEvent" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="i:personToFeature" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="i:placeToEvent" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="i:groupToPlace" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="i:groupToEvent" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="i:groupToFeature" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="i:placeToFeature" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="i:eventToFeature" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:group>
 	<xs:group name="entityGroupsGroup">
 		<xs:sequence>
-			<xs:element ref="r:persons" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element ref="r:places" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element ref="r:groups" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element ref="r:events" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="i:persons" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="i:places" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="i:groups" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="i:events" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:group>
 	<xs:group name="entitiesGroup">
 		<xs:sequence>
-			<xs:element ref="r:person" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element ref="r:place" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element ref="r:group" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element ref="r:event" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="i:person" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="i:place" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="i:group" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="i:event" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:group>
 	<xs:group name="featuresGroup">
 		<xs:sequence>
-			<xs:element ref="r:personFeature" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element ref="r:placeFeature" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element ref="r:groupFeature" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element ref="r:eventFeature" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element ref="r:unitFeature" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="i:personFeature" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="i:placeFeature" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="i:groupFeature" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="i:eventFeature" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="i:unitFeature" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:group>
 </xs:schema>
