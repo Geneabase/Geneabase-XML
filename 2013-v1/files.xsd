@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:f="http://schemas.geneabase.com/2013-v1/files"
+    xmlns:g="http://schemas.geneabase.com/2013-v1/geneabase"
+    targetNamespace="http://schemas.geneabase.com/2013-v1/files" elementFormDefault="qualified">
+    <xs:import namespace="http://schemas.geneabase.com/2013-v1/geneabase"
+        schemaLocation="http://schemas.geneabase.com/2013-v1/geneabase.xsd"/>
+    <xs:element name="drive" type="f:driveType">
+        <xs:unique name="uniqueFolderName">
+            <xs:selector xpath="f:folder"/>
+            <xs:field xpath="@name"/>
+        </xs:unique>
+        <xs:unique name="uniqueUUID">
+            <xs:selector xpath="f:folder|f:folder/f:file"/>
+            <xs:field xpath="@id"/>
+        </xs:unique>
+        <xs:unique name="uniqueFileName">
+            <xs:selector xpath="f:folder/f:file"/>
+            <xs:field xpath="@name"/>
+        </xs:unique>
+    </xs:element>
+    <xs:complexType name="driveType">
+        <xs:sequence>
+            <xs:element name="description" minOccurs="0" type="g:string400"/>
+            <xs:element name="access" type="g:accessType" minOccurs="0"/>
+            <xs:element maxOccurs="unbounded" name="folder" type="f:folderType"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="g:uuidType" use="required"/>
+        <xs:attribute name="version" type="xs:dateTime" use="required"/>
+        <xs:attribute name="name" type="g:string24" use="required"/>
+        <xs:attribute default="1" name="priceFactor" type="g:priceFactorType"/>
+        <xs:attribute default="false" name="deleted" type="xs:boolean"/>
+        <xs:attribute default="false" name="ocr" type="xs:boolean"/>
+        <xs:attribute default="false" name="transcribe" type="xs:boolean"/>
+        <xs:attribute name="repository" type="g:repositoryIDType" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="folderType">
+        <xs:sequence>
+            <xs:element name="description" minOccurs="0" type="g:string400"/>
+            <xs:element name="access" type="g:accessType" minOccurs="0"/>
+            <xs:element maxOccurs="unbounded" name="file" type="f:fileType"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="g:uuidType" use="required"/>
+        <xs:attribute name="name" type="g:fileNameType" use="required"/>
+        <xs:attribute default="1" name="priceFactor" type="g:priceFactorType"/>
+        <xs:attribute default="false" name="transcribe" type="xs:boolean"/>
+        <xs:attribute name="ocr" type="xs:boolean"/>
+        <xs:attribute name="deleted" type="xs:boolean"/>
+    </xs:complexType>
+    <xs:complexType name="fileType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="access" type="g:accessType"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="g:uuidType" use="required"/>
+        <xs:attribute name="name" type="g:fileNameType" use="required"/>
+        <xs:attribute name="ext" type="g:extensionType" use="required"/>
+        <xs:attribute name="digest" type="g:md5Type" use="required"/>
+        <xs:attribute default="1" name="priceFactor" type="g:priceFactorType"/>
+        <xs:attribute default="false" name="deleted" type="xs:boolean"/>
+        <xs:attribute name="mask" type="g:polygonType"/>
+        <xs:attribute name="type" type="f:fileEnumType" default="Image"/>
+        <xs:attribute name="creation" type="xs:dateTime" use="required"/>
+        <xs:attribute name="modification" type="xs:dateTime"/>
+        <xs:attribute name="size" type="xs:positiveInteger" use="required"/>
+        <xs:attribute name="group" type="g:fileNameType"/>
+    </xs:complexType>
+    <xs:simpleType name="fileEnumType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Image"/>
+            <xs:enumeration value="Video"/>
+            <xs:enumeration value="Audio"/>
+            <xs:enumeration value="Archive"/>
+            <xs:enumeration value="Document"/>
+            <xs:enumeration value="Digest"/>
+            <xs:enumeration value="Other"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
