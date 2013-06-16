@@ -21,15 +21,7 @@
 		</xs:documentation>
 	</xs:annotation>
 
-	<xs:simpleType name="housenumber">
-		<xs:annotation>
-			<xs:documentation xml:lang="en">Housenumber on a street, specified as a single number, or '*" to indicate all numbers. </xs:documentation>
-			<xs:documentation xml:lang="nl">Huisnummer van een straat, aangeduid met een enkelvoudig getal, of '*' om alle nummers aan te duiden.</xs:documentation>
-		</xs:annotation>
-		<xs:restriction base="xs:string">
-			<xs:pattern value="\*|[0-9]+"/>
-		</xs:restriction>
-	</xs:simpleType>
+
 	<?gb sect=2 en="Identifier Types" nl="Identificatie types" id="Id-types"?>
 	<xs:simpleType name="personId">
 		<xs:restriction base="xs:NCName">
@@ -56,7 +48,6 @@
 
 	<xs:simpleType name="surnameTypesEnum">
 		<xs:restriction base="xs:string">
-			<xs:enumeration value="inherited"/>
 			<xs:enumeration value="patronymic"/>
 			<xs:enumeration value="matronymic"/>
 		</xs:restriction>
@@ -126,7 +117,6 @@
 			<xs:enumeration value="confirmation"/>
 			<xs:enumeration value="cremation"/>
 			<xs:enumeration value="death"/>
-			<xs:enumeration value="degree"/>
 			<xs:enumeration value="departure"/>
 			<xs:enumeration value="divorce"/>
 			<xs:enumeration value="divorceFiling"/>
@@ -186,11 +176,51 @@
 	<?gb sect=3 en="Event Type and Subtypes" nl="Event type en subtypes" id="Event-types"?>
 
 	<?gb sect=3 en="Person Types" nl="Persoon types" id="Person-types"?>
+	
+	<xs:simpleType name="fractionType">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="fractionsType">
+		<xs:restriction>
+			<xs:simpleType>
+				<xs:list itemType="i:fractionType"/>
+			</xs:simpleType>
+			<xs:minLength value="1"/>
+			<xs:maxLength value="10"/>
+			<xs:pattern value=".{1,100}"></xs:pattern>
+		</xs:restriction>
+	</xs:simpleType>
+	
 	<xs:complexType name="personNameType">
 		<xs:simpleContent>
-			<xs:extension base="g:string200"> </xs:extension>
+			<xs:extension base="i:fractionsType"/> 
 		</xs:simpleContent>
 	</xs:complexType>
+	
+	
+	<xs:simpleType name="placePrefixType">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="16"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="placePrefixesType">
+		<xs:restriction>
+			<xs:simpleType>
+				<xs:list itemType="i:placePrefixType"/>
+			</xs:simpleType>
+			<xs:minLength value="1"/>
+			<xs:maxLength value="3"/>
+			<xs:pattern value=".{1,16}"></xs:pattern>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	
 	<xs:group name="surnameGroup">
 		<xs:annotation>
 			<xs:documentation xml:lang="nl">
@@ -222,13 +252,13 @@
 				<xs:complexType>
 					<xs:complexContent>
 						<xs:extension base="i:personNameType">
-							<xs:attribute name="derivation" type="i:surnameTypesEnum"/>
-							<xs:attribute name="primary" type="xs:boolean"/>
+							<xs:attribute name="type" type="i:surnameTypesEnum"/>
+						<!--	<xs:attribute name="primary" type="xs:boolean"/> -->
 						</xs:extension>
 					</xs:complexContent>
 				</xs:complexType>
 			</xs:element>
-			<xs:element name="connector" type="i:personNameType" minOccurs="0"/>
+			<xs:element name="connector" type="i:fractionType" minOccurs="0"/>
 		</xs:sequence>
 	</xs:group>
 	<xs:group name="personNameGroup">
@@ -256,7 +286,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:group ref="i:surnameGroup" minOccurs="0" maxOccurs="unbounded">
+			<xs:group ref="i:surnameGroup" minOccurs="0" maxOccurs="3">
 				<xs:annotation>
 					<xs:documentation>
 						Family name
@@ -389,8 +419,8 @@
 	</xs:group>
 	<xs:complexType name="placeNameType">
 		<xs:simpleContent>
-			<xs:extension base="g:string200">
-				<xs:attribute name="prefix" type="g:string50"/>
+			<xs:extension base="i:fractionsType">
+				<xs:attribute name="prefix" type="i:placePrefixesType"/>
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>

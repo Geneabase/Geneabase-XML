@@ -19,11 +19,20 @@
             <xs:field xpath="@name"/>
         </xs:unique>
     </xs:element>
+    <xs:simpleType name="foldersType">
+        <xs:restriction>
+            <xs:simpleType>
+                <xs:list itemType="g:uuidType"/>
+            </xs:simpleType>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="folder" type="f:folderType"/>
     <xs:complexType name="driveType">
         <xs:sequence>
             <xs:element name="description" minOccurs="0" type="g:string400"/>
             <xs:element name="access" type="g:accessType" minOccurs="0"/>
-            <xs:element maxOccurs="unbounded" name="folder" type="f:folderType"/>
+            <xs:element name="folders" type="f:foldersType"/>
         </xs:sequence>
         <xs:attribute name="id" type="g:uuidType" use="required"/>
         <xs:attribute name="version" type="xs:dateTime" use="required"/>
@@ -41,6 +50,7 @@
             <xs:element maxOccurs="unbounded" name="file" type="f:fileType"/>
         </xs:sequence>
         <xs:attribute name="id" type="g:uuidType" use="required"/>
+        <xs:attribute name="drive" type="g:uuidType"/>
         <xs:attribute name="name" type="g:fileNameType" use="required"/>
         <xs:attribute default="1" name="priceFactor" type="g:priceFactorType"/>
         <xs:attribute default="false" name="transcribe" type="xs:boolean"/>
