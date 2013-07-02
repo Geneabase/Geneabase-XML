@@ -1,38 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:f="http://schemas.geneabase.com/2013-v1/files"
-    xmlns:g="http://schemas.geneabase.com/2013-v1/geneabase"
-    targetNamespace="http://schemas.geneabase.com/2013-v1/files" elementFormDefault="qualified">
-    <xs:import namespace="http://schemas.geneabase.com/2013-v1/geneabase"
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:f="http://geneabase.com/files"
+    xmlns:g="http://geneabase.com/geneabase" targetNamespace="http://geneabase.com/files"
+    elementFormDefault="qualified" version="2013-v1">
+    <xs:import namespace="http://geneabase.com/geneabase"
         schemaLocation="http://schemas.geneabase.com/2013-v1/geneabase.xsd"/>
     <xs:element name="drive" type="f:driveType">
         <xs:unique name="uniqueFolderName">
             <xs:selector xpath="f:folder"/>
             <xs:field xpath="@name"/>
         </xs:unique>
-        <xs:unique name="uniqueUUID">
-            <xs:selector xpath="f:folder|f:folder/f:file"/>
+        <xs:unique name="uniqueFolderUUID">
+            <xs:selector xpath="f:folder"/>
             <xs:field xpath="@id"/>
         </xs:unique>
+    </xs:element>
+
+    <xs:element name="folder" type="f:folderType">
         <xs:unique name="uniqueFileName">
-            <xs:selector xpath="f:folder/f:file"/>
+            <xs:selector xpath="f:file"/>
             <xs:field xpath="@name"/>
         </xs:unique>
+        <xs:unique name="uniqueFileUUID">
+            <xs:selector xpath="f:folder"/>
+            <xs:field xpath="@id"/>
+        </xs:unique>
     </xs:element>
-    <xs:simpleType name="foldersType">
-        <xs:restriction>
-            <xs:simpleType>
-                <xs:list itemType="g:uuidType"/>
-            </xs:simpleType>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:element name="folder" type="f:folderType"/>
     <xs:complexType name="driveType">
         <xs:sequence>
             <xs:element name="description" minOccurs="0" type="g:string400"/>
             <xs:element name="access" type="g:accessType" minOccurs="0"/>
-            <xs:element name="folders" type="f:foldersType"/>
+            <xs:element minOccurs="0" name="folder" type="f:driveFolderType"/>
         </xs:sequence>
         <xs:attribute name="id" type="g:uuidType" use="required"/>
         <xs:attribute name="version" type="xs:dateTime" use="required"/>
@@ -42,20 +39,26 @@
         <xs:attribute default="false" name="ocr" type="xs:boolean"/>
         <xs:attribute default="false" name="transcribe" type="xs:boolean"/>
         <xs:attribute name="repository" type="g:repositoryIDType" use="required"/>
+        <xs:attribute name="schema" type="g:schemaType" use="required"/>
     </xs:complexType>
     <xs:complexType name="folderType">
         <xs:sequence>
             <xs:element name="description" minOccurs="0" type="g:string400"/>
             <xs:element name="access" type="g:accessType" minOccurs="0"/>
-            <xs:element maxOccurs="unbounded" name="file" type="f:fileType"/>
+            <xs:element maxOccurs="unbounded" name="file" type="f:fileType" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="id" type="g:uuidType" use="required"/>
-        <xs:attribute name="drive" type="g:uuidType"/>
         <xs:attribute name="name" type="g:fileNameType" use="required"/>
         <xs:attribute default="1" name="priceFactor" type="g:priceFactorType"/>
         <xs:attribute default="false" name="transcribe" type="xs:boolean"/>
         <xs:attribute name="ocr" type="xs:boolean"/>
         <xs:attribute name="deleted" type="xs:boolean"/>
+        <xs:attribute name="schema" type="g:schemaType" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="driveFolderType">
+        <xs:attribute name="id" type="g:uuidType" use="required"/>
+        <xs:attribute name="name" type="g:fileNameType" use="required"/>
+        <xs:attribute name="digest" type="g:md5Type" use="required"/>
     </xs:complexType>
     <xs:complexType name="fileType">
         <xs:sequence>

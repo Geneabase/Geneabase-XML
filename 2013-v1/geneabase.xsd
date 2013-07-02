@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright © 2011-2013 Geneabase BV. Licenced under CC BY 3.0 http://creativecommons.org/licenses/by/3.0/ -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:gb="http://schemas.geneabase.com/2013-v1/geneabase"
+    xmlns:gb="http://geneabase.com/geneabase"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
-    targetNamespace="http://schemas.geneabase.com/2013-v1/geneabase" elementFormDefault="qualified">
+    targetNamespace="http://geneabase.com/geneabase" elementFormDefault="qualified" version="2013-v1">
+    <xs:simpleType name="schemaType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">The version number of the Geneabase schema.</xs:documentation>
+            <xs:documentation xml:lang="nl">Het versienummer van het Geneabase schema.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:token">
+            <xs:pattern value="\d{4}-v\d+"/>
+        </xs:restriction>
+    </xs:simpleType>
     <xs:simpleType name="string16">
         <xs:annotation>
             <xs:documentation xml:lang="en">A string between 1 and 16 characters length.</xs:documentation>
@@ -81,6 +90,13 @@
             <xs:whiteSpace value="collapse"/>
         </xs:restriction>
     </xs:simpleType>
+    <xs:simpleType name="string4000">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="4000"/>
+            <xs:minLength value="1"/>
+            <xs:whiteSpace value="preserve"/>
+        </xs:restriction>
+    </xs:simpleType>
     <xs:simpleType name="uuidType">
         <xs:annotation>
             <xs:documentation xml:lang="en">
@@ -117,7 +133,8 @@
         </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:pattern
-                value="POLYGON\s?\(\(\d+ \d+(,\s?\d+ \d+){2,}\)(,\s?\(\d+ \d+(,\s?\d+ \d+){2,}\))*\)"/>
+                value="POLYGON\s?\(\(\d+ \d+(,\s?\d+ \d+){2,}\)(,\s?\(\d+ \d+(,\s?\d+ \d+){2,}\))*\)"
+            />
         </xs:restriction>
     </xs:simpleType>
     <xs:simpleType name="positiveShortType">
@@ -219,6 +236,12 @@
                 <xs:documentation xml:lang="nl">Om een repository aan te duiden mag ofwel de ISIL code worden gebruikt (zie http://biblstandard.dk/isil/), of de UUID.</xs:documentation>
             </xs:annotation>
         </xs:union>
+    </xs:simpleType>
+
+    <xs:simpleType name="emailType">
+        <xs:restriction base="xs:token">
+            <xs:pattern value="[^@ ]{1,50}@[^@ ]{1,100}"/>
+        </xs:restriction>
     </xs:simpleType>
 
     <xs:simpleType name="md5Type">

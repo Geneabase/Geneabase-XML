@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright © 2011-2013 Geneabase BV. Licenced under CC BY 3.0 http://creativecommons.org/licenses/by/3.0/ -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:i="http://schemas.geneabase.com/2013-v1/indexing"
-	xmlns:g="http://schemas.geneabase.com/2013-v1/geneabase"
-	targetNamespace="http://schemas.geneabase.com/2013-v1/indexing" elementFormDefault="qualified">
-	<xs:import namespace="http://schemas.geneabase.com/2013-v1/geneabase"
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:i="http://geneabase.com/indexing"
+	xmlns:g="http://geneabase.com/geneabase" targetNamespace="http://geneabase.com/indexing"
+	elementFormDefault="qualified" version="2013-v1">
+	<xs:import namespace="http://geneabase.com/geneabase"
 		schemaLocation="http://schemas.geneabase.com/2013-v1/geneabase.xsd"/>
 	<!-- strings -->
 	<?gb sect=1 en="Types" nl="Types" id="Types"?>
@@ -23,26 +22,34 @@
 
 
 	<?gb sect=2 en="Identifier Types" nl="Identificatie types" id="Id-types"?>
-	<xs:simpleType name="personId">
+	<xs:simpleType name="personIdType">
 		<xs:restriction base="xs:NCName">
-			<xs:pattern value="p\d+"/>
+			<xs:pattern value="p[0-8]"/>
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:simpleType name="placeId">
+	<xs:simpleType name="placeIdType">
 		<xs:restriction base="xs:NCName">
-			<xs:pattern value="l\d+"/>
+			<xs:pattern value="l[0-8]"/>
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:simpleType name="personOrPlaceId">
+	<xs:simpleType name="dateIdType">
 		<xs:restriction base="xs:NCName">
-			<xs:pattern value="[lp]\d+"/>
+			<xs:pattern value="d[0-8]"/>
 		</xs:restriction>
 	</xs:simpleType>
-
-	<xs:simpleType name="partType">
-		<xs:restriction base="xs:positiveInteger">
-			<xs:minInclusive value="1"/>
-			<xs:maxExclusive value="10000"/>
+	<xs:simpleType name="fileIdType">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="f[0-8]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="otherIdType">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="o[0-8]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="personOrplaceIdType">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="[lp][0-8]+"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -176,14 +183,14 @@
 	<?gb sect=3 en="Event Type and Subtypes" nl="Event type en subtypes" id="Event-types"?>
 
 	<?gb sect=3 en="Person Types" nl="Persoon types" id="Person-types"?>
-	
+
 	<xs:simpleType name="fractionType">
 		<xs:restriction base="xs:token">
 			<xs:minLength value="1"/>
 			<xs:maxLength value="50"/>
 		</xs:restriction>
 	</xs:simpleType>
-	
+
 	<xs:simpleType name="fractionsType">
 		<xs:restriction>
 			<xs:simpleType>
@@ -191,24 +198,24 @@
 			</xs:simpleType>
 			<xs:minLength value="1"/>
 			<xs:maxLength value="10"/>
-			<xs:pattern value=".{1,100}"></xs:pattern>
+			<xs:pattern value=".{1,100}"/>
 		</xs:restriction>
 	</xs:simpleType>
-	
+
 	<xs:complexType name="personNameType">
 		<xs:simpleContent>
-			<xs:extension base="i:fractionsType"/> 
+			<xs:extension base="i:fractionsType"/>
 		</xs:simpleContent>
 	</xs:complexType>
-	
-	
+
+
 	<xs:simpleType name="placePrefixType">
 		<xs:restriction base="xs:token">
 			<xs:minLength value="1"/>
 			<xs:maxLength value="16"/>
 		</xs:restriction>
 	</xs:simpleType>
-	
+
 	<xs:simpleType name="placePrefixesType">
 		<xs:restriction>
 			<xs:simpleType>
@@ -216,11 +223,11 @@
 			</xs:simpleType>
 			<xs:minLength value="1"/>
 			<xs:maxLength value="3"/>
-			<xs:pattern value=".{1,16}"></xs:pattern>
+			<xs:pattern value=".{1,16}"/>
 		</xs:restriction>
 	</xs:simpleType>
-	
-	
+
+
 	<xs:group name="surnameGroup">
 		<xs:annotation>
 			<xs:documentation xml:lang="nl">
@@ -253,7 +260,7 @@
 					<xs:complexContent>
 						<xs:extension base="i:personNameType">
 							<xs:attribute name="type" type="i:surnameTypesEnum"/>
-						<!--	<xs:attribute name="primary" type="xs:boolean"/> -->
+							<!--	<xs:attribute name="primary" type="xs:boolean"/> -->
 						</xs:extension>
 					</xs:complexContent>
 				</xs:complexType>
@@ -325,10 +332,32 @@
 		</xs:sequence>
 	</xs:group>
 
+	<xs:complexType name="unitsType">
+		<xs:sequence>
+			<xs:element name="unit" maxOccurs="100000" minOccurs="0">
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="i:unitType"/>
+
+					</xs:complexContent>
+				</xs:complexType>
+				<xs:unique name="entityID">
+					<xs:selector xpath=".//*"/>
+					<xs:field xpath="@id"/>
+				</xs:unique>
+				<xs:keyref name="linkRef" refer="i:entityID">
+					<xs:selector xpath="./*"/>
+					<xs:field xpath="link"/>
+				</xs:keyref>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="schema" type="g:schemaType" use="required"/>
+	</xs:complexType>
 	<xs:complexType name="unitType">
 		<xs:sequence>
 			<xs:element minOccurs="0" name="access" type="g:accessType"/>
-			<xs:group maxOccurs="16" minOccurs="1" ref="i:entitiesGroup"/>
+			<xs:group maxOccurs="1" minOccurs="1" ref="i:entitiesGroup"/>
+			<xs:element minOccurs="0" name="note" type="i:noteType"/>
 			<xs:group minOccurs="0" ref="i:filesGroup"/>
 		</xs:sequence>
 		<xs:attribute name="id" type="g:remoteIDType" use="required">
@@ -339,27 +368,22 @@
 						that be inside or outside this system.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="prevID" type="g:remoteIDType">
-			<xs:annotation>
-				<xs:documentation>ID from the external exporting system for this unit, as an
-						alternative or in addition to the UUID. This value is deprecated and may not
-						be supported in the future. Please use uuid instead. If provided, it will be
-						used as a unique key, and will replace any other item with this same
-						key.</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
-		<xs:attribute default="false" name="deleted" type="xs:boolean" use="optional"/>
 		<xs:attribute default="true" name="public" type="xs:boolean" use="optional"> </xs:attribute>
 		<xs:attribute name="publicDate" type="xs:date"/>
+	</xs:complexType>
+	<xs:complexType name="posType">
+		<xs:attribute name="file" type="i:fileIdType"/>
+		<xs:attributeGroup ref="i:filePosAttributes"/>
 	</xs:complexType>
 	<xs:complexType name="personType">
 		<xs:sequence>
 			<xs:group ref="i:personNameGroup"/>
+			<xs:element minOccurs="0" name="literal" type="g:string200"/>
+			<xs:element minOccurs="0" name="note" type="i:noteType"/>
+			<xs:element minOccurs="0" name="pos" type="i:posType"/>
 		</xs:sequence>
-		<xs:attribute name="id" type="i:personId"/>
+		<xs:attribute name="id" type="i:personIdType" use="required"/>
 		<xs:attribute name="role" type="i:personRoleEnum"/>
-		<xs:attribute name="file" type="g:fileNameType"/>
-		<xs:attributeGroup ref="i:filePosAttributes"/>
 	</xs:complexType>
 
 	<?gb sect=3 en="Place Types and Groups" nl="Place types and groups" id="Place-types"?>
@@ -367,49 +391,81 @@
 		<xs:sequence>
 			<xs:group ref="i:placeNameGroup" minOccurs="0"/>
 			<xs:element name="literal" type="g:string200" minOccurs="0" maxOccurs="1"/>
+			<xs:element minOccurs="0" name="note" type="i:noteType"/>
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="link" type="i:toPersonType"/>
+			<xs:element minOccurs="0" name="pos" type="i:posType"/>
 		</xs:sequence>
-		<xs:attribute name="id" type="i:placeId"/>
-		<xs:attribute name="file" type="g:fileNameType"/>
+		<xs:attribute name="id" type="i:placeIdType" use="required"/>
 		<xs:attribute name="event" type="i:eventTypesEnum"/>
-		<xs:attributeGroup ref="i:filePosAttributes"/>
 	</xs:complexType>
 	<xs:complexType name="dateType">
 		<xs:sequence>
 			<xs:element minOccurs="0" name="literal" type="g:string200"/>
-			<xs:element maxOccurs="1" minOccurs="0" name="link" type="i:toPersonType"/>
+			<xs:element minOccurs="0" name="note" type="i:noteType"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="link" type="i:toPersonType"/>
+			<xs:element minOccurs="0" name="pos" type="i:posType"/>
 		</xs:sequence>
+		<xs:attribute name="id" type="i:dateIdType"/>
 		<xs:attribute name="value" type="g:dateType" use="required"/>
-		<xs:attribute name="file" type="g:fileNameType"/>
 		<xs:attribute name="event" type="i:eventTypesEnum"/>
-		<xs:attributeGroup ref="i:filePosAttributes"/>
 	</xs:complexType>
 	<xs:complexType name="otherType">
 		<xs:sequence>
 			<xs:element maxOccurs="1" minOccurs="0" name="literal" type="g:string200"/>
-			<xs:element maxOccurs="1" minOccurs="0" name="link" type="i:toAnyType"/>
+			<xs:element minOccurs="0" name="note" type="i:noteType"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="link" type="i:toAnyType"/>
+			<xs:element minOccurs="0" name="pos" type="i:posType"/>
 		</xs:sequence>
+		<xs:attribute name="id" type="i:otherIdType" use="required"/>
 		<xs:attribute name="feature" type="g:string50" use="required"/>
 		<xs:attribute name="value" type="g:string100"/>
 	</xs:complexType>
+	<xs:complexType name="noteType">
+		<xs:simpleContent>
+			<xs:extension base="g:string4000"/>
+		</xs:simpleContent>
+	</xs:complexType>
 	<xs:group name="entitiesGroup">
-		<xs:choice>
-			<xs:element name="person" type="i:personType"/>
-			<xs:element name="place" type="i:placeType"/>
-			<xs:element name="date" type="i:dateType"/>
-			<xs:element name="other" type="i:otherType"/>
-		</xs:choice>
+		<xs:sequence>
+			<xs:element name="person" type="i:personType" maxOccurs="8" minOccurs="0"/>
+			<xs:element name="place" type="i:placeType" maxOccurs="8" minOccurs="0">
+				<xs:unique name="uniquePlaceLink">
+					<xs:selector xpath="i:link"/>
+					<xs:field xpath="@to"/>
+				</xs:unique>
+			</xs:element>
+			<xs:element name="date" type="i:dateType" maxOccurs="8" minOccurs="0">
+				<xs:unique name="uniqueDateLink">
+					<xs:selector xpath="i:link"/>
+					<xs:field xpath="@to"/>
+				</xs:unique>
+			</xs:element>
+			<xs:element name="other" type="i:otherType" maxOccurs="8" minOccurs="0">
+				<xs:unique name="uniqueOtherLink">
+					<xs:selector xpath="i:link"/>
+					<xs:field xpath="@to"/>
+				</xs:unique>
+			</xs:element>
+		</xs:sequence>
 	</xs:group>
 	<xs:group name="filesGroup">
 		<xs:choice>
-			<xs:element maxOccurs="16" minOccurs="1" name="file">
+			<xs:element maxOccurs="8" minOccurs="1" name="file">
 				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="1" minOccurs="0" name="note" type="i:noteType"/>
+					</xs:sequence>
+					<xs:attribute name="id" type="i:fileIdType" use="required"/>
 					<xs:attribute name="name" type="g:fileNameType"/>
 					<xs:attributeGroup ref="i:filePosAttributes"/>
 				</xs:complexType>
 			</xs:element>
 			<xs:element name="folder">
 				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="note" type="i:noteType"/>
+					</xs:sequence>
+					<xs:attribute name="id" type="i:fileIdType" use="required"/>
 					<xs:attribute name="name" type="g:fileNameType" use="required"/>
 					<xs:attribute name="start" type="g:fileNameType"/>
 					<xs:attribute name="end" type="g:fileNameType"/>
@@ -513,7 +569,9 @@
 
 	<?gb sect=3 en="Place Relation Types" nl="Plaats relatie types" id="Place-relation-types"?>
 	<xs:complexType name="toPersonType">
-		<xs:attribute name="to" type="i:personId"/>
+		<xs:simpleContent>
+			<xs:extension base="i:personIdType"> </xs:extension>
+		</xs:simpleContent>
 	</xs:complexType>
 
 
@@ -523,27 +581,12 @@
 
 
 	<xs:complexType name="toAnyType">
-		<xs:attribute name="to" type="i:personOrPlaceId"/>
+		<xs:simpleContent>
+			<xs:extension base="i:personOrplaceIdType"> </xs:extension>
+		</xs:simpleContent>
 	</xs:complexType>
 
 	<?gb sect=1 en="Attribute groups" nl="Attribuut groepen" id="Attribute-groups"?>
-	<xs:attributeGroup name="registerAttributes">
-		<xs:attribute name="id" type="g:uuidType"/>
-		<xs:attribute name="code" type="g:fileNameType" use="required">
-			<xs:annotation>
-				<xs:documentation>The UUID of the register that this Unit is to be applied
-					to.</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
-		<xs:attribute name="version" type="xs:dateTime" use="required"/>
-		<xs:attribute name="repository" type="g:repositoryIDType" use="required"/>
-		<xs:attribute name="name" type="g:string100" use="required">
-			<xs:annotation>
-				<xs:documentation>The name of the register.</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
-		<xs:attribute name="part" type="i:partType" default="1"/>
-	</xs:attributeGroup>
 	<xs:attributeGroup name="filePosAttributes">
 		<xs:attribute name="geometry" type="g:rectangleType">
 			<xs:annotation>
@@ -575,34 +618,6 @@
 
 	<?gb sect=1 en="Elements" nl="Elementen" id="Elements"?>
 	<?gb sect=2 en="Structural Elements" nl="Structurele elementen" id="Structural-elements"?>
-	<xs:element name="register">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element minOccurs="0" name="access" type="g:accessType"/>
-				<xs:element name="unit" maxOccurs="unbounded">
-					<xs:complexType>
-						<xs:complexContent>
-							<xs:extension base="i:unitType"/>
-
-						</xs:complexContent>
-					</xs:complexType>
-					<xs:unique name="entityID">
-						<xs:selector xpath=".//*"/>
-						<xs:field xpath="@id"/>
-					</xs:unique>
-					<xs:keyref name="linkRef" refer="i:entityID">
-						<xs:selector xpath=".//link"/>
-						<xs:field xpath="@to"/>
-					</xs:keyref>
-				</xs:element>
-			</xs:sequence>
-			<xs:attributeGroup ref="i:registerAttributes"/>
-		</xs:complexType>
-		<xs:unique name="uniqueUnitID">
-			<xs:selector xpath="./i:unit"/>
-			<xs:field xpath="@id"/>
-		</xs:unique>
-	</xs:element>
 
 
 	<?gb sect=2 en="Entity Elements" nl="Entiteit elementen" id="Entity-elements"?>
@@ -628,4 +643,10 @@
 	<?gb sect=2 en="Other Elements" nl="Overige elementen" id="Other-elements"?>
 
 	<?gb sect=1 en="Element Groups" nl="Element groepen" id="Element-groups"?>
+	<xs:element name="units" type="i:unitsType">
+		<xs:unique name="uniqueUnitID">
+			<xs:selector xpath="./i:unit"/>
+			<xs:field xpath="@id"/>
+		</xs:unique>
+	</xs:element>
 </xs:schema>

@@ -2,10 +2,10 @@
 <xs:schema
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:xml="http://www.w3.org/XML/1998/namespace"
-    xmlns="http://schemas.geneabase.com/2013-v1/html"
-    targetNamespace="http://schemas.geneabase.com/2013-v1/html"
-    elementFormDefault="qualified">
-    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/xml.xsd"/>
+    xmlns="http://geneabase.com/html"
+    targetNamespace="http://geneabase.com/html"
+    elementFormDefault="qualified" version="2013-v1">
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://schemas.geneabase.com/w3c/xml.xsd"/>
 	<xs:simpleType name="ContentType">
 		<xs:annotation>
 			<xs:documentation>
