@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:status="http://schemas.geneabase.com/2012-v1/status"
-    targetNamespace="http://schemas.geneabase.com/2012-v1/status" elementFormDefault="qualified">
+    xmlns:s="http://geneabase.com/status"
+    targetNamespace="http://geneabase.com/status" elementFormDefault="qualified">
     <xs:element name="status">
         <xs:complexType>
             <xs:sequence>
-                <xs:element maxOccurs="unbounded" ref="status:client" minOccurs="0"/>
-                <xs:element maxOccurs="unbounded" ref="status:service" minOccurs="0"/>
-                <xs:element maxOccurs="unbounded" minOccurs="0" ref="status:server"/>
-                <xs:element maxOccurs="unbounded" minOccurs="0" ref="status:process"/>
-                <xs:element ref="status:message" maxOccurs="unbounded" minOccurs="0"/>
+                <xs:element maxOccurs="unbounded" ref="s:client" minOccurs="0"/>
+                <xs:element maxOccurs="unbounded" ref="s:service" minOccurs="0"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="s:server"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="s:process"/>
+                <xs:element ref="s:message" maxOccurs="unbounded" minOccurs="0"/>
             </xs:sequence>
             <xs:attribute name="time" type="xs:dateTime" use="optional"/>
             <xs:attribute name="expires" type="xs:time" use="required"/>
-            <xs:attribute name="server" type="status:uuid" use="required"/>
+            <xs:attribute name="server" type="s:uuid" use="required"/>
         </xs:complexType>
     </xs:element>
     <xs:simpleType name="serviceEnumType">
@@ -84,29 +84,35 @@
             <xs:enumeration value="Normal"/>
         </xs:restriction>
     </xs:simpleType>
+    <xs:element name="component">
+        <xs:complexType>
+            <xs:attribute name="name" type="s:componentNameType"/>
+            <xs:attribute name="version" type="s:versionType"/>
+        </xs:complexType>
+    </xs:element>
     <xs:element name="service">
         <xs:complexType>
             <xs:sequence>
-                <xs:element maxOccurs="unbounded" ref="status:event" minOccurs="0"/>
+                <xs:element maxOccurs="unbounded" ref="s:event" minOccurs="0"/>
             </xs:sequence>
-            <xs:attribute name="type" type="status:serviceEnumType" use="required"/>
-            <xs:attribute name="version" type="status:versionType"/>
-            <xs:attribute name="status" type="status:serviceStatusEnumType" use="required"/>
-            <xs:attribute name="reason" type="status:reasonEnumType" use="optional"/>
+            <xs:attribute name="type" type="s:serviceEnumType" use="required"/>
+            <xs:attribute name="version" type="s:versionType"/>
+            <xs:attribute name="status" type="s:serviceStatusEnumType" use="required"/>
+            <xs:attribute name="reason" type="s:reasonEnumType" use="optional"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="process">
         <xs:complexType>
             <xs:sequence maxOccurs="unbounded" minOccurs="0">
-                <xs:element ref="status:message"/>
+                <xs:element ref="s:message"/>
             </xs:sequence>
-            <xs:attribute name="name" type="status:processNameType" use="required"/>
-            <xs:attribute name="status" type="status:processStatusEnumType" use="required"/>
+            <xs:attribute name="name" type="s:processNameType" use="required"/>
+            <xs:attribute name="status" type="s:processStatusEnumType" use="required"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="error">
         <xs:complexType mixed="true">
-            <xs:attribute name="id" type="status:uuid"/>
+            <xs:attribute name="id" type="s:uuid"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="server">
@@ -115,26 +121,26 @@
                 <xs:sequence maxOccurs="1" minOccurs="0">
                     <xs:element maxOccurs="unbounded" minOccurs="0" name="role">
                         <xs:complexType>
-                            <xs:attribute name="type" type="status:serverRoleEnumType"
+                            <xs:attribute name="type" type="s:serverRoleEnumType"
                                 use="required"/>
                         </xs:complexType>
                     </xs:element>
-                    <xs:element ref="status:process" maxOccurs="unbounded" minOccurs="0"/>
+                    <xs:element ref="s:process" maxOccurs="unbounded" minOccurs="0"/>
                     <xs:element name="resources" minOccurs="0">
                         <xs:complexType>
                             <xs:sequence>
                                 <xs:element maxOccurs="1" minOccurs="1" name="cpu">
                                     <xs:complexType>
-                                        <xs:attribute name="uuid" type="status:uuid"/>
+                                        <xs:attribute name="uuid" type="s:uuid"/>
                                         <xs:attribute name="count" type="xs:nonNegativeInteger"/>
                                         <xs:attribute name="load" type="xs:nonNegativeInteger"/>
                                     </xs:complexType>
                                 </xs:element>
                                 <xs:element maxOccurs="unbounded" minOccurs="0" name="disk">
                                     <xs:complexType>
-                                        <xs:attribute name="uuid" type="status:uuid" use="required"/>
-                                        <xs:attribute name="name" type="status:nameType"/>
-                                        <xs:attribute name="brand" type="status:nameType"/>
+                                        <xs:attribute name="uuid" type="s:uuid" use="required"/>
+                                        <xs:attribute name="name" type="s:nameType"/>
+                                        <xs:attribute name="brand" type="s:nameType"/>
                                         <xs:attribute name="capacityBytes" type="xs:unsignedLong"
                                             use="required"/>
                                         <xs:attribute name="usedBytes" type="xs:unsignedLong"
@@ -155,9 +161,9 @@
                                 </xs:element>
                                 <xs:element name="nic" maxOccurs="unbounded" minOccurs="0">
                                     <xs:complexType>
-                                        <xs:attribute name="address" type="status:nicAddress"
+                                        <xs:attribute name="address" type="s:nicAddress"
                                             use="required"/>
-                                        <xs:attribute name="name" type="status:nameType"/>
+                                        <xs:attribute name="name" type="s:nameType"/>
                                         <xs:attribute name="capacityBitsPS" type="xs:unsignedLong"/>
                                         <xs:attribute name="inBitsPS" type="xs:unsignedLong"/>
                                         <xs:attribute name="outBitsPS" type="xs:unsignedLong"/>
@@ -167,35 +173,36 @@
                         </xs:complexType>
                     </xs:element>
                 </xs:sequence>
-                <xs:element ref="status:error"/>
+                <xs:element ref="s:error"/>
             </xs:choice>
-            <xs:attribute name="id" type="status:uuid" use="optional"/>
-            <xs:attribute name="name" type="status:serverNameType" use="optional"/>
-            <xs:attribute name="os" type="status:osNameType" use="optional"/>
-            <xs:attribute name="status" type="status:serverStatusEnumType" use="optional"/>
+            <xs:attribute name="id" type="s:uuid" use="optional"/>
+            <xs:attribute name="name" type="s:serverNameType" use="optional"/>
+            <xs:attribute name="os" type="s:osNameType" use="optional"/>
+            <xs:attribute name="status" type="s:serverStatusEnumType" use="optional"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="client">
         <xs:complexType>
             <xs:sequence minOccurs="0">
-                <xs:element maxOccurs="1" ref="status:error"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="s:component"/>
+                <xs:element maxOccurs="1" ref="s:error"/>
             </xs:sequence>
-            <xs:attribute name="type" type="status:clientEnumType" use="required"/>
+            <xs:attribute name="type" type="s:clientEnumType" use="required"/>
             <xs:attribute name="agent"/>
-            <xs:attribute name="version" type="status:versionType" use="required"/>
+            <xs:attribute name="version" type="s:versionType" use="required"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="event">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="status:message" maxOccurs="unbounded" minOccurs="0"/>
+                <xs:element ref="s:message" maxOccurs="unbounded" minOccurs="0"/>
             </xs:sequence>
-            <xs:attribute name="id" type="status:uuid" use="optional"/>
+            <xs:attribute name="id" type="s:uuid" use="optional"/>
             <xs:attribute name="version" type="xs:dateTime"/>
             <xs:attribute name="start" type="xs:dateTime"/>
             <xs:attribute name="end" type="xs:dateTime"/>
-            <xs:attribute name="status" type="status:serviceStatusEnumType" use="required"/>
-            <xs:attribute name="reason" type="status:reasonEnumType" use="optional"/>
+            <xs:attribute name="status" type="s:serviceStatusEnumType" use="required"/>
+            <xs:attribute name="reason" type="s:reasonEnumType" use="optional"/>
         </xs:complexType>
     </xs:element>
     <xs:simpleType name="versionType">
@@ -229,6 +236,13 @@
         </xs:restriction>
     </xs:simpleType>
     <xs:simpleType name="serverNameType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="50"/>
+            <xs:minLength value="1"/>
+            <xs:whiteSpace value="collapse"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="componentNameType">
         <xs:restriction base="xs:string">
             <xs:maxLength value="50"/>
             <xs:minLength value="1"/>

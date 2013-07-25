@@ -1,38 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://docs.geneabase.com/schemas.xml"
-    xmlns:xml="http://www.w3.org/XML/1998/namespace"
-    xmlns:html="http://schemas.geneabase.com/2013-v1/html"
-    xmlns:gb="http://schemas.geneabase.com/2013-v1/geneabase"
-    xmlns:t="http://schemas.geneabase.com/2013-v1/transcription"
-    targetNamespace="http://schemas.geneabase.com/2013-v1/transcription"
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:t="http://geneabase.com/transcription"
+    xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:html="http://geneabase.com/html"
+    xmlns:gb="http://geneabase.com/geneabase" targetNamespace="http://geneabase.com/transcription"
     elementFormDefault="qualified">
-    <xs:import namespace="http://schemas.geneabase.com/2013-v1/html"
+    <xs:import namespace="http://geneabase.com/html"
         schemaLocation="http://schemas.geneabase.com/2013-v1/html.xsd"/>
-    <xs:import namespace="http://schemas.geneabase.com/2013-v1/geneabase"
+    <xs:import namespace="http://geneabase.com/geneabase"
         schemaLocation="http://schemas.geneabase.com/2013-v1/geneabase.xsd"/>
-    <xs:element name="folder" type="t:folderType">
-        <xs:unique name="uniqueID">
-            <xs:selector xpath=".//*"/>
-            <xs:field xpath="@id"/>
-        </xs:unique>
+    <xs:element name="transcription">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" name="file" type="t:fileType"/>
+            </xs:sequence>
+            <xs:attribute name="schema" type="gb:schemaType"/>
+        </xs:complexType>
     </xs:element>
-    <xs:complexType name="folderType">
-        <xs:sequence>
-            <xs:element maxOccurs="unbounded" name="file" type="t:fileType">
-                <xs:unique name="uniquePageNr">
-                    <xs:selector xpath="t:page"/>
-                    <xs:field xpath="@nr"/>
-                </xs:unique>
-                <xs:unique name="uniquePage">
-                    <xs:selector xpath="t:page"/>
-                    <xs:field xpath="@id"/>
-                </xs:unique>
-            </xs:element>
-        </xs:sequence>
-        <xs:attribute name="repository" type="gb:repositoryIDType"/>
-        <xs:attribute name="name" type="gb:fileNameType" use="required"/>
-        <xs:attribute name="version" type="xs:dateTime" use="required"/>
-    </xs:complexType>
     <xs:complexType name="fileType">
         <xs:sequence>
             <xs:element name="page" type="t:pageType" maxOccurs="unbounded">

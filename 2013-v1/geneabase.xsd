@@ -161,7 +161,7 @@
             <xs:documentation xml:lang="en">A list of integers</xs:documentation>
             <xs:documentation xml:lang="nl">Een lijst met getallen.</xs:documentation>
         </xs:annotation>
-        <xs:list itemType="gb:positiveShortType"/>
+        <xs:list itemType="xs:integer"/>
     </xs:simpleType>
     <xs:simpleType name="decimalTwoPrec">
         <xs:restriction base="xs:decimal">

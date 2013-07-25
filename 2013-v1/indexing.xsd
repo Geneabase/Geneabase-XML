@@ -349,6 +349,10 @@
 					<xs:selector xpath="./*"/>
 					<xs:field xpath="link"/>
 				</xs:keyref>
+				<xs:keyref name="fileRef" refer="i:entityID">
+					<xs:selector xpath=".//pos"/>
+					<xs:field xpath="@file"/>
+				</xs:keyref>
 			</xs:element>
 		</xs:sequence>
 		<xs:attribute name="schema" type="g:schemaType" use="required"/>
@@ -371,7 +375,7 @@
 		<xs:attribute default="true" name="public" type="xs:boolean" use="optional"> </xs:attribute>
 		<xs:attribute name="publicDate" type="xs:date"/>
 	</xs:complexType>
-	<xs:complexType name="posType">
+	<xs:complexType name="filePositionType">
 		<xs:attribute name="file" type="i:fileIdType"/>
 		<xs:attributeGroup ref="i:filePosAttributes"/>
 	</xs:complexType>
@@ -380,7 +384,7 @@
 			<xs:group ref="i:personNameGroup"/>
 			<xs:element minOccurs="0" name="literal" type="g:string200"/>
 			<xs:element minOccurs="0" name="note" type="i:noteType"/>
-			<xs:element minOccurs="0" name="pos" type="i:posType"/>
+			<xs:element minOccurs="0" name="pos" type="i:filePositionType"/>
 		</xs:sequence>
 		<xs:attribute name="id" type="i:personIdType" use="required"/>
 		<xs:attribute name="role" type="i:personRoleEnum"/>
@@ -393,20 +397,28 @@
 			<xs:element name="literal" type="g:string200" minOccurs="0" maxOccurs="1"/>
 			<xs:element minOccurs="0" name="note" type="i:noteType"/>
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="link" type="i:toPersonType"/>
-			<xs:element minOccurs="0" name="pos" type="i:posType"/>
+			<xs:element minOccurs="0" name="pos" type="i:filePositionType"/>
 		</xs:sequence>
 		<xs:attribute name="id" type="i:placeIdType" use="required"/>
 		<xs:attribute name="event" type="i:eventTypesEnum"/>
 	</xs:complexType>
 	<xs:complexType name="dateType">
 		<xs:sequence>
+			<xs:choice>
+				<xs:element name="ymd" type="xs:date"/>
+				<xs:element name="ym" type="xs:gYearMonth"/>
+				<xs:element name="y" type="xs:gYear"/>
+				<xs:sequence>
+					<xs:element name="from" type="xs:date"/>
+					<xs:element name="through" type="xs:date"/>
+				</xs:sequence>
+			</xs:choice>
 			<xs:element minOccurs="0" name="literal" type="g:string200"/>
 			<xs:element minOccurs="0" name="note" type="i:noteType"/>
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="link" type="i:toPersonType"/>
-			<xs:element minOccurs="0" name="pos" type="i:posType"/>
+			<xs:element minOccurs="0" name="pos" type="i:filePositionType"/>
 		</xs:sequence>
 		<xs:attribute name="id" type="i:dateIdType"/>
-		<xs:attribute name="value" type="g:dateType" use="required"/>
 		<xs:attribute name="event" type="i:eventTypesEnum"/>
 	</xs:complexType>
 	<xs:complexType name="otherType">
@@ -414,7 +426,7 @@
 			<xs:element maxOccurs="1" minOccurs="0" name="literal" type="g:string200"/>
 			<xs:element minOccurs="0" name="note" type="i:noteType"/>
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="link" type="i:toAnyType"/>
-			<xs:element minOccurs="0" name="pos" type="i:posType"/>
+			<xs:element minOccurs="0" name="pos" type="i:filePositionType"/>
 		</xs:sequence>
 		<xs:attribute name="id" type="i:otherIdType" use="required"/>
 		<xs:attribute name="feature" type="g:string50" use="required"/>
@@ -588,7 +600,7 @@
 
 	<?gb sect=1 en="Attribute groups" nl="Attribuut groepen" id="Attribute-groups"?>
 	<xs:attributeGroup name="filePosAttributes">
-		<xs:attribute name="geometry" type="g:rectangleType">
+		<xs:attribute name="coords" type="g:rectangleType">
 			<xs:annotation>
 				<xs:documentation>This defines the geometric location on the Image, or on the Video,
 					by defining a geometric shape in Well Known Text Format
