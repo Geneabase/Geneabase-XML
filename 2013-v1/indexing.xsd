@@ -334,7 +334,7 @@
 
 	<xs:complexType name="unitsType">
 		<xs:sequence>
-			<xs:element name="unit" maxOccurs="100000" minOccurs="0">
+			<xs:element name="unit" maxOccurs="10000" minOccurs="0">
 				<xs:complexType>
 					<xs:complexContent>
 						<xs:extension base="i:unitType"/>
