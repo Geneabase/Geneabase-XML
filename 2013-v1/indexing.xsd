@@ -5,23 +5,7 @@
 	elementFormDefault="qualified" version="2013-v1">
 	<xs:import namespace="http://geneabase.com/geneabase"
 		schemaLocation="http://schemas.geneabase.com/2013-v1/geneabase.xsd"/>
-	<!-- strings -->
-	<?gb sect=1 en="Types" nl="Types" id="Types"?>
-	<?gb sect=2 en="String Types" nl="String types" id="String-types"?>
-	<xs:annotation>
-		<xs:documentation xml:lang="en">
-			The following types are a generic set of string and
-			number types, used by various elements.
-		</xs:documentation>
-		<xs:documentation xml:lang="nl">
-			De volgende types zijn een generieke set van string
-			en nummer types, en worden gebruikt door verschillende elementen.			
-			Het is de bedoeling dat dit <strong>test</strong>balblab
-		</xs:documentation>
-	</xs:annotation>
 
-
-	<?gb sect=2 en="Identifier Types" nl="Identificatie types" id="Id-types"?>
 	<xs:simpleType name="personIdType">
 		<xs:restriction base="xs:NCName">
 			<xs:pattern value="p[0-8]"/>
@@ -59,10 +43,6 @@
 			<xs:enumeration value="matronymic"/>
 		</xs:restriction>
 	</xs:simpleType>
-
-	<?gb sect=2 en="Enumeration Types" nl="Enumeratie types" id="Enumerations"?>
-	<?gb sect=3 en="Relation Role Enumeration Types" nl="Relatie rol enumeratie types" id="Role-enumerations"?>
-	<?gb sect=4 en="Person Role Enumeration Types" nl="Persoon rol enumeratie types" id="Person-role-enumerations"?>
 
 	<xs:simpleType name="personRoleEnum">
 		<xs:restriction base="xs:string">
@@ -161,28 +141,6 @@
 			<xs:enumeration value="will"/>
 		</xs:restriction>
 	</xs:simpleType>
-
-
-	<?gb sect=4 en="Place Role Enumeration Types" nl="Plaats rol enumeratie types" id="Place-role-enumerations"?>
-
-
-	<?gb sect=4 en="Group Role Enumeration Types" nl="Groep rol enumeratie types" id="Group-role-enumerations"?>
-
-	<?gb sect=4 en="Event Role Enumeration Types" nl="Event rol enumeratie types" id="Event-role-enumerations"?>
-
-	<?gb sect=3 en="Feature Enumeration Types" nl="Feature enumeratie types" id="Feature-enumerations"?>
-
-
-	<?gb sect=3 en="Other Enumeration Types" nl="Overige enumeratie types" id="Other-enumerations"?>
-
-	<!-- entity types -->
-
-	<?gb sect=2 en="Feature Types" nl="Feature types" id="Features"?>
-
-	<?gb sect=2 en="Entity Types" nl="Entity types" id="Entity-types"?>
-	<?gb sect=3 en="Event Type and Subtypes" nl="Event type en subtypes" id="Event-types"?>
-
-	<?gb sect=3 en="Person Types" nl="Persoon types" id="Person-types"?>
 
 	<xs:simpleType name="fractionType">
 		<xs:restriction base="xs:token">
@@ -390,7 +348,6 @@
 		<xs:attribute name="role" type="i:personRoleEnum"/>
 	</xs:complexType>
 
-	<?gb sect=3 en="Place Types and Groups" nl="Place types and groups" id="Place-types"?>
 	<xs:complexType name="placeType">
 		<xs:sequence>
 			<xs:group ref="i:placeNameGroup" minOccurs="0"/>
@@ -410,7 +367,7 @@
 				<xs:element name="y" type="xs:gYear"/>
 				<xs:sequence>
 					<xs:element name="from" type="xs:date"/>
-					<xs:element name="through" type="xs:date"/>
+					<xs:element name="through" type="xs:date" maxOccurs="1" minOccurs="0"/>
 				</xs:sequence>
 			</xs:choice>
 			<xs:element minOccurs="0" name="literal" type="g:string200"/>
@@ -430,7 +387,7 @@
 		</xs:sequence>
 		<xs:attribute name="id" type="i:otherIdType" use="required"/>
 		<xs:attribute name="feature" type="g:string50" use="required"/>
-		<xs:attribute name="value" type="g:string100"/>
+		<xs:attribute name="value" type="g:string100" use="required"/>
 	</xs:complexType>
 	<xs:complexType name="noteType">
 		<xs:simpleContent>
@@ -571,26 +528,11 @@
 		</xs:sequence>
 	</xs:group>
 
-	<?gb sect=3 en="Group Type and Subtypes" nl="Group type en subtypes" id="Group-types"?>
-
-
-	<?gb sect=2 en="Relation Types" nl="Relatie types" id="reg-relation-types"?>
-	<?gb sect=3 en="Event Relation Types" nl="Event relatie types" id="Event-relation-types"?>
-	<?gb sect=3 en="Group Relation Types" nl="Groep relatie types" id="Group-relation-types"?>
-	<?gb sect=3 en="Person Relation Types" nl="Persoon relatie types" id="Person-relation-types"?>
-
-	<?gb sect=3 en="Place Relation Types" nl="Plaats relatie types" id="Place-relation-types"?>
 	<xs:complexType name="toPersonType">
 		<xs:simpleContent>
 			<xs:extension base="i:personIdType"> </xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>
-
-
-	<?gb sect=2 en="Entity Collection Types" nl="Entiteit-collectie types" id="Grouping"?>
-
-	<?gb sect=2 en="Other Types" nl="Overige types" id="Other-types"?>
-
 
 	<xs:complexType name="toAnyType">
 		<xs:simpleContent>
@@ -598,7 +540,6 @@
 		</xs:simpleContent>
 	</xs:complexType>
 
-	<?gb sect=1 en="Attribute groups" nl="Attribuut groepen" id="Attribute-groups"?>
 	<xs:attributeGroup name="filePosAttributes">
 		<xs:attribute name="coords" type="g:rectangleType">
 			<xs:annotation>
@@ -628,33 +569,6 @@
 		</xs:attribute>
 	</xs:attributeGroup>
 
-	<?gb sect=1 en="Elements" nl="Elementen" id="Elements"?>
-	<?gb sect=2 en="Structural Elements" nl="Structurele elementen" id="Structural-elements"?>
-
-
-	<?gb sect=2 en="Entity Elements" nl="Entiteit elementen" id="Entity-elements"?>
-
-	<?gb sect=2 en="Entity Group Elements" nl="Entiteit-collectie elementen" id="Entity-group-elements"?>
-
-	<?gb sect=2 en="Feature Elements" nl="Feature elementen" id="Feature-elements"?>
-
-	<?gb sect=2 en="Feature Group Elements" nl="Feature-collectie elementen" id="Feature-group-elements"?>
-
-
-
-	<?gb sect=2 en="Relation Elements" nl="Relatie elementen" id="Relation-elements"?>
-	<?gb sect=3 en="Event Relation Elements" nl="Event relatie elementen" id="Event-relation-elements"?>
-	<?gb sect=3 en="Group Relation Elements" nl="Groep relatie elementen" id="Group-relation-elements"?>
-	<?gb sect=3 en="Person Relation Elements" nl="Persoon relatie elementen" id="Person-relation-elements"?>
-	<?gb sect=3 en="Place Relation Elements" nl="Plaats relatie elementen" id="Place-relation-elements"?>
-	<!-- <xs:element name="placeToPerson" type="i:placeToPerson"/> -->
-	<!-- <xs:element name="groupToPerson" type="i:personToGroup"/> -->
-	<!--<xs:element name="placeToGroup" type="i:groupToPlace"/>-->
-	<!-- <xs:element name="eventToGroup" type="i:groupToEvent"/>-->
-
-	<?gb sect=2 en="Other Elements" nl="Overige elementen" id="Other-elements"?>
-
-	<?gb sect=1 en="Element Groups" nl="Element groepen" id="Element-groups"?>
 	<xs:element name="units" type="i:unitsType">
 		<xs:unique name="uniqueUnitID">
 			<xs:selector xpath="./i:unit"/>

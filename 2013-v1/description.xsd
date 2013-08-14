@@ -68,41 +68,53 @@
         <xs:sequence>
             <xs:element maxOccurs="unbounded" name="info" type="d:infoType"/>
             <xs:choice minOccurs="0">
-                <xs:element name="date">
+                <xs:element name="ymd">
                     <xs:complexType>
                         <xs:simpleContent>
-                            <xs:extension base="g:dateType">
+                            <xs:extension base="xs:date">
                                 <xs:attribute default="false" name="approx" type="xs:boolean"/>
                             </xs:extension>
                         </xs:simpleContent>
                     </xs:complexType>
                 </xs:element>
-                <xs:element name="period">
+                <xs:element name="ym">
                     <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="from">
-                                <xs:complexType>
-                                    <xs:simpleContent>
-                                        <xs:extension base="g:dateType">
-                                            <xs:attribute default="false" name="approx"
-                                                type="xs:boolean"/>
-                                        </xs:extension>
-                                    </xs:simpleContent>
-                                </xs:complexType>
-                            </xs:element>
-                            <xs:element minOccurs="0" name="through">
-                                <xs:complexType>
-                                    <xs:simpleContent>
-                                        <xs:extension base="g:dateType">
-                                            <xs:attribute default="false" name="approx"
-                                                type="xs:boolean"/>
-                                        </xs:extension>
-                                    </xs:simpleContent>
-                                </xs:complexType>
-                            </xs:element>
-                        </xs:sequence>
+                        <xs:simpleContent>
+                            <xs:extension base="xs:gYearMonth">
+                                <xs:attribute default="false" name="approx" type="xs:boolean"/>
+                            </xs:extension>
+                        </xs:simpleContent>
                     </xs:complexType>
                 </xs:element>
+                <xs:element name="y">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="xs:gYear">
+                                <xs:attribute default="false" name="approx" type="xs:boolean"/>
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+                <xs:sequence>
+                    <xs:element name="from">
+                        <xs:complexType>
+                            <xs:simpleContent>
+                                <xs:extension base="xs:date">
+                                    <xs:attribute default="false" name="approx" type="xs:boolean"/>
+                                </xs:extension>
+                            </xs:simpleContent>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element maxOccurs="1" minOccurs="0" name="through">
+                        <xs:complexType>
+                            <xs:simpleContent>
+                                <xs:extension base="xs:date">
+                                    <xs:attribute default="false" name="approx" type="xs:boolean"/>
+                                </xs:extension>
+                            </xs:simpleContent>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
             </xs:choice>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="physical" type="d:physicalType"/>
             <xs:element minOccurs="0" name="origin" maxOccurs="1" type="d:originType"> </xs:element>

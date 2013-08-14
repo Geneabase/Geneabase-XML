@@ -101,5 +101,14 @@
             <xsl:apply-templates/>
         </fo:inline>
     </xsl:template>
-    
+    <xsl:template match="html:em">
+        <fo:inline font-style="italic">
+            <xsl:apply-templates/>
+        </fo:inline>
+    </xsl:template>
+    <xsl:template match="html:sup">
+        <fo:inline baseline-shift="super" font-size="8pt">
+            <xsl:apply-templates/>
+        </fo:inline>
+    </xsl:template>
 </xsl:stylesheet>

@@ -57,4 +57,10 @@
     <xsl:template match="html:strong">
         <strong><xsl:apply-templates/></strong>
     </xsl:template>
+    <xsl:template match="html:em">
+        <em><xsl:apply-templates/></em>
+    </xsl:template>
+    <xsl:template match="html:sup">
+        <sup><xsl:apply-templates/></sup>
+    </xsl:template>
 </xsl:stylesheet>
