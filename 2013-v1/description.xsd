@@ -99,7 +99,7 @@
                     <xs:element name="from">
                         <xs:complexType>
                             <xs:simpleContent>
-                                <xs:extension base="xs:date">
+                                <xs:extension base="g:dateType">
                                     <xs:attribute default="false" name="approx" type="xs:boolean"/>
                                 </xs:extension>
                             </xs:simpleContent>
@@ -108,7 +108,7 @@
                     <xs:element maxOccurs="1" minOccurs="0" name="through">
                         <xs:complexType>
                             <xs:simpleContent>
-                                <xs:extension base="xs:date">
+                                <xs:extension base="g:dateType">
                                     <xs:attribute default="false" name="approx" type="xs:boolean"/>
                                 </xs:extension>
                             </xs:simpleContent>
