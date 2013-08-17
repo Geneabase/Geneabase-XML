@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:m="http://schemas.geneabase.com/2013-v1/api-messages"
-    xmlns:html="http://schemas.geneabase.com/2013-v1/html"
-    targetNamespace="http://schemas.geneabase.com/2013-v1/api-messages" elementFormDefault="qualified">
-    <xs:import namespace="http://schemas.geneabase.com/2013-v1/html"
+    xmlns:m="http://geneabase.com/api-messages"
+    xmlns:html="http://geneabase.com/html"
+    targetNamespace="http://geneabase.com/api-messages" elementFormDefault="qualified">
+    <xs:import namespace="http://geneabase.com/html"
         schemaLocation="http://schemas.geneabase.com/2013-v1/html.xsd"/>
     <xs:element name="messages">
         <xs:annotation>
