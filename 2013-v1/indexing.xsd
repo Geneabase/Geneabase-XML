@@ -320,9 +320,9 @@
 			<xs:element minOccurs="0" name="access" type="g:accessType"/>
 			<xs:group maxOccurs="1" minOccurs="1" ref="i:entitiesGroup"/>
 			<xs:element minOccurs="0" name="note" type="i:noteType"/>
-			<xs:group minOccurs="0" ref="i:filesGroup"/>
+			<xs:group minOccurs="1" ref="i:filesGroup"/>
 		</xs:sequence>
-		<xs:attribute name="id" type="g:remoteIDType" use="required">
+		<xs:attribute name="id" type="g:uuidType" use="required">
 			<xs:annotation>
 				<xs:documentation>This is the Id that may have been imported from external
 						sources, and may also be exported. The UUID should never change, and it

@@ -264,7 +264,7 @@
         </xs:complexContent>
     </xs:complexType>
     <xs:attributeGroup name="componentAttributes">
-        <xs:attribute name="id" type="g:remoteIDType" use="required"/>
+        <xs:attribute name="id" type="g:uuidType" use="required"/>
         <xs:attribute name="public" use="optional" type="xs:boolean" default="true"> </xs:attribute>
         <xs:attribute name="publicDate" type="xs:date"/>
         <xs:attribute name="requestable" use="optional" type="xs:boolean">
