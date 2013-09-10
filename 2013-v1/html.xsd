@@ -5,7 +5,7 @@
     xmlns="http://geneabase.com/html"
     targetNamespace="http://geneabase.com/html"
     elementFormDefault="qualified" version="2013-v1">
-    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://schemas.geneabase.com/w3c/xml.xsd"/>
+   <!-- <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://schemas.geneabase.com/w3c/namespace.xsd"/> -->
 	<xs:simpleType name="ContentType">
 		<xs:annotation>
 			<xs:documentation>
@@ -228,7 +228,7 @@
       </xs:documentation>
 		</xs:annotation>
 		<xs:attribute name="lang" type="LanguageCode"/>
-		<xs:attribute ref="xml:lang"/>
+		<!-- <xs:attribute ref="xml:lang"/> -->
 		<xs:attribute name="dir">
 			<xs:simpleType>
 				<xs:restriction base="xs:token">
@@ -908,7 +908,7 @@
 			<xs:complexContent mixed="true">
 				<xs:extension base="pre.content">
 					<xs:attributeGroup ref="attrs"/>
-					<xs:attribute ref="xml:space" fixed="preserve"/>
+					<!-- <xs:attribute ref="xml:space" fixed="preserve"/> -->
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -1019,7 +1019,7 @@
 					<xs:attributeGroup ref="coreattrs"/>
 					<!--xs:attributeGroup ref="events"/-->
 					<xs:attribute name="lang" type="LanguageCode"/>
-					<xs:attribute ref="xml:lang"/>
+					<!-- <xs:attribute ref="xml:lang"/> -->
 					<xs:attribute name="dir" use="required">
 						<xs:simpleType>
 							<xs:restriction base="xs:token">

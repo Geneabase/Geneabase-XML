@@ -9,8 +9,6 @@
         schemaLocation="http://schemas.geneabase.com/2013-v1/html.xsd"/>
     <xs:import namespace="http://geneabase.com/geneabase"
         schemaLocation="http://schemas.geneabase.com/2013-v1/geneabase.xsd"/>
-    <xs:import namespace="http://www.w3.org/XML/1998/namespace"
-        schemaLocation="http://schemas.geneabase.com/w3c/xml.xsd"/>
     <xs:element name="component">
         <xs:complexType>
             <xs:complexContent>
@@ -62,7 +60,7 @@
             <xs:element maxOccurs="1" minOccurs="0" name="longTitle" type="d:longTitleType"/>
             <xs:element maxOccurs="1" minOccurs="0" name="description" type="d:descriptionType"/>
         </xs:sequence>
-        <xs:attribute ref="xml:lang" use="required"/>
+        <xs:attribute use="required" name="lang" type="xs:language"/>
     </xs:complexType>
     <xs:complexType name="componentType">
         <xs:sequence>
@@ -250,13 +248,6 @@
         <xs:simpleContent>
             <xs:extension base="g:string400"> </xs:extension>
         </xs:simpleContent>
-    </xs:complexType>
-    <xs:complexType name="summaryType">
-        <xs:complexContent>
-            <xs:extension base="h:Flow">
-                <xs:attribute ref="xml:lang"/>
-            </xs:extension>
-        </xs:complexContent>
     </xs:complexType>
     <xs:complexType name="descriptionType">
         <xs:complexContent>
