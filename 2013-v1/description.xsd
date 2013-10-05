@@ -116,7 +116,6 @@
             </xs:choice>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="physical" type="d:physicalType"/>
             <xs:element minOccurs="0" name="origin" maxOccurs="1" type="d:originType"> </xs:element>
-            <xs:element name="access" type="g:accessType" minOccurs="0"/>
             <xs:element maxOccurs="unbounded" minOccurs="0" name="link" type="d:linkType"/>
             <xs:choice minOccurs="0">
                 <xs:element maxOccurs="unbounded" name="component">

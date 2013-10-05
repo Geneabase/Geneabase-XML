@@ -317,7 +317,6 @@
 	</xs:complexType>
 	<xs:complexType name="unitType">
 		<xs:sequence>
-			<xs:element minOccurs="0" name="access" type="g:accessType"/>
 			<xs:group maxOccurs="1" minOccurs="1" ref="i:entitiesGroup"/>
 			<xs:element minOccurs="0" name="note" type="i:noteType"/>
 			<xs:group minOccurs="1" ref="i:filesGroup"/>
