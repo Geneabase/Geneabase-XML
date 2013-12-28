@@ -292,34 +292,21 @@
 
 	<xs:complexType name="unitsType">
 		<xs:sequence>
-			<xs:element name="unit" maxOccurs="10000" minOccurs="0">
+			<xs:element maxOccurs="unbounded" name="register">
 				<xs:complexType>
-					<xs:complexContent>
-						<xs:extension base="i:unitType"/>
-
-					</xs:complexContent>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" ref="i:unit"/>
+					</xs:sequence>
+					<xs:attribute name="id" type="g:uuidType" use="required"/>
 				</xs:complexType>
-				<xs:unique name="entityID">
-					<xs:selector xpath=".//*"/>
-					<xs:field xpath="@id"/>
-				</xs:unique>
-				<xs:keyref name="linkRef" refer="i:entityID">
-					<xs:selector xpath="./*"/>
-					<xs:field xpath="link"/>
-				</xs:keyref>
-				<xs:keyref name="fileRef" refer="i:entityID">
-					<xs:selector xpath=".//pos"/>
-					<xs:field xpath="@file"/>
-				</xs:keyref>
 			</xs:element>
 		</xs:sequence>
-		<xs:attribute name="schema" type="g:schemaType" use="required"/>
 	</xs:complexType>
 	<xs:complexType name="unitType">
 		<xs:sequence>
 			<xs:group maxOccurs="1" minOccurs="1" ref="i:entitiesGroup"/>
 			<xs:element minOccurs="0" name="note" type="i:noteType"/>
-			<xs:group minOccurs="1" ref="i:filesGroup"/>
+			<xs:group minOccurs="0" ref="i:filesGroup"/>
 		</xs:sequence>
 		<xs:attribute name="id" type="g:uuidType" use="required">
 			<xs:annotation>
@@ -331,9 +318,9 @@
 		</xs:attribute>
 		<xs:attribute default="true" name="public" type="xs:boolean" use="optional"> </xs:attribute>
 		<xs:attribute name="publicDate" type="xs:date"/>
+		<xs:attribute default="false" name="deleted" type="xs:boolean"/>
 	</xs:complexType>
 	<xs:complexType name="filePositionType">
-		<xs:attribute name="file" type="i:fileIdType"/>
 		<xs:attributeGroup ref="i:filePosAttributes"/>
 	</xs:complexType>
 	<xs:complexType name="personType">
@@ -341,10 +328,16 @@
 			<xs:group ref="i:personNameGroup"/>
 			<xs:element minOccurs="0" name="literal" type="g:string200"/>
 			<xs:element minOccurs="0" name="note" type="i:noteType"/>
-			<xs:element minOccurs="0" name="pos" type="i:filePositionType"/>
 		</xs:sequence>
 		<xs:attribute name="id" type="i:personIdType" use="required"/>
 		<xs:attribute name="role" type="i:personRoleEnum"/>
+		<xs:attribute name="coords" type="g:rectangleType">
+			<xs:annotation>
+				<xs:documentation>This defines the geometric location on the Image, or on the Video,
+					by defining a geometric shape in Well Known Text Format
+					(WKT).</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 	</xs:complexType>
 
 	<xs:complexType name="placeType">
@@ -353,10 +346,16 @@
 			<xs:element name="literal" type="g:string200" minOccurs="0" maxOccurs="1"/>
 			<xs:element minOccurs="0" name="note" type="i:noteType"/>
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="link" type="i:toPersonType"/>
-			<xs:element minOccurs="0" name="pos" type="i:filePositionType"/>
 		</xs:sequence>
 		<xs:attribute name="id" type="i:placeIdType" use="required"/>
 		<xs:attribute name="event" type="i:eventTypesEnum"/>
+		<xs:attribute name="coords" type="g:rectangleType">
+			<xs:annotation>
+				<xs:documentation>This defines the geometric location on the Image, or on the Video,
+					by defining a geometric shape in Well Known Text Format
+					(WKT).</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 	</xs:complexType>
 	<xs:complexType name="dateType">
 		<xs:sequence>
@@ -372,21 +371,33 @@
 			<xs:element minOccurs="0" name="literal" type="g:string200"/>
 			<xs:element minOccurs="0" name="note" type="i:noteType"/>
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="link" type="i:toPersonType"/>
-			<xs:element minOccurs="0" name="pos" type="i:filePositionType"/>
 		</xs:sequence>
 		<xs:attribute name="id" type="i:dateIdType"/>
 		<xs:attribute name="event" type="i:eventTypesEnum"/>
+		<xs:attribute name="coords" type="g:rectangleType">
+			<xs:annotation>
+				<xs:documentation>This defines the geometric location on the Image, or on the Video,
+					by defining a geometric shape in Well Known Text Format
+					(WKT).</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 	</xs:complexType>
 	<xs:complexType name="otherType">
 		<xs:sequence>
 			<xs:element maxOccurs="1" minOccurs="0" name="literal" type="g:string200"/>
 			<xs:element minOccurs="0" name="note" type="i:noteType"/>
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="link" type="i:toAnyType"/>
-			<xs:element minOccurs="0" name="pos" type="i:filePositionType"/>
 		</xs:sequence>
 		<xs:attribute name="id" type="i:otherIdType" use="required"/>
 		<xs:attribute name="feature" type="g:string50" use="required"/>
 		<xs:attribute name="value" type="g:string100" use="required"/>
+		<xs:attribute name="coords" type="g:rectangleType">
+			<xs:annotation>
+				<xs:documentation>This defines the geometric location on the Image, or on the Video,
+					by defining a geometric shape in Well Known Text Format
+					(WKT).</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 	</xs:complexType>
 	<xs:complexType name="noteType">
 		<xs:simpleContent>
@@ -418,27 +429,24 @@
 	</xs:group>
 	<xs:group name="filesGroup">
 		<xs:choice>
-			<xs:element maxOccurs="8" minOccurs="1" name="file">
+			<xs:element name="file" maxOccurs="1">
 				<xs:complexType>
-					<xs:sequence>
-						<xs:element maxOccurs="1" minOccurs="0" name="note" type="i:noteType"/>
-					</xs:sequence>
-					<xs:attribute name="id" type="i:fileIdType" use="required"/>
-					<xs:attribute name="name" type="g:fileNameType"/>
-					<xs:attributeGroup ref="i:filePosAttributes"/>
+					<xs:simpleContent>
+						<xs:extension base="g:fileNameType">
+							<xs:attributeGroup ref="i:filePosAttributes"/>
+						</xs:extension>
+					</xs:simpleContent>
 				</xs:complexType>
 			</xs:element>
-			<xs:element name="folder">
+			<xs:element name="filegroup">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element minOccurs="0" name="note" type="i:noteType"/>
+						<xs:element maxOccurs="unbounded" name="file" type="g:fileNameType"/>
 					</xs:sequence>
-					<xs:attribute name="id" type="i:fileIdType" use="required"/>
 					<xs:attribute name="name" type="g:fileNameType" use="required"/>
-					<xs:attribute name="start" type="g:fileNameType"/>
-					<xs:attribute name="end" type="g:fileNameType"/>
 				</xs:complexType>
 			</xs:element>
+			<xs:element name="folder" type="g:fileNameType"/>
 		</xs:choice>
 	</xs:group>
 	<xs:complexType name="placeNameType">
@@ -574,13 +582,5 @@
 			<xs:field xpath="@id"/>
 		</xs:unique>
 	</xs:element>
-	<xs:element name="unit">
-		<xs:complexType>
-			<xs:complexContent>
-				<xs:extension base="i:unitType">
-					<xs:attribute name="schema" type="g:schemaType" use="required"/>
-				</xs:extension>
-			</xs:complexContent>
-		</xs:complexType>
-	</xs:element>
+	<xs:element name="unit" type="i:unitType"> </xs:element>
 </xs:schema>
