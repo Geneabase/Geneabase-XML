@@ -1,0 +1,586 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright © 2011-2014 Geneabase BV. Licenced under CC BY 3.0 http://creativecommons.org/licenses/by/3.0/ -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:i="http://geneabase.com/indexing"
+	xmlns:g="http://geneabase.com/geneabase" targetNamespace="http://geneabase.com/indexing"
+	elementFormDefault="qualified" version="2014-v1">
+	<xs:import namespace="http://geneabase.com/geneabase"
+		schemaLocation="http://schemas.geneabase.com/2014-v1/geneabase.xsd"/>
+
+	<xs:simpleType name="personIdType">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="p[0-8]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="placeIdType">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="l[0-8]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="dateIdType">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="d[0-8]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="fileIdType">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="f[0-8]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="otherIdType">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="o[0-8]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="personOrplaceIdType">
+		<xs:restriction base="xs:NCName">
+			<xs:pattern value="[lp][0-8]+"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="surnameTypesEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="patronymic"/>
+			<xs:enumeration value="matronymic"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="personRoleEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="alias"/>
+			<xs:enumeration value="attestant"/>
+			<xs:enumeration value="aunt"/>
+			<xs:enumeration value="baptized"/>
+			<xs:enumeration value="bride"/>
+			<xs:enumeration value="brother"/>
+			<xs:enumeration value="buyer"/>
+			<xs:enumeration value="child"/>
+			<xs:enumeration value="convict"/>
+			<xs:enumeration value="daughter"/>
+			<xs:enumeration value="deceased"/>
+			<xs:enumeration value="father"/>
+			<xs:enumeration value="formerHusband"/>
+			<xs:enumeration value="formerWife"/>
+			<xs:enumeration value="friend"/>
+			<xs:enumeration value="grandfather"/>
+			<xs:enumeration value="grandmother"/>
+			<xs:enumeration value="groom"/>
+			<xs:enumeration value="husband"/>
+			<xs:enumeration value="mother"/>
+			<xs:enumeration value="other"/>
+			<xs:enumeration value="parent"/>
+			<xs:enumeration value="partner"/>
+			<xs:enumeration value="registered"/>
+			<xs:enumeration value="relation"/>
+			<xs:enumeration value="relative"/>
+			<xs:enumeration value="seller"/>
+			<xs:enumeration value="sister"/>
+			<xs:enumeration value="son"/>
+			<xs:enumeration value="spouse"/>
+			<xs:enumeration value="suspect"/>
+			<xs:enumeration value="uncle"/>
+			<xs:enumeration value="wife"/>
+			<xs:enumeration value="witness"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="eventTypesEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="accomodation"/>
+			<xs:enumeration value="adoption"/>
+			<xs:enumeration value="adultChristening"/>
+			<xs:enumeration value="alternateMarriage"/>
+			<xs:enumeration value="annulment"/>
+			<xs:enumeration value="arrival"/>
+			<xs:enumeration value="baptism"/>
+			<xs:enumeration value="barMitzvah"/>
+			<xs:enumeration value="basMitzvah"/>
+			<xs:enumeration value="birth"/>
+			<xs:enumeration value="blessing"/>
+			<xs:enumeration value="burial"/>
+			<xs:enumeration value="causeOfDeath"/>
+			<xs:enumeration value="census"/>
+			<xs:enumeration value="christening"/>
+			<xs:enumeration value="confession"/>
+			<xs:enumeration value="confirmation"/>
+			<xs:enumeration value="cremation"/>
+			<xs:enumeration value="death"/>
+			<xs:enumeration value="departure"/>
+			<xs:enumeration value="divorce"/>
+			<xs:enumeration value="divorceFiling"/>
+			<xs:enumeration value="domicile"/>
+			<xs:enumeration value="education"/>
+			<xs:enumeration value="election"/>
+			<xs:enumeration value="emigration"/>
+			<xs:enumeration value="engagement"/>
+			<xs:enumeration value="firstCommunion"/>
+			<xs:enumeration value="graduation"/>
+			<xs:enumeration value="immigration"/>
+			<xs:enumeration value="inventory"/>
+			<xs:enumeration value="journey"/>
+			<xs:enumeration value="marriage"/>
+			<xs:enumeration value="marriageBanns"/>
+			<xs:enumeration value="marriageContract"/>
+			<xs:enumeration value="marriageLicense"/>
+			<xs:enumeration value="marriageSettlement"/>
+			<xs:enumeration value="medicalInformation"/>
+			<xs:enumeration value="militaryService"/>
+			<xs:enumeration value="naturalization"/>
+			<xs:enumeration value="nobilityTitle"/>
+			<xs:enumeration value="occupation"/>
+			<xs:enumeration value="ordination"/>
+			<xs:enumeration value="origin"/>
+			<xs:enumeration value="probation"/>
+			<xs:enumeration value="property"/>
+			<xs:enumeration value="reburial"/>
+			<xs:enumeration value="registration"/>
+			<xs:enumeration value="religiousConversion"/>
+			<xs:enumeration value="relocation"/>
+			<xs:enumeration value="retirement"/>
+			<xs:enumeration value="settlement"/>
+			<xs:enumeration value="transaction"/>
+			<xs:enumeration value="will"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="fractionType">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="fractionsType">
+		<xs:restriction>
+			<xs:simpleType>
+				<xs:list itemType="i:fractionType"/>
+			</xs:simpleType>
+			<xs:minLength value="1"/>
+			<xs:maxLength value="10"/>
+			<xs:pattern value=".{1,100}"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="personNameType">
+		<xs:simpleContent>
+			<xs:extension base="i:fractionsType"/>
+		</xs:simpleContent>
+	</xs:complexType>
+
+
+	<xs:simpleType name="placePrefixType">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="16"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="placePrefixesType">
+		<xs:restriction>
+			<xs:simpleType>
+				<xs:list itemType="i:placePrefixType"/>
+			</xs:simpleType>
+			<xs:minLength value="1"/>
+			<xs:maxLength value="3"/>
+			<xs:pattern value=".{1,16}"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+
+	<xs:group name="surnameGroup">
+		<xs:annotation>
+			<xs:documentation xml:lang="nl">
+				De achternaam van een persoon, indien bekend. De volgorde van de naamdelen moet de volgorde waarin de persoon, door gewoonte van zijn of haar cultuur, deze zou hebben gebruikt bij het geven van zijn of haar naam aan een recorder.
+				
+				Als een deel van de naam onleesbaar is wordt dat deel aangegeven door een weglatingsteken (...).
+				
+				Hoofdlettergebruik van de naam van een persoon dient plaats te vinden op gebruikelijke wijze. De eerste letter van elk onderdeel en kleine letters de andere letters, tenzij conventioneel gebruik anders is. Bijvoorbeeld: McMurray.
+			</xs:documentation>
+			<xs:documentation xml:lang="en">
+				The surname of an individual, if known. The order of the name parts should be the order that the person would, by custom of their culture, have used when giving it to a recorder.
+				
+				If part of name is illegible, that part is indicated by an ellipsis (...).
+				
+				Capitalize the name of a person or place in the conventional manner. Capitalize the first letter of each part and lowercase the other letters, unless conventional usage is otherwise. For example: McMurray.
+				(source: gedcom)
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="prefix" type="i:personNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> Prefix for the Familyname </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="surname" minOccurs="1">
+				<xs:annotation>
+					<xs:documentation> Family name or Surname </xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="i:personNameType">
+							<xs:attribute name="type" type="i:surnameTypesEnum"/>
+							<!--	<xs:attribute name="primary" type="xs:boolean"/> -->
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="connector" type="i:fractionType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="personNameGroup">
+		<xs:sequence>
+			<xs:element name="title" type="i:personNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> Appellation belonging to a person by right of rank, office,
+						attainment </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="initials" type="i:personNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> Only the first letters of the forenames </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="common" type="i:personNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> Informal name, first forename, given name for daily use
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="given" type="i:personNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> Given name, forename(s), first name, christian name
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:group ref="i:surnameGroup" minOccurs="0" maxOccurs="3">
+				<xs:annotation>
+					<xs:documentation>
+						Family name
+					</xs:documentation>
+				</xs:annotation>
+			</xs:group>
+			<xs:element name="mononym" type="i:personNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> single name </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="nickname" type="i:personNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> alternative name either symbolizing a form of acceptance or
+						ridicule </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="pseudonym" type="i:personNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> false name that differs from original "true name"
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="anonymous" type="i:personNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> a name unknown or deliberately withheld </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="name" type="i:personNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation> a name of which its type is undefined or unknown
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element minOccurs="0" name="suffix" type="i:personNameType"/>
+		</xs:sequence>
+	</xs:group>
+
+	<xs:complexType name="unitsType">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" name="register">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" ref="i:unit"/>
+					</xs:sequence>
+					<xs:attribute name="id" type="g:uuidType" use="required"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="unitType">
+		<xs:sequence>
+			<xs:group maxOccurs="1" minOccurs="1" ref="i:entitiesGroup"/>
+			<xs:element minOccurs="0" name="note" type="i:noteType"/>
+			<xs:group minOccurs="0" ref="i:filesGroup"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="g:uuidType" use="required">
+			<xs:annotation>
+				<xs:documentation>This is the Id that may have been imported from external
+						sources, and may also be exported. The UUID should never change, and it
+						should accompany this chunk of information during its entire life, whether
+						that be inside or outside this system.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute default="true" name="public" type="xs:boolean" use="optional"> </xs:attribute>
+		<xs:attribute name="publicDate" type="xs:date"/>
+		<xs:attribute default="false" name="deleted" type="xs:boolean"/>
+	</xs:complexType>
+	<xs:complexType name="filePositionType">
+		<xs:attributeGroup ref="i:filePosAttributes"/>
+	</xs:complexType>
+	<xs:complexType name="personType">
+		<xs:sequence>
+			<xs:group ref="i:personNameGroup"/>
+			<xs:element minOccurs="0" name="literal" type="g:string200"/>
+			<xs:element minOccurs="0" name="note" type="i:noteType"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="i:personIdType" use="required"/>
+		<xs:attribute name="role" type="i:personRoleEnum"/>
+		<xs:attribute name="coords" type="g:rectangleType">
+			<xs:annotation>
+				<xs:documentation>This defines the geometric location on the Image, or on the Video,
+					by defining a geometric shape in Well Known Text Format
+					(WKT).</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="placeType">
+		<xs:sequence>
+			<xs:group ref="i:placeNameGroup" minOccurs="0"/>
+			<xs:element name="literal" type="g:string200" minOccurs="0" maxOccurs="1"/>
+			<xs:element minOccurs="0" name="note" type="i:noteType"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="link" type="i:toPersonType"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="i:placeIdType" use="required"/>
+		<xs:attribute name="event" type="i:eventTypesEnum"/>
+		<xs:attribute name="coords" type="g:rectangleType">
+			<xs:annotation>
+				<xs:documentation>This defines the geometric location on the Image, or on the Video,
+					by defining a geometric shape in Well Known Text Format
+					(WKT).</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="dateType">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="ymd" type="xs:date"/>
+				<xs:element name="ym" type="xs:gYearMonth"/>
+				<xs:element name="y" type="xs:gYear"/>
+				<xs:sequence>
+					<xs:element name="from" type="xs:date"/>
+					<xs:element name="through" type="xs:date" maxOccurs="1" minOccurs="0"/>
+				</xs:sequence>
+			</xs:choice>
+			<xs:element minOccurs="0" name="literal" type="g:string200"/>
+			<xs:element minOccurs="0" name="note" type="i:noteType"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="link" type="i:toPersonType"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="i:dateIdType"/>
+		<xs:attribute name="event" type="i:eventTypesEnum"/>
+		<xs:attribute name="coords" type="g:rectangleType">
+			<xs:annotation>
+				<xs:documentation>This defines the geometric location on the Image, or on the Video,
+					by defining a geometric shape in Well Known Text Format
+					(WKT).</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="otherType">
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="0" name="literal" type="g:string200"/>
+			<xs:element minOccurs="0" name="note" type="i:noteType"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="link" type="i:toAnyType"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="i:otherIdType" use="required"/>
+		<xs:attribute name="feature" type="g:string50" use="required"/>
+		<xs:attribute name="value" type="g:string100" use="required"/>
+		<xs:attribute name="coords" type="g:rectangleType">
+			<xs:annotation>
+				<xs:documentation>This defines the geometric location on the Image, or on the Video,
+					by defining a geometric shape in Well Known Text Format
+					(WKT).</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="noteType">
+		<xs:simpleContent>
+			<xs:extension base="g:string4000"/>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:group name="entitiesGroup">
+		<xs:sequence>
+			<xs:element name="person" type="i:personType" maxOccurs="8" minOccurs="0"/>
+			<xs:element name="place" type="i:placeType" maxOccurs="8" minOccurs="0">
+				<xs:unique name="uniquePlaceLink">
+					<xs:selector xpath="i:link"/>
+					<xs:field xpath="@to"/>
+				</xs:unique>
+			</xs:element>
+			<xs:element name="date" type="i:dateType" maxOccurs="8" minOccurs="0">
+				<xs:unique name="uniqueDateLink">
+					<xs:selector xpath="i:link"/>
+					<xs:field xpath="@to"/>
+				</xs:unique>
+			</xs:element>
+			<xs:element name="other" type="i:otherType" maxOccurs="8" minOccurs="0">
+				<xs:unique name="uniqueOtherLink">
+					<xs:selector xpath="i:link"/>
+					<xs:field xpath="@to"/>
+				</xs:unique>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="filesGroup">
+		<xs:choice>
+			<xs:element name="file" maxOccurs="1">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="g:fileNameType">
+							<xs:attributeGroup ref="i:filePosAttributes"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="filegroup">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" name="file" type="g:fileNameType"/>
+					</xs:sequence>
+					<xs:attribute name="name" type="g:fileNameType" use="required"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="folder" type="g:fileNameType"/>
+		</xs:choice>
+	</xs:group>
+	<xs:complexType name="placeNameType">
+		<xs:simpleContent>
+			<xs:extension base="i:fractionsType">
+				<xs:attribute name="prefix" type="i:placePrefixesType"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:group name="placeNameGroup">
+		<xs:sequence>
+			<xs:element name="planet" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="continent" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="worldRegion" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="countryGroup" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="kingdom" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="bundesrepublik" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="federation" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="republic" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="country" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="land" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="islandGroup" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="island" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="state" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="province" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="region" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="county" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="prefecture" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="kreis" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="stadtkreis" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="departement" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="arrondissement" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="municipality" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="deelgemeente" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="canton" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="district" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="metropolitan" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="independentCity" type="i:placeNameType" minOccurs="0"/>
+
+			<xs:element name="city" type="i:placeNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">May also be used for a place when the exact type of place (city, town, village) is not known.</xs:documentation>
+					<xs:documentation xml:lang="nl">Mag ook gebruikt worden voor algemene aanduiding van een woonplaats, waarbij het type plaats niet bekend is.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="stadsdeel" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="town" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="village" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="township" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="borough" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="quarter" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="street" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="sea" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="lake" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="canal" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="river" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="forest" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="area" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="areaCode" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="park" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="parking" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="market" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="square" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="courtyard" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="airport" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="harbor" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="bridge" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="trailerPark" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="industrialArea" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="landingStage" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="factory" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="school" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="church" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="cemetary" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="grave" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="postalCode" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="number" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="numberAddition" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="block" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="building" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="floor" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="apartment" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="room" type="i:placeNameType" minOccurs="0"/>
+			<xs:element name="name" type="i:placeNameType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:group>
+
+	<xs:complexType name="toPersonType">
+		<xs:simpleContent>
+			<xs:extension base="i:personIdType"> </xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType name="toAnyType">
+		<xs:simpleContent>
+			<xs:extension base="i:personOrplaceIdType"> </xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:attributeGroup name="filePosAttributes">
+		<xs:attribute name="coords" type="g:rectangleType">
+			<xs:annotation>
+				<xs:documentation>This defines the geometric location on the Image, or on the Video,
+					by defining a geometric shape in Well Known Text Format
+					(WKT).</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="page" type="g:positiveShortType">
+			<xs:annotation>
+				<xs:documentation>Only applicable if the uploaded file is of type Document (Word or
+					PDF). The Page is the Nth page within the Document.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="startTime" type="xs:time">
+			<xs:annotation>
+				<xs:documentation>Only applicable for Audio and Video FileEntities, indicating the
+					start time in milliseconds at this media that the description is
+					located.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="endTime" type="xs:time">
+			<xs:annotation>
+				<xs:documentation>Only if StartTime is defined, this value specifies the end time in
+					milliseconds at this media that the description is located.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+
+	<xs:element name="units" type="i:unitsType">
+		<xs:unique name="uniqueUnitID">
+			<xs:selector xpath="./i:unit"/>
+			<xs:field xpath="@id"/>
+		</xs:unique>
+	</xs:element>
+	<xs:element name="unit" type="i:unitType"> </xs:element>
+</xs:schema>

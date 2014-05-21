@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright © 2011-2014 Geneabase BV. Licenced under CC BY 3.0 http://creativecommons.org/licenses/by/3.0/ -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:d="http://geneabase.com/inventory"
+    xmlns:g="http://geneabase.com/geneabase" xmlns:h="http://geneabase.com/html"
+    xmlns:xml="http://www.w3.org/XML/1998/namespace"
+    targetNamespace="http://geneabase.com/inventory" elementFormDefault="qualified"
+    version="2014-v1">
+    <xs:import namespace="http://geneabase.com/html"
+        schemaLocation="http://schemas.geneabase.com/2014-v1/html.xsd"/>
+    <xs:import namespace="http://geneabase.com/geneabase"
+        schemaLocation="http://schemas.geneabase.com/2014-v1/geneabase.xsd"/>
+    <xs:element name="inventory">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="d:root"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="d:component"/>
+            </xs:sequence>
+        </xs:complexType>
+        <xs:keyref name="parentRef" refer="d:componentID">
+            <xs:selector xpath="d:component"/>
+            <xs:field xpath="@parent"/>
+        </xs:keyref>
+        <xs:unique name="uniqueFile">
+            <xs:selector xpath=".//d:file"/>
+            <xs:field xpath="."/>
+        </xs:unique>
+        <xs:unique name="uniqueFolder">
+            <xs:selector xpath=".//d:file"/>
+            <xs:field xpath="."/>
+        </xs:unique>
+        <xs:unique name="uniqueFilegroup">
+            <xs:selector xpath=".//d:filegroup"/>
+            <xs:field xpath="@name"/>
+        </xs:unique>
+        <xs:unique name="componentID">
+            <xs:selector xpath="d:component|d:root"/>
+            <xs:field xpath="@id"/>
+        </xs:unique>
+    </xs:element>
+    <xs:element name="component">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="d:componentType">
+                    <xs:attribute name="parent" type="g:uuidType" use="required"/>
+                    <xs:attribute name="type" type="d:childComponentTypeEnumType"/>
+                    <xs:attribute name="code" type="g:fileNameType"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="root">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="d:componentType">
+                    <xs:attribute name="code" type="g:fileNameType" use="required"/>
+                    <xs:attribute name="type" type="d:rootComponentTypeEnumType" use="required"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="linkType">
+        <xs:attribute default="1" name="nr" type="xs:unsignedByte"/>
+        <xs:attribute name="site" type="g:string50" use="required"/>
+        <xs:attribute name="key" type="g:string36"/>
+    </xs:complexType>
+    <xs:complexType name="physicalType">
+        <xs:choice>
+            <xs:element name="unit">
+                <xs:complexType>
+                    <xs:attribute name="type" type="d:physicalUnitTypeEnum" default="Item"/>
+                    <xs:attribute default="1" name="count" type="xs:positiveInteger"/>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="container">
+                <xs:complexType>
+                    <xs:sequence maxOccurs="unbounded">
+                        <xs:element name="unit">
+                            <xs:complexType>
+                                <xs:attribute name="type" type="d:physicalUnitTypeEnum"/>
+                                <xs:attribute name="count" type="xs:positiveInteger"/>
+                                <xs:attribute name="nr" type="g:positiveByte"/>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                    <xs:attribute name="type" type="d:physicalContainerTypeEnum"/>
+                    <xs:attribute name="count" default="1" type="xs:positiveInteger"/>
+                </xs:complexType>
+                <xs:unique name="uniqueContainerUnitNr">
+                    <xs:selector xpath="d:unit"/>
+                    <xs:field xpath="@nr"/>
+                </xs:unique>
+            </xs:element>
+        </xs:choice>
+        <xs:attribute default="1" name="nr" type="g:positiveByte"/>
+    </xs:complexType>
+    <xs:complexType name="infoType">
+        <xs:sequence>
+            <xs:element maxOccurs="1" name="title" type="d:titleType"/>
+            <xs:element maxOccurs="1" minOccurs="0" name="longTitle" type="d:longTitleType"/>
+            <xs:element maxOccurs="1" minOccurs="0" name="description" type="d:descriptionType"/>
+        </xs:sequence>
+        <xs:attribute use="required" name="lang" type="xs:language"/>
+    </xs:complexType>
+    <xs:complexType name="componentType">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="info" type="d:infoType" minOccurs="0"/>
+            <xs:choice minOccurs="0">
+                <xs:element name="ymd">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="xs:date">
+                                <xs:attribute default="false" name="approx" type="xs:boolean"/>
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="ym">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="xs:gYearMonth">
+                                <xs:attribute default="false" name="approx" type="xs:boolean"/>
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="y">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="xs:gYear">
+                                <xs:attribute default="false" name="approx" type="xs:boolean"/>
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+                <xs:sequence>
+                    <xs:element name="from">
+                        <xs:complexType>
+                            <xs:simpleContent>
+                                <xs:extension base="g:dateType">
+                                    <xs:attribute default="false" name="approx" type="xs:boolean"/>
+                                </xs:extension>
+                            </xs:simpleContent>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element maxOccurs="1" minOccurs="0" name="through">
+                        <xs:complexType>
+                            <xs:simpleContent>
+                                <xs:extension base="g:dateType">
+                                    <xs:attribute default="false" name="approx" type="xs:boolean"/>
+                                </xs:extension>
+                            </xs:simpleContent>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:choice>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="physical" type="d:physicalType"/>
+            <xs:element minOccurs="0" name="origin" maxOccurs="1" type="d:originType"> </xs:element>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="link" type="d:linkType"/>
+            <xs:choice minOccurs="0">
+                <xs:element name="file" type="g:fileNameType" maxOccurs="1"/>
+                <xs:element name="filegroup">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element maxOccurs="unbounded" name="file" type="g:fileNameType"/>
+                        </xs:sequence>
+                        <xs:attribute name="name" type="g:fileNameType" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="folder" type="g:fileNameType"/>
+            </xs:choice>
+        </xs:sequence>
+        <xs:attributeGroup ref="d:componentAttributes"/>
+    </xs:complexType>
+    <xs:complexType name="originType">
+        <xs:choice maxOccurs="unbounded">
+            <xs:element name="organization">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="g:string200">
+                            <xs:attribute default="1" name="nr" type="xs:unsignedByte"/>
+                            <xs:attribute name="id" type="g:uuidType"/>
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="family">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="g:string200">
+                            <xs:attribute default="1" name="nr" type="xs:unsignedByte"/>
+                            <xs:attribute name="id" type="g:uuidType"/>
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="person">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="g:string200">
+                            <xs:attribute default="1" name="nr" type="xs:unsignedByte"/>
+                            <xs:attribute name="id" type="g:uuidType"/>
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:simpleType name="rootComponentTypeEnumType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en"/>
+            <xs:documentation xml:lang="nl"/>
+        </xs:annotation>
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="archive"/>
+            <xs:enumeration value="collection"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="childComponentTypeEnumType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="fonds">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en"> The fonds is generally the highest level of arrangement, and is usually used to describe the whole of the inventorys of an organisation or the papers of an individual.</xs:documentation>
+                    <xs:documentation xml:lang="nl"/>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="sub-fonds">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Fonds may be devided into sub-fonds, generally the records of different branches of an organisation or major themes within the papers of an individual.</xs:documentation>
+                    <xs:documentation xml:lang="nl"/>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="series">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Series may be in a smaller inventory come, either below a sub-fonds, or directly below a fonds, usually used for groupings of individual types of documents (minutes, correspondence files, deeds, etc.)</xs:documentation>
+                    <xs:documentation xml:lang="nl"/>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="sub-series">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">A futher subdivision of series.</xs:documentation>
+                    <xs:documentation xml:lang="nl"/>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="group"/>
+            <xs:enumeration value="sub-group"/>
+            <xs:enumeration value="file"/>
+            <xs:enumeration value="item"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="patchComponentTypeEnumType">
+        <xs:union memberTypes="d:childComponentTypeEnumType d:rootComponentTypeEnumType"/>
+    </xs:simpleType>
+
+    <xs:complexType name="titleType">
+        <xs:simpleContent>
+            <xs:extension base="g:string100"> </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="longTitleType">
+        <xs:simpleContent>
+            <xs:extension base="g:string400"> </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="descriptionType">
+        <xs:complexContent>
+            <xs:extension base="h:Flow"> </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:attributeGroup name="componentAttributes">
+        <xs:attribute name="id" type="g:uuidType" use="required"/>
+        <xs:attribute name="public" use="optional" type="xs:boolean" default="true"> </xs:attribute>
+        <xs:attribute name="publicDate" type="xs:date"/>
+        <xs:attribute name="requestable" use="optional" type="xs:boolean">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">Specifies wether a file can be requested for digitization or not. If not specified, the default value of the parent unit applies, or else the value which is defined at the inventory level. It is not needed to specify this attribute for files that already have been digitized, since it is obvious that they can no longer be requested for digitization.</xs:documentation>
+                <xs:documentation xml:lang="nl">Specificeert of een file kan worden aangevraagd ter digitalisering of niet. Indien niet expliciet aangegeven, geldt als default de waarde van de parent unit, of anders de waarde die is aangegeven voor de collectie als geheel. Het is niet nodig om dit attribuut te gebruiken voor files die al gedigitaliseerd zijn, omdat het evident is dat digitalisering hiervoor niet (meer) kan worden aangevraagd.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="requestableDate" type="xs:date"/>
+    </xs:attributeGroup>
+
+    <xs:simpleType name="physicalUnitTypeEnum">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="Album"/>
+            <xs:enumeration value="Atlas"/>
+            <xs:enumeration value="Audio Tape"/>
+            <xs:enumeration value="Binding"/>
+            <xs:enumeration value="Blueprint"/>
+            <xs:enumeration value="Book"/>
+            <xs:enumeration value="Box"/>
+            <xs:enumeration value="Box File"/>
+            <xs:enumeration value="Brochure"/>
+            <xs:enumeration value="Bundle"/>
+            <xs:enumeration value="Business Card"/>
+            <xs:enumeration value="CD"/>
+            <xs:enumeration value="Cahier"/>
+            <xs:enumeration value="Card"/>
+            <xs:enumeration value="Card System"/>
+            <xs:enumeration value="Card System Box"/>
+            <xs:enumeration value="Cartographic Map"/>
+            <xs:enumeration value="Charter"/>
+            <xs:enumeration value="Chirograph"/>
+            <xs:enumeration value="Circular"/>
+            <xs:enumeration value="Clip Binding"/>
+            <xs:enumeration value="Clipping"/>
+            <xs:enumeration value="Contract"/>
+            <xs:enumeration value="Cover"/>
+            <xs:enumeration value="DVD"/>
+            <xs:enumeration value="Digital Email File"/>
+            <xs:enumeration value="Digital File"/>
+            <xs:enumeration value="Digital Image File"/>
+            <xs:enumeration value="Digital Movie File"/>
+            <xs:enumeration value="Digital Presentation File"/>
+            <xs:enumeration value="Digital Sound File"/>
+            <xs:enumeration value="Digital Spreadsheet File"/>
+            <xs:enumeration value="Digital Text File"/>
+            <xs:enumeration value="Digital Website"/>
+            <xs:enumeration value="Document File"/>
+            <xs:enumeration value="Drawing"/>
+            <xs:enumeration value="Engraving"/>
+            <xs:enumeration value="Envelope"/>
+            <xs:enumeration value="Film Dia Positive"/>
+            <xs:enumeration value="Film Negative"/>
+            <xs:enumeration value="Film Negative Strip"/>
+            <xs:enumeration value="Film Roll"/>
+            <xs:enumeration value="Folder"/>
+            <xs:enumeration value="Four Flap Enclosure"/>
+            <xs:enumeration value="Frame"/>
+            <xs:enumeration value="Glass Dia Positive"/>
+            <xs:enumeration value="Glass Negative"/>
+            <xs:enumeration value="Item"/>
+            <xs:enumeration value="Letter"/>
+            <xs:enumeration value="Lias"/>
+            <xs:enumeration value="Magazine"/>
+            <xs:enumeration value="Manuscript"/>
+            <xs:enumeration value="Meter"/>
+            <xs:enumeration value="Microfilm"/>
+            <xs:enumeration value="Newspaper"/>
+            <xs:enumeration value="Note"/>
+            <xs:enumeration value="Notebook"/>
+            <xs:enumeration value="Pennant"/>
+            <xs:enumeration value="Photo Print"/>
+            <xs:enumeration value="Portfolio"/>
+            <xs:enumeration value="Postcard"/>
+            <xs:enumeration value="Quire"/>
+            <xs:enumeration value="Report"/>
+            <xs:enumeration value="Ring Binder"/>
+            <xs:enumeration value="Roll"/>
+            <xs:enumeration value="Sheet"/>
+            <xs:enumeration value="Sleeve"/>
+            <xs:enumeration value="Stencil"/>
+            <xs:enumeration value="Video Tape"/>
+            <xs:enumeration value="Vinyl Record"/>
+            <xs:enumeration value="Volume"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="physicalContainerTypeEnum">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="Album"/>
+            <xs:enumeration value="Binding"/>
+            <xs:enumeration value="Box"/>
+            <xs:enumeration value="Box File"/>
+            <xs:enumeration value="Bundle"/>
+            <xs:enumeration value="CD"/>
+            <xs:enumeration value="Card System"/>
+            <xs:enumeration value="Card System Box"/>
+            <xs:enumeration value="Clip Binding"/>
+            <xs:enumeration value="Cover"/>
+            <xs:enumeration value="DVD"/>
+            <xs:enumeration value="Envelope"/>
+            <xs:enumeration value="Film Negative Strip"/>
+            <xs:enumeration value="Film Roll"/>
+            <xs:enumeration value="Folder"/>
+            <xs:enumeration value="Four Flap Enclosure"/>
+            <xs:enumeration value="Frame"/>
+            <xs:enumeration value="Lias"/>
+            <xs:enumeration value="Meter"/>
+            <xs:enumeration value="Portfolio"/>
+            <xs:enumeration value="Ring Binder"/>
+            <xs:enumeration value="Roll"/>
+            <xs:enumeration value="Sleeve"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

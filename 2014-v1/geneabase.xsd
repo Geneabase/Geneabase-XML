@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright © 2011-2014 Geneabase BV. Licenced under CC BY 3.0 http://creativecommons.org/licenses/by/3.0/ -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:gb="http://geneabase.com/geneabase"
+    xmlns:xhtml="http://www.w3.org/1999/xhtml"
+    targetNamespace="http://geneabase.com/geneabase" elementFormDefault="qualified" version="2014-v1">
+    <xs:simpleType name="schemaType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">The version number of the Geneabase schema.</xs:documentation>
+            <xs:documentation xml:lang="nl">Het versienummer van het Geneabase schema.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:token">
+            <xs:pattern value="\d{4}-v\d+"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="string16">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">A string between 1 and 16 characters length.</xs:documentation>
+            <xs:documentation xml:lang="nl">Een tekenreeks van tussen de 1 en 16 karakters lengte.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="16"/>
+            <xs:minLength value="1"/>
+            <xs:whiteSpace value="collapse"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="string24">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">A string between 1 and 24 characters length.</xs:documentation>
+            <xs:documentation xml:lang="nl">Een tekenreeks van tussen de 1 en 24 karakters lengte.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="24"/>
+            <xs:minLength value="1"/>
+            <xs:whiteSpace value="collapse"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="string36">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">A string between 1 and 36 characters length.</xs:documentation>
+            <xs:documentation xml:lang="nl">Een tekenreeks van tussen de 1 en 36 karakters lengte.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="36"/>
+            <xs:minLength value="1"/>
+            <xs:whiteSpace value="collapse"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="string50">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">A string between 1 and 50 characters length.</xs:documentation>
+            <xs:documentation xml:lang="nl">Een tekenreeks van tussen de 1 en 50 karakters lengte.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="50"/>
+            <xs:minLength value="1"/>
+            <xs:whiteSpace value="collapse"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="string100">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">A string between 1 and 100 characters length.</xs:documentation>
+            <xs:documentation xml:lang="nl">Een tekenreeks van tussen de 1 en 100 karakters lengte.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="100"/>
+            <xs:minLength value="1"/>
+            <xs:whiteSpace value="collapse"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="string200">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">A string between 1 and 200 characters length.</xs:documentation>
+            <xs:documentation xml:lang="nl">Een tekenreeks van tussen de 1 en 200 karakters lengte.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="200"/>
+            <xs:minLength value="1"/>
+            <xs:whiteSpace value="collapse"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="string400">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">A string between 1 and 400 characters length.</xs:documentation>
+            <xs:documentation xml:lang="nl">Een tekenreeks van tussen de 1 en 400 karakters lengte.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="400"/>
+            <xs:minLength value="1"/>
+            <xs:whiteSpace value="collapse"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="string4000">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="4000"/>
+            <xs:minLength value="1"/>
+            <xs:whiteSpace value="preserve"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="uuidType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                UUID or GUID (Microsoft's Implementation of UUID), according to [RFC 4122 http://tools.ietf.org/rfc/rfc4122.txt]
+            </xs:documentation>
+            <xs:documentation xml:lang="nl">
+                UUID of GUID (Microsoft's Implementatie van UUID), volgens [RFC 4122 http://tools.ietf.org/rfc/rfc4122.txt]
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:length value="36"/>
+            <xs:pattern
+                value="[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}"
+            />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="polygonType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">A single or multiple polygons in [WKT
+                http://en.wikipedia.org/wiki/Well-known_text] format. A single polygon consists of
+                at least three points, each point defined with two integers X and Y separated with a
+                space, and XY points separated by comma's. These points are then enclosed between
+                parentheses, and are joined to form a closed polygonal chain. Multiple polygons can
+                be defined by specifying multiple sets of XY coordinates, each set enclosed in
+                brackets, and separated by a comma from the previous set.</xs:documentation>
+            <xs:documentation xml:lang="nl">Eén of meerdere polygonen in [WKT
+                http://en.wikipedia.org/wiki/Well-known_text] formaat. Een polygoon bestaat uit ten
+                minste drie punten, waarbij elk punt omschreven is met twee integers X en Y, middels
+                een spatie van elkaar gescheiden, en de XY punten gescheiden door komma's. Deze
+                punten worden dan ingesloten tussen haakjes, die samen een gesloten veelhoekige
+                keten vormen. Meerdere polygonen kunnen worden gedefinieerd door meerdere sets XY
+                coördinaten aan te geven, waarbij elke set tussen haakjes geplaatst wordt, en
+                gescheiden door een komma van de voorgaande set.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern
+                value="POLYGON\s?\(\(\d+ \d+(,\s?\d+ \d+){2,}\)(,\s?\(\d+ \d+(,\s?\d+ \d+){2,}\))*\)"
+            />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="positiveShortType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">A number between 1 and 32767.</xs:documentation>
+            <xs:documentation xml:lang="nl">Een getal tussen 1 en 32767.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:short">
+            <xs:minInclusive value="1"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="positiveLongType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">A number between 1 and  9,223,372,036,854,775,807.</xs:documentation>
+            <xs:documentation xml:lang="nl">Een getal tussen 1 en  9.223.372.036.854.775.807.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:long">
+            <xs:minInclusive value="1"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="intListType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">A list of integers</xs:documentation>
+            <xs:documentation xml:lang="nl">Een lijst met getallen.</xs:documentation>
+        </xs:annotation>
+        <xs:list itemType="xs:integer"/>
+    </xs:simpleType>
+    <xs:simpleType name="decimalTwoPrec">
+        <xs:restriction base="xs:decimal">
+            <xs:fractionDigits value="2"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="priceFactorType">
+        <xs:restriction base="xs:decimal">
+            <xs:fractionDigits value="3"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="priceType">
+        <xs:restriction base="xs:decimal">
+            <xs:fractionDigits value="4"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="positiveByte">
+        <xs:restriction base="xs:unsignedByte">
+            <xs:minExclusive value="0"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:simpleType name="rectangleType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">X, y, width, height and rotation of a rectangle.</xs:documentation>
+            <xs:documentation xml:lang="nl">X, y, breedte, hoogte en rotatie van een rechthoek.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="gb:intListType">
+            <xs:length value="5"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="dateType">
+        <xs:union memberTypes="xs:gYear xs:gYearMonth xs:date xs:dateTime">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">
+                    Date in the form of YYYY:MM::DD, YYYY:MM, of YYYY
+                </xs:documentation>
+                <xs:documentation xml:lang="nl">
+                    Datum in de vorm van YYYY:MM::DD, YYYY::MM of YYYY
+                </xs:documentation>
+            </xs:annotation>
+        </xs:union>
+    </xs:simpleType>
+
+    <xs:simpleType name="isilType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">The ISIL code that uniquely identifies a repository within the world, see http://biblstandard.dk/isil/</xs:documentation>
+            <xs:documentation xml:lang="nl">De ISIL code waarmee een repository uniek wordt aangeduid binnen de wereld, zie http://biblstandard.dk/isil/</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:minLength value="3"/>
+            <xs:maxLength value="16"/>
+            <xs:pattern value="[A-Z]{2,4}-[A-Za-z0-9-]+"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="remoteIDType">
+        <xs:union memberTypes="xs:positiveInteger gb:uuidType">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">When importing data, the preferred id is an UUID. If that is not available, a regular int32 is accepted, which must be unique within the repository for that type of object.</xs:documentation>
+                <xs:documentation xml:lang="nl">Bij het importeren van data is de geprefereerde id een UUID. In plaats daarvan mag ook een regulier int32 worden gebruikt, welke uniek moet zijn voor het type object binnen de repository.</xs:documentation>
+            </xs:annotation>
+        </xs:union>
+    </xs:simpleType>
+
+    <xs:simpleType name="repositoryIDType">
+        <xs:union memberTypes="gb:isilType gb:uuidType">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">To specify a repository, either its ISIL code may be used (see http://biblstandard.dk/isil/), or the UUID.</xs:documentation>
+                <xs:documentation xml:lang="nl">Om een repository aan te duiden mag ofwel de ISIL code worden gebruikt (zie http://biblstandard.dk/isil/), of de UUID.</xs:documentation>
+            </xs:annotation>
+        </xs:union>
+    </xs:simpleType>
+
+    <xs:simpleType name="emailType">
+        <xs:restriction base="xs:token">
+            <xs:pattern value="[^@ ]{1,50}@[^@ ]{1,100}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="md5Type">
+        <xs:restriction base="xs:string">
+            <xs:length value="32"/>
+            <xs:pattern value="[a-f0-9]{32}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="fileNameType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="24"/>
+            <xs:whiteSpace value="collapse"/>
+            <xs:pattern value="[^?:,\*/\\*&quot;>&lt;|=]+"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="extensionType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="2"/>
+            <xs:maxLength value="6"/>
+            <xs:pattern value="[a-zA-Z0-9]*"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="fileIDType">
+        <xs:union memberTypes="gb:fileNameType gb:uuidType"/>
+    </xs:simpleType>
+    <xs:simpleType name="folderIDType">
+        <xs:union memberTypes="gb:fileNameType gb:uuidType"/>
+    </xs:simpleType>
+    <xs:complexType name="linkType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="href" type="gb:anyUrlType" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="imageType">
+        <xs:attribute name="href" type="gb:imageUrlType" use="required"/>
+        <xs:attribute name="width" type="xs:short" use="required"/>
+        <xs:attribute name="height" type="xs:short" use="required"/>
+        <xs:attribute name="label" type="gb:string100" use="required"/>
+    </xs:complexType>
+    <xs:simpleType name="imageUrlType">
+        <xs:restriction base="xs:anyURI">
+            <xs:pattern value="https?://.*\.(jpe?g|gif|png)"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="anyUrlType">
+        <xs:restriction base="xs:anyURI">
+            <xs:pattern value="https?://.+"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="accessType">
+
+        <xs:sequence>
+            <xs:element minOccurs="0" name="allow">
+                <xs:complexType>
+                    <xs:attribute name="default" type="gb:accessTypesEnum" use="optional"/>
+                    <xs:attribute name="sellable" type="gb:accessTypesEnum"/>
+                </xs:complexType>
+            </xs:element>
+            <xs:element maxOccurs="1" minOccurs="0" name="deny">
+                <xs:complexType>
+                    <xs:attribute name="default" type="gb:accessTypesEnum" use="optional"/>
+                    <xs:attribute name="sellable" type="gb:accessTypesEnum"/>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="accessTypeEnum">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="Metadata"/>
+            <xs:enumeration value="MetadataUnmasked"/>
+            <xs:enumeration value="Thumbnail"/>
+            <xs:enumeration value="ThumbnailUnmasked"/>
+            <xs:enumeration value="ViewImage"/>
+            <xs:enumeration value="ViewImageUnmasked"/>
+            <xs:enumeration value="PrintImage"/>
+            <xs:enumeration value="DownloadImageAsPDF"/>
+            <xs:enumeration value="DownloadOriginalImage"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="accessAnyTypeEnum">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="All"/>
+            <xs:enumeration value="None"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="accessSingleTypes">
+        <xs:list itemType="gb:accessTypeEnum"/>
+    </xs:simpleType>
+    <xs:simpleType name="accessTypesEnum">
+        <xs:union memberTypes="gb:accessSingleTypes gb:accessAnyTypeEnum"/>
+    </xs:simpleType>
+    <xs:simpleType name="accessMethodEnum">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="extend"/>
+            <xs:enumeration value="replace"/>
+            <xs:enumeration value="substract"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+</xs:schema>

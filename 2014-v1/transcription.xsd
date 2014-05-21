@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:t="http://geneabase.com/transcription"
+    xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:html="http://geneabase.com/html"
+    xmlns:gb="http://geneabase.com/geneabase" targetNamespace="http://geneabase.com/transcription"
+    elementFormDefault="qualified">
+    <xs:import namespace="http://geneabase.com/html"
+        schemaLocation="http://schemas.geneabase.com/2014-v1/html.xsd"/>
+    <xs:import namespace="http://geneabase.com/geneabase"
+        schemaLocation="http://schemas.geneabase.com/2014-v1/geneabase.xsd"/>
+    <xs:element name="transcription">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" name="file" type="t:fileType"/>
+            </xs:sequence>
+            <xs:attribute name="schema" type="gb:schemaType"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="fileType">
+        <xs:sequence>
+            <xs:element name="page" type="t:pageType" maxOccurs="unbounded">
+                <xs:unique name="uniqueRegionID">
+                    <xs:selector xpath="t:region"/>
+                    <xs:field xpath="@id"/>
+                </xs:unique>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="name" type="gb:fileNameType" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="pageType">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="region" type="t:regionType">
+                <xs:unique name="uniqueContent">
+                    <xs:selector xpath="t:line|t:block"/>
+                    <xs:field xpath="@id"/>
+                </xs:unique>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="id" type="gb:uuidType">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">The internal ID from the origin database, used in exports only, ignored at imports. This ID can be used to communicate to services which expect the internal ID.</xs:documentation>
+                <xs:documentation xml:lang="nl">De ID uit de oorspronkelijke database, alleen gebruikt in exports, genegeerd in imports. Deze ID kan gebruikt worden om te communiceren met services waarin deze ID verwacht wordt.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="nr" type="t:pageNrType"/>
+        <xs:attribute name="type" type="t:pageTypeEnum"/>
+        <xs:attribute name="coords" type="gb:rectangleType"/>
+    </xs:complexType>
+    <xs:complexType name="regionType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="title" type="t:titleType"/>
+            <xs:choice maxOccurs="unbounded" minOccurs="0">
+                <xs:element name="line" type="t:lineType"/>
+                <xs:element name="block" type="t:blockType"/>
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="id" type="gb:uuidType">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">The internal ID from the origin database, used in exports only, ignored at imports. This ID can be used to communicate to services which expect the internal ID.</xs:documentation>
+                <xs:documentation xml:lang="nl">De ID uit de oorspronkelijke database, alleen gebruikt in exports, genegeerd in imports. Deze ID kan gebruikt worden om te communiceren met services waarin deze ID verwacht wordt.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="coords" type="gb:rectangleType"/>
+    </xs:complexType>
+    <xs:complexType name="titleType">
+        <xs:complexContent>
+            <xs:extension base="html:Inline">
+                <xs:attribute name="id" type="gb:uuidType">
+                    <xs:annotation>
+                        <xs:documentation xml:lang="en">The internal ID from the origin database, used in exports only, ignored at imports. This ID can be used to communicate to services which expect the internal ID.</xs:documentation>
+                        <xs:documentation xml:lang="nl">De ID uit de oorspronkelijke database, alleen gebruikt in exports, genegeerd in imports. Deze ID kan gebruikt worden om te communiceren met services waarin deze ID verwacht wordt.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="coords" type="gb:rectangleType"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType mixed="false" name="lineType">
+        <xs:complexContent>
+            <xs:extension base="html:Inline">
+                <xs:attribute name="id" type="gb:uuidType">
+                    <xs:annotation>
+                        <xs:documentation xml:lang="en">The internal ID from the origin database, used in exports only, ignored at imports. This ID can be used to communicate to services which expect the internal ID.</xs:documentation>
+                        <xs:documentation xml:lang="nl">De ID uit de oorspronkelijke database, alleen gebruikt in exports, genegeerd in imports. Deze ID kan gebruikt worden om te communiceren met services waarin deze ID verwacht wordt.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="coords" type="gb:rectangleType"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="blockType">
+        <xs:complexContent>
+            <xs:extension base="html:Block">
+                <xs:attribute name="id" type="gb:uuidType">
+                    <xs:annotation>
+                        <xs:documentation xml:lang="en">The internal ID from the origin database, used in exports only, ignored at imports. This ID can be used to communicate to services which expect the internal ID.</xs:documentation>
+                        <xs:documentation xml:lang="nl">De ID uit de oorspronkelijke database, alleen gebruikt in exports, genegeerd in imports. Deze ID kan gebruikt worden om te communiceren met services waarin deze ID verwacht wordt.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="coords" type="gb:rectangleType"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:simpleType name="pageTypeEnum">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="Front"/>
+            <xs:enumeration value="Back"/>
+            <xs:enumeration value="Recto"/>
+            <xs:enumeration value="Verso"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="pageNrType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="10"/>
+            <xs:pattern value="[MCIXV]+|\d+"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
